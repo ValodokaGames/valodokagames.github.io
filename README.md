@@ -1,35 +1,12 @@
 <div class="topnav">
-  <a class="active" href="/" title="School Apps Redirector Homepage">↗</a>
+  <a class="active" href="/" title="School Apps Redirector Homepage"><image src="https://avatars.githubusercontent.com/u/159365921?u=053790b29c84bb4c77e07d0c704ef1e8b2530377&v=4" title="Valodoka Homepage" alt="Valodoka GitHub logo"></a></image>
   <a class="active" href="/" title="School Apps Redirector Homepage">Home</a>
-  <a href="/redirectorapps/" title="Click me to go to the Redirector Apps that are available">Redirector Apps</a>
-  <a href="/contactus/" title="Contact Us for any Redirector App you'd like to add, or if the App(s) isn't working, etc.">Contact</a>
-  <a href="/about/">About School Apps Redirector</a>
-</div><style>
-/* Add a black background color to the top navigation */
-.topnav {
-  background-color: #000000;
-  overflow: hidden;
-}
+  <a href="/games/" title="Click me to check out the newest or oldest games from Valodoka.">Games</a>
+  <a href="/games/educational/" title="Click me to check out the newest or oldest educational games from Valodoka.">Educational Games</a>
+  <a href="/contactus/" title="Contact Us for any question or comment you'd like to say.">Contact Us</a>
+  <a href="/about/">About Valodoka</a>
+</div>
 
-/* Style the links inside the navigation bar */
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-/* Change the color of links on hover */
-.topnav a:hover {
-  background-color: #0000ff;
-  color: black;
-}
-
-/* Add a color to the active/current link */
-.topnav a.active {
-  background-color: #2B65EC;
-  color: white;
-}
-</style>
+<hr></hr>
+<h1>Gamers, Students, and Teachers Love Playing Valodoka</h1>
+<p>Valodoka is the #1 site for educational games and unblocked games.</p>
