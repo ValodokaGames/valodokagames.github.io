@@ -1,5 +1,30 @@
 <head>
-<link rel="shortcut icon" href="//www.digipuzzle.net/favicon.ico"></head>
+  <title>Play Games and Educational Games for Free | Valodoka</title>
+</head>
+<body>
+  <!--Scroller-->
+  <style>
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #808080;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #0000FF;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #00ffff;
+}
+</style>
+<!--end of scroller-->
   <div class="topnav">
   <!--Page parts-->
   <a class="active" href="/" title="School Apps Redirector Homepage"><image src="https://avatars.githubusercontent.com/u/159365921?u=053790b29c84bb4c77e07d0c704ef1e8b2530377&v=4" title="Valodoka Homepage" alt="Valodoka GitHub logo"></image>
