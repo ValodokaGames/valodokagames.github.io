@@ -6,6 +6,7 @@
   <a class="active" href="/" title="School Apps Redirector Homepage">Home</a>
   <a href="/games/" title="Click me to check out the newest or oldest games from Valodoka.">Games</a>
   <a href="/games/educational/" title="Click me to check out the newest or oldest educational games from Valodoka.">Educational Games</a>
+  <a href="/previews/" title="Check out some previews that are coming soon!">Previews</a>
   <a href="/contactus/" title="Contact Us for any question or comment you'd like to say.">Contact Us</a>
   <a href="/about/">About Valodoka</a>
 <!--Main Home part-->
