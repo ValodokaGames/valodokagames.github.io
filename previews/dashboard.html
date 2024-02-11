@@ -1,0 +1,320 @@
+<doctype html>
+<title>Dashboard | Valodoka</title>
+<!--css-->
+
+<!--end of css-->
+
+</head>
+<body>
+<!--back to top btn-->
+<button onclick="topFunction()" id="myBtn" title="Go back to the top.">&uarr;</button>
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+<!-- end of back to top btn-->
+
+<style>
+#myBtn {
+  display: none; /* Hidden by default */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button at the bottom of the page */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color: red; /* Set a background color */
+  color: white; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 15px; /* Some padding */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 18px; /* Increase font size */
+}
+
+#myBtn:hover {
+  background-color: #555; /* Add a dark-grey background on hover */
+}
+</style>
+<script>
+// Get the button:
+let mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+</script>
+<!--end of back to top btn-->
+<!--sidebar-->
+<div id="sidebar">
+        <a href="/"> <svg xmlns="http://www.w3.org/2000/svg" height="14" width="15.75" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#000000" d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg> </a>
+        <nav>
+            <ul>
+            <font color="#ffffff">
+                <a href="/dashboard/">Dashboard</a>
+                <hr>
+                <a href="/dashboard/history/game-and-educational-game-history/">Game History</a></li>
+                <hr>
+                <a href="/dashboard/about/">About</a>
+                <hr>
+                <a href="/dashboard/contactus/">Contact Us</a>
+                <hr>
+                <a href="/dashboard/contactus/socialmedia/">Social Media</a>
+                
+                <hr>
+                <a href="/dashboard/support/" title="Help">Help</a>
+                
+                <p>Copyright information is on the <a href="/" title="valodoka homepage">homepage</a>.</p>
+                <hr>
+               </hr>
+              </hr>
+             </hr>
+            </hr>
+           </hr>
+              </font color>
+            </ul>
+        </nav>
+</div>
+<!--end of sidebar-->
+<!--sidebar style-->
+<style>
+
+/* Sidebar */
+#sidebar {
+    background-color: darkred;
+    width: 19%;
+    height: 100%;
+    padding: 10px;
+    float: left;
+    position: fixed;
+    z-index: 1;
+}
+
+/* Page Content */
+#pageContent {
+    display: block;
+    height: 100%;
+    width: 76.01%;
+    left: 24%;
+    background-color: #000000;
+    position: absolute;
+}
+</style>
+
+<!--page content-->
+
+<div id="pageContent">
+        <!-- Parallax -->
+        <div class="parallaxImage1"></div>
+
+        <div class="parallaxContent">
+            
+                  <div data-react-class="staffer/HeaderNotifications/RetiringProgramHeader" data-react-props="{&quot;expiringYear&quot;:2024,&quot;programRetirementYear&quot;:null,&quot;user&quot;:{&quot;canSeeRetiringProgramMessages&quot;:true,&quot;type&quot;:&quot;Student&quot;}}" data-react-cache-id="staffer/HeaderNotifications/RetiringProgramHeader-0"></div>
+<header style="background: #000000" data-ignore="1"
+        class=with_left_nav>
+
+    <div class="site-left">
+    
+    <!--top header-->
+      
+      <h3 class="program-header">
+  <span class="large_program_title"><font color="#ffffff">Valodoka Dashboard
+</font color>
+    </div>
+
+<!--end of top header>
+<!--[!Valodoka Username!] menu style-->
+<style>
+.dropbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #3e8e41;
+}
+
+.dropdown {
+  float: right;
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  right: 0;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+</style>
+
+<!--end of [!Valodoka Username] menu style-->
+<!--[!Valodoka Username] menu-->
+
+<body style="background-color:white;">
+
+<div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn" title="Menu (5 Links)">Username</button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="#home" title="Head to the homepage." alt="textUrl Link valodoka home">Valodoka Home</a>
+    <a href="#games" title="Go to the Games page.">Games Page</a>
+    <a href="#edugames" title="Head to the educational games page.">Educational Games Page</a>
+    <a href="#profile" title="Go to your Valodoka profile.">Your Valodoka Profile</a>
+    <a href="#logout" title="Sign out of your account. Please be back soon!">Log out</a>
+    <hr></hr>
+    <p>Clicked Menu by W3Schools and edited by NothingButTyler.</p>
+    <hr>
+   </hr>
+  </div>
+</div>
+
+
+<!--welcome-->
+<font color="#ffffff">
+<p>Welcome to your Valodoka dashboard!</p>
+<p>You can check out the most recent games/educational games you've played, let us edit your Valodoka Profile, and you can see what new stuff has come to Valodoka, from the newsletter! That's enough for the dashboard, don't you think?</p>
+
+<hr>
+</hr>
+
+<div id="pageContainer" style="background-color:">
+
+<!--continue playing column(s)-->
+
+<h3>Continue Playing</h3>
+<div class="row">
+  <div class="column"> <img src="data:image/jpeg;base64,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" title="Drive Mad" alt="Drive Mad game image"><font color="#ffffff">
+<h4>Drive Mad</h4></font color><a href="/games/drivemad/" title="Continue Playing Drive Mad on Valodoka" alt="textUrl Link drivemad"><button onclick="alert ('Redirecting you to Drive Mad on Valodoka...')" title="Continue Playing ' Drive Mad ' on Valodoka" alt="textUrl Link /games/drivemad/" style="background-color="#ffffff"><font color="#000000">Continue</font color></button> </div></a>
+  <div class="column"><img src="data:image/jpeg;base64,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" title="Monster Tracks" alt="Monster Tracks game image"><font color="#ffffff"><h4>Monster Tracks</h4><button onclick="alert ('Redirecting you to Monster Tracks on Valodoka...')" title="Continue Playing Monster Tracks on Valodoka" style="background-color: #ffffff"><font color="#000000">Continue</font color></a></button></div></font color>
+  <div class="column"> <image src="data:image/jpeg;base64,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" title="Blumgi Rocket" alt="Blumgi Rocket game image"><font color="#FFFFFF">
+<h4>Blumgi Ball</h4></font color></a><a href="/games/blumgirocket/" title="Continue Playing Blumgi Ball on Valodoka" alt="textUrl Link drivemad"><button onclick="alert ('Redirecting you to Blumgi Ball on Valodoka...')" title="Continue Playing ' Blumgi Ball ' on Valodoka" alt="textUrl Link /games/drivemad/" style="background-color="#ffffff"><font color="#000000">Continue</font color></button> </div></a></div>
+</div>
+<style>
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+<style>
+.column {
+  float: left;
+}
+
+.left, .right {
+  width: 25%;
+}
+
+.middle {
+  width: 50%;
+}
+</style>
+<script>
+/* Responsive layout - when the screen is less than 600px wide, make the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
+</script>
+
+<!--end of continue playing column(s)-->
+
+<hr></hr>
+<!--next section-->
+ <!--Links page-->
+  <!--text: Links-->
+
+<h3>Links</h3>
+
+  <!--End of text: Links-->
+   <!--Buttons-->
+    <!--button1-->
+<a href="/"><button onclick="alert ('Redirecting you to the Valodoka homepage...')" title="Head to the Valodoka homepage." alt="textUrl Link /" style="background-color: #ffffff"><font color="#000000">Valodoka Main Home</font color></button></a>
+   <!--end of button1-->
+    <!--button2-->
+
+<a href="/games"><button onclick="alert ('Redirecting you to the Valodoka games page...')" title="Head to the Valodoka games page." alt="textUrl Link /games" style="background-color: #ffffff"><font color="#000000">Valodoka Games Page</font color></button></a>
+
+     <!--end of button2-->
+      <!--button3-->
+      
+<a href="/games/educational/"><button onclick="alert ('Redirecting you to the Valodoka educational games page...')" title="Head to the Valodoka educational games page." alt="textUrl Link /games/educational/" style="background-color: #ffffff"><font color="#000000">Valodoka Educational Games Page</font color></button></a>
+      <!--end of button3-->
+       <!--button4-->
+
+<a href="/help/"><button onclick="alert ('Redirecting you to the Valodoka Support page...')" title="Head to the Valodoka Support page." alt="textUrl Link /support/" style="background-color: #ffffff"><font color="#000000">Valodoka Support Page (Help)</font color></button></a>
+        <!--end of button4-->
+         <!--button5-->
+
+<a href="/contactus/"><button onclick="alert ('Redirecting you to the Valodoka Contacting page...')" title="Head to the Valodoka Contacting page." alt="textUrl Link /contactus/" style="background-color: #ffffff"><font color="#000000">Valodoka Contacting Page</font color></button></a>
+         <!--end of button5-->
+          <!--button6-->
+
+<a href="/contactus/socialmedia/"><button onclick="alert ('Redirecting you to the Valodoka Social Media page...')" title="Head to the Valodoka Social media page." alt="textUrl Link /contactus/socialmedia/" style="background-color: #ffffff"><font color="#000000">Valodoka Social Media Page</font color></button></a>
+
+           <!--end of button6-->
+
+<!--End of Buttons-->
+
+<hr></hr>
+
+<!--Footer-->
+<footer>
+<p>Social Media is on the <a href="/">homepage</a>.</p>
+
+<p>Copyright &copy; 2024 by <a href="//nothingbuttyler.github.io/">NothingButTyler</a>. All images are copyrighted to their owner. All rights reserved.</p>
