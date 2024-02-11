@@ -1,1 +1,12 @@
-games
+<Doctype HTML>
+<!--body-->
+<body style="background-color="#000000">
+<!--big text-->
+<font color="#ffffff"><h1>Sorry! The Games Page is not available right now!</h1></font color>
+<!--end of big text-->
+<!--small text-->
+<font color="#ffffff"><p>If you have technical difficulties trying to load this up, <a href="/contactus.html/" title="Contact Us">contact us</a>.</p></font color>
+<!--end of small text-->
+<!--end of body-->
+<!--end of html-->
+</html>
