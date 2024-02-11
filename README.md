@@ -37,7 +37,6 @@
   <!--youtube svg logo-->
   <svg xmlns="http://www.w3.org/2000/svg" height="14" width="15.75" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/></svg>
 
-  <p>YouTube Logo not responding? Click <a href="//www.youtube.co/@Valodoka/" title="Valodoka YouTube channel. Only click here if the logo isn't responding." alt="textUrl Valodoka youtube channel">here</a>.</p>
 
   <!--end of valodoka social Media-->
 
@@ -45,14 +44,12 @@
 
   <!--youtube svg logo-->
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/></svg>
-  <p>YouTube Logo not responding? Click <a href="//www.youtube.co/@nottylerrobloxofficial/">here</a>.</p>
 
   <!--tiktok svg logo-->
+<svg xmlns="http://www.w3.org/2000/svg" height="14" width="12.25" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/></svg>
 
-<p>TikTok logo not responding? Click <a href="//tiktok.com/@nottylerroblox/">here.</a>.</p>
   <!--instagram logo-->
 
-  <p>Instagram logo not responding? Click <a href="//instagram.com/@nothingbuttyler/">here.</a>.</p>
-
-  <p>Copyright &copyright-sign 2024 by <a href="//github.com/NothingButTyler/">NothingButTyler.</a>. All rights reserved.</p>
+ 
+  <p>Copyright &copy; 2024 by <a href="//github.com/NothingButTyler/">NothingButTyler</a>. All rights reserved.</p>
 </footer>
