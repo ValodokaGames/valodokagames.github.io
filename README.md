@@ -52,7 +52,43 @@
 <h2>How to get to the educational games page?</h2>
 <p>On the top, next to "Games", look for "Educational Games". Then you'll see all the educational games.</p>
 <h2>Need More Questions? <a href="/contactus/">Contact Us</a>, or you can look at <a href="/support/">Valodoka Support</a>.</h2>
+<hr>
+<h3>Want to see what's happening?</h3>
+<p>You can check out our newsletter or click on the notification button for news about Valodoka and their games.</p>
+<script>
+// The latest spec has updated this method to a promise-based syntax that works like this:
+Notification.requestPermission()
 
+// Previously, the syntax was based on a simple callback; this version is now deprecated:
+Notification.requestPermission(callback)
+</script>
+<button onclick="notifyMe()">Notify me!</button>
+<script>
+function notifyMe() {
+  if (!("Notification" in window)) {
+    // Check if the browser supports notifications
+    alert("This browser does not support desktop notification");
+  } else if (Notification.permission === "granted") {
+    // Check whether notification permissions have already been granted;
+    // if so, create a notification
+    const notification = new Notification("You have enabled the notifications! Thanks! You can see what new notifications will come every time you open this site! Enjoy!");
+    // …
+  } else if (Notification.permission !== "denied") {
+    // We need to ask the user for permission
+    Notification.requestPermission().then((permission) => {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        const notification = new Notification("Hi there!");
+        // …
+      }
+    });
+  }
+
+  // At last, if the user has denied notifications, and you
+  // want to be respectful there is no need to bother them anymore.
+}
+</script>
+<button style="background-color: transparent;"><a href="/subscribetoournewsletter.html?redirectedByHomepage=true">Subscribe to our newsletter</a></button>
 <hr>
 <!--Footer-->
 <footer>
