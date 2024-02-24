@@ -29,11 +29,11 @@
   <!--Page parts-->
   <a class="active" href="/" title="School Apps Redirector Homepage"><image src="https://avatars.githubusercontent.com/u/159365921?u=053790b29c84bb4c77e07d0c704ef1e8b2530377&v=4" title="Valodoka Homepage" alt="Valodoka GitHub logo"></image>
   <a class="active" href="/" title="School Apps Redirector Homepage">Home</a>
-  <a href="/games/" title="Click me to check out the newest or oldest games from Valodoka.">Games</a>
-  <a href="/games/educational/" title="Click me to check out the newest or oldest educational games from Valodoka.">Educational Games</a>
-  <a href="/previews/" title="Check out some previews that are coming soon!">Previews</a>
-  <a href="/contactus/" title="Contact Us for any question or comment you'd like to say.">Contact Us</a>
-  <a href="/about/">About Valodoka</a>
+  <a href="/games" title="Click me to check out the newest or oldest games from Valodoka.">Games</a>
+  <a href="/games/educational" title="Click me to check out the newest or oldest educational games from Valodoka.">Educational Games</a>
+  <a href="/previews" title="Check out some previews that are coming soon!">Previews</a>
+  <a href="/contactus" title="Contact Us for any question or comment you'd like to say.">Contact Us</a>
+  <a href="/about">About Valodoka</a>
 <!--Main Home part-->
 <hr>
 <h1>Gamers, Students, and Teachers Love Playing Valodoka</h1>
