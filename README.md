@@ -2,6 +2,27 @@
   <title>Play Games and Educational Games for Free | Valodoka</title>
 </head>
 <body>
+  <!--indicator if your offline-->
+  
+<script>
+
+window.addEventListener("online", function() {
+  alert("You are online now!");
+});
+
+window.addEventListener("offline", function() {
+  alert("You are offline!\nPlease check your internet connection and try again.");
+});
+
+
+if (navigator.onLine) {
+  console.log("You are online");
+} else {
+  console.log("You are offline");
+}
+
+</script>
+
   <!--Scroller-->
   <style>
 /* width */
