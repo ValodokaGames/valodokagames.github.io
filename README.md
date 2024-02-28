@@ -139,7 +139,7 @@ if (navigator.onLine) {
 <p>You can check out our newsletter or click on the notification button for news about Valodoka and their games.</p>
 <script>
 // The latest spec has updated this method to a promise-based syntax that works like this:
-Notification.requestPermission()
+.requestPermission()
 
 // Previously, the syntax was based on a simple callback; this version is now deprecated:
 Notification.requestPermission(callback)
@@ -153,7 +153,7 @@ function notifyMe() {
   } else if (Notification.permission === "granted") {
     // Check whether notification permissions have already been granted;
     // if so, create a notification
-    const notification = new Notification("You have enabled the notifications! Thanks! You can see what new notifications will come every time you open this site! Enjoy!");
+    const notification = new Notification("You have enabled the notifications! Thanks!");
     // …
   } else if (Notification.permission !== "denied") {
     // We need to ask the user for permission
@@ -217,3 +217,5 @@ function showPage() {
 </html>
   <p>Copyright &copy; 2024 by <a href="//github.com/NothingButTyler/">NothingButTyler</a>. All rights reserved.</p>
 </footer>
+</body>
+</html>
