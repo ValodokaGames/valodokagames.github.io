@@ -1,0 +1,75 @@
+<!Doctype html>
+<html>
+<head>
+<title>Search | Valodoka</title>
+</head>
+  <body>
+  <input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search..." title="Type in a category.">
+
+<ul id="myMenu">
+  <li><a href="/games" target="_blank" rel="noopener noreferrer">Games</a></li>
+  <li><a href="/games/educational" target="_blank" rel="noopener noreferrer">Educational Games</a></li>
+  <li><a href="/contactus" target="_blank" rel="noopener noreferrer">Contact Us</a></li>
+  <li><a href="/login" target="_blank" rel="noopener noreferrer">Log In</a></li>
+  <li><a href="/signup" target="_blank" rel="noopener noreferrer">Sign Up</a></li>
+  <li><p>--Games--</p></li>
+  <li><a href="/games/funnyshooter2" target="_blank" rel="noopener noreferrer">Funny Shooter 2</a></li>
+  <li><a href="/games/hangman" target="_blank" rel="noopener noreferrer">Hangman (Powered by CoolMathGames.com)</a></li>
+  <li><a href="/games/icypurpleheadsuperslide_3.html" target="_blank" rel="noopener noreferrer">Icy Purple Head Super Slide (3)</a></li>
+  <li><a href="/games/magictiles3online-nonoriginalversion.html" target="_blank" rel="noopener noreferrer">Magic Tiles 3 Online (Non-Original Version)</a></li>
+
+  <li><p>--EDUCATIONAL GAMES--</p></li>
+  
+
+</ul><style>
+/* Style the search box */
+#mySearch {
+  width: 100%;
+  font-size: 18px;
+  padding: 11px;
+  border: 1px solid #ddd;
+}
+
+/* Style the navigation menu */
+#myMenu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Style the navigation links */
+#myMenu li a {
+  padding: 12px;
+  text-decoration: none;
+  color: black;
+  display: block
+}
+
+#myMenu li a:hover {
+  background-color: #eee;
+}
+</style><script>
+function myFunction() {
+  // Declare variables
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("mySearch");
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("myMenu");
+  li = ul.getElementsByTagName("li");
+
+  // Loop through all list items, and hide those who don't match the search query
+  for (i = 0; i < li.length; i++) {
+    a = li[i].getElementsByTagName("a")[0];
+    if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+</script>
+<hr></hr>
+<p>More updates coming soon to this search bar.</p>
+<hr></hr>
+<p>Copyright &copy; 2024 by NothingButTyler. Search bar scripts and styles made by w3Schools. All rights reserved.</p> 
+  </body></html>
