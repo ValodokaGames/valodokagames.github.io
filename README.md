@@ -107,6 +107,19 @@ if (navigator.onLine) {
 }
 </style>
 <!--end of scroller-->
+<div class="Main-Container">
+<!--main search part --made by w3schools-- -->
+     <a href="https://valodokagames.github.io/home/search" target="_blank" rel="noopener noreferrer"><input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search..." title="Search"></a><style>
+/* Style the search box */
+#mySearch {
+  width: 100%;
+  font-size: 18px;
+  padding: 11px;
+  border: 1px solid #ddd;
+}
+</style>
+  <!--end of main search bar-->
+  <!--div-->
   <div class="topnav">
   <!--Page parts-->
   <a class="active" href="/" title="School Apps Redirector Homepage"><image src="https://avatars.githubusercontent.com/u/159365921?u=053790b29c84bb4c77e07d0c704ef1e8b2530377&v=4" title="Valodoka Homepage" alt="Valodoka GitHub logo"></image>
@@ -116,6 +129,7 @@ if (navigator.onLine) {
   <a href="/previews" title="Check out some previews that are coming soon!">Previews</a>
   <a href="/contactus" title="Contact Us for any question or comment you'd like to say.">Contact Us</a>
   <a href="/about">About Valodoka</a>
+    <!--end of div-->
 <!--Main Home part-->
 <hr>
 <h1>Gamers, Students, and Teachers Love Playing Valodoka</h1>
