@@ -1,9 +1,6 @@
 <head>
   <title>Play Games and Educational Games for Free | Valodoka</title>
-</head>
-<!DOCTYPE html>
-<html>
-<head>
+<link rel="shortcut icon" type="image/png" href="/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 /* Center the loader */
@@ -58,11 +55,11 @@
 </style>
 </head>
 <body onload="myFunction()" style="margin:0;">
-
+<!--loading setup-->
 <div id="loader"></div>
 
 <div style="display:none;" id="myDiv" class="animate-bottom">
-
+<!--end of loading setup-->
   <!--indicator if your offline-->
   
 <script>
