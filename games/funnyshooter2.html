@@ -94,9 +94,7 @@ function closeNav() {
 
 <img src="https://private-user-images.githubusercontent.com/159365921/304496166-93d0b44a-6894-42c4-b48b-5526882f3d56.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MDc4NDUxMTUsIm5iZiI6MTcwNzg0NDgxNSwicGF0aCI6Ii8xNTkzNjU5MjEvMzA0NDk2MTY2LTkzZDBiNDRhLTY4OTQtNDJjNC1iNDhiLTU1MjY4ODJmM2Q1Ni5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQwMjEzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MDIxM1QxNzIwMTVaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0wODdlOWRiMzZmMWRiNjI2ZGFkNTA3ZmQ3OWNhNWJhYjhmYzA3ZDA2NDdkOTY3ZTY1NGQ1MzkwNTA5YjBkNmVjJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.O9uq3EWerkWnSWDKspGKbLmzsoRsbNm8C37TrchiS5Y" title="Funny Shooter 2" alt="funny shooter 2 logo"><p><font color="#ffffff">Funny Shooter 2</p><hr></hr></font color>
 
-<div class="game-container">
-<iframe src="https://h5cdn.github.io/s4/funny-shooter-2/"
-height="300" width="400" style="background-color: transparent;"></iframe>
+<iframe id="iframe" src="https://h5cdn.github.io/s4/funny-shooter-2/"></iframe>
 
 <hr></hr>
 
@@ -113,7 +111,21 @@ height="300" width="400" style="background-color: transparent;"></iframe>
 
 <p>Play in fullscreen!</p>
 
-<script src="/media/js/fullscreen.js">"><button title="Play Funny Shooter 2 in fullscreen" style="background-color: transparent;"><font color="#ffffff"><svg xmlns="http://www.w3.org/2000/svg" height="14" width="12.25" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H64V352zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32H320zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32V352z"/></svg> Play fullscreen</button></a></font color>
+<a href="javascript:void(0)"><button title="Play Funny Shooter 2 in fullscreen" style="background-color: transparent;" onclick="openFullscreen();"><font color="#ffffff"><svg xmlns="http://www.w3.org/2000/svg" height="14" width="12.25" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H64V352zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32H320zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32V352z"/></svg> Play fullscreen</button></a></font color>
+
+<!--button script/css-->
+<script>
+var elem = document.getElementById("iframe");
+function openFullscreen() {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+}
+</script>
 
 <hr></hr>
 </div>
