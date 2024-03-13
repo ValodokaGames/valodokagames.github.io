@@ -1,0 +1,41 @@
+<!--NOTE: THIS VERSION LOADS THAN THE OTHER ONE ON /media/loading/loading_svgs/nothingbuttyler.github.io/nbt-imgs/nbt/loadingsvgs-->
+<!doctype html>
+<head>
+<title>NothingButTyler Loading Sign (Actually Loads!) | Valodoka Media</title>
+</head>
+<body>
+<img src="https://yt3.googleusercontent.com/H_-DqyaEkVeP5ZoRJLXKnXi832gMUZig4jFphSBgbL8zgSUkOuGBV0b6lGqiQvdmH30TRRoXQw=s176-c-k-c0x00ffffff-no-rj" class="NothingButTylerLoadingScreen" witdth="60" height="60" />
+<Br />
+<Br />
+<svg version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     x="0px" y="0px" width="319.046px" height="168.518px" viewBox="0 0 319.046 168.518" xml:space="preserve">
+
+<style>
+
+.NothingButTylerLoadingScreen {
+    -webkit-animation: rotation 2s infinite linear;
+    -moz-animation: rotation 2s infinite linear;
+    -o-animation: rotation 2s infinite linear;
+    animation: rotation 2s infinite linear;
+    transform-origin: 50% 50%;
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+}
+
+@-webkit-keyframes rotation {
+    from {-webkit-transform: rotate(0deg);}
+    to   {-webkit-transform: rotate(359deg);}
+}
+@-moz-keyframes rotation {
+    from {-moz-transform: rotate(0deg);}
+    to   {-moz-transform: rotate(359deg);}
+}
+@-o-keyframes rotation {
+    from {-o-transform: rotate(0deg);}
+    to   {-o-transform: rotate(359deg);}
+}
+@keyframes rotation {
+    from {transform: rotate(0deg);}
+    to   {transform: rotate(359deg);}
+}
+</style></body></html>
