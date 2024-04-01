@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Choose What Game You'd Like to Add to Valodoka | Form | Valodoka</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arial">
+<style>
+body {
+  font-family: "Arial", sans-serif;
+}
+</style>
+</head>
+<body style="background-color: black;">
+<font color="#ffffff">
+
+
+  <!--Scroller-->
+  <style>
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #808080;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #0000FF;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #00ffff;
+}
+</style>
+<!--end of scroller-->
+<p>Error: Sidebar isn't working. Sidebar menu is shown below.
+<br></br>
+<button style="background-color: transparent;"><a href="/">Home</a></button> | <button style="background-color: transparent;"><a href="/games">Games</a></button> | <button style="background-color: transparent;"><a href="/games/educational">Educational Games</a></button> | <button style="background-color: transparent;"><a href="/contactus">Contact Us</a></button> | <button style="background-color: transparent;"><a href="/about">About</a></button></p>
+<hr></hr>
+
+<!--back to top btn-->
+<button onclick="topFunction()" id="myBtn" title="Go back to the top.">&uarr;</button>
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+<!-- end of back to top btn-->
+
+<style>
+#myBtn {
+  display: none; /* Hidden by default */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button at the bottom of the page */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color: red; /* Set a background color */
+  color: white; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 15px; /* Some padding */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 18px; /* Increase font size */
+}
+
+#myBtn:hover {
+  background-color: #555; /* Add a dark-grey background on hover */
+}
+</style>
+<script>
+// Get the button:
+let mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+</script>
+<!--end of back to top btn-->
+
+
+
+<h1>Choose what Game You'd Like to Add to Valodoka</h1>
+<p>Enter the form below to enter it.</p>
+
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeulurjlFzuGOKxtqqyfrFgjzgsHiitGW_grajnTeUvmpRf8Q/viewform?embedded=true" width="700" height="520" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+
+<p>Copyright information is on the <a href="/" title="URL: valodokagames.github.io">homepage</a>.</p>
+
+</body>
+</html>
