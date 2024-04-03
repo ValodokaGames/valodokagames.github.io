@@ -1,0 +1,181 @@
+<!doctype html>
+<head>
+<title>Play Birds v.s. Robots For Free | Valodoka</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arial">
+<style>
+body {
+  font-family: "Arial", sans-serif;
+}
+</style>
+</head>
+<body style="background-color: black;">
+
+
+<!--sidenav-->
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="/">Home</a>
+  <a href="/games">Games</a>
+  <a href="/games/educational">Educational Games</a>
+  <a href="/contactus">Contact Us</a>
+</div>
+
+<!-- Use any element to open the sidenav -->
+<button style="background-color: black;"><a href="javascript:void(0);"><span onclick="openNav()"><font color="#ffffff">Options</span></button></a></font color>
+
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main">
+  ...
+</div>
+<style>
+/* The side navigation menu */
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left .5s;
+  padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+<script>
+/* Set the width of the side navigation to 250px */
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+/* Set the width of the side navigation to 0 */
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+<!--end of sidenav-->
+
+<!--container-->
+<div class="container">
+
+<img src="data:image/png;base64,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" title="The Impossible Quiz" alt="funny shooter 2 logo"><p><font color="#ffffff">Birds v.s. Robots</p><hr></hr></font color>
+
+<iframe id="iframe" src="https://mathsframe.co.uk/en/resources/getresource/573/2/game"></iframe>
+
+<hr></hr>
+
+</div>
+<div class="h2 text">
+<font color="#ffffff">
+<h2>Birds v.s. Robots</h2>
+<h4>Powered by <a href="//mathsframe.co.uk">MathsFrame.co.uk</a>. You can also click the play button and the main lobby menu opens up. Click on the MathsFrame logo to go to the homepage.</h4>
+<p>Tags: <a href="/games/tags/edu/math">math</a>, <a href="/games/tags/edu/fighting">fighting</a>, <a href="/games/tags/edu/gamelevels">game levels</a>.</p>
+</div>
+
+<p>Rate the game!</p>
+<button style="background-color: transparent"><svg xmlns="http://www.w3.org/2000/svg" height="14" width="14" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M313.4 32.9c26 5.2 42.9 30.5 37.7 56.5l-2.3 11.4c-5.3 26.7-15.1 52.1-28.8 75.2H464c26.5 0 48 21.5 48 48c0 18.5-10.5 34.6-25.9 42.6C497 275.4 504 288.9 504 304c0 23.4-16.8 42.9-38.9 47.1c4.4 7.3 6.9 15.8 6.9 24.9c0 21.3-13.9 39.4-33.1 45.6c.7 3.3 1.1 6.8 1.1 10.4c0 26.5-21.5 48-48 48H294.5c-19 0-37.5-5.6-53.3-16.1l-38.5-25.7C176 420.4 160 390.4 160 358.3V320 272 247.1c0-29.2 13.3-56.7 36-75l7.4-5.9c26.5-21.2 44.6-51 51.2-84.2l2.3-11.4c5.2-26 30.5-42.9 56.5-37.7zM32 192H96c17.7 0 32 14.3 32 32V448c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32z"/></svg></button></a>
+<button style="background-color: transparent;"><svg xmlns="http://www.w3.org/2000/svg" height="14" width="14" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M313.4 479.1c26-5.2 42.9-30.5 37.7-56.5l-2.3-11.4c-5.3-26.7-15.1-52.1-28.8-75.2H464c26.5 0 48-21.5 48-48c0-18.5-10.5-34.6-25.9-42.6C497 236.6 504 223.1 504 208c0-23.4-16.8-42.9-38.9-47.1c4.4-7.3 6.9-15.8 6.9-24.9c0-21.3-13.9-39.4-33.1-45.6c.7-3.3 1.1-6.8 1.1-10.4c0-26.5-21.5-48-48-48H294.5c-19 0-37.5 5.6-53.3 16.1L202.7 73.8C176 91.6 160 121.6 160 153.7V192v48 24.9c0 29.2 13.3 56.7 36 75l7.4 5.9c26.5 21.2 44.6 51 51.2 84.2l2.3 11.4c5.2 26 30.5 42.9 56.5 37.7zM32 384H96c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H32C14.3 96 0 110.3 0 128V352c0 17.7 14.3 32 32 32z"/></svg></button></a>
+
+<p>Play in fullscreen!</p>
+
+<a href="javascript:void(0)"><button title="Play DEBUG PlugAway in fullscreen" style="background-color: transparent;" onclick="openFullscreen();"><font color="#ffffff"><svg xmlns="http://www.w3.org/2000/svg" height="14" width="12.25" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H64V352zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32H320zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32V352z"/></svg> Play fullscreen</button></a></font color>
+
+<!--button script/css-->
+<script>
+var elem = document.getElementById("iframe");
+function openFullscreen() {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+}
+</script>
+
+<hr></hr>
+</div>
+<div class="suggested-games-text">
+<h2>Suggested Games</h2>
+</div>
+
+<h2><center>Sorry, we don't have any other suggested games, but be back soon to check out some more games!</center></h2>
+<p>Play more educational games <a href="/games/educational">here</a>.</p>
+
+<hr></hr>
+
+<!--Footer-->
+<div class="footer">
+<footer style="background-color: darkred;">
+
+
+  <!--Valodoka social media-->
+  <!--social media text p-->
+  <p>Social Media</p>
+  <!--youtube svg logo-->
+  <a href="//youtube.com/@Valodoka/">
+  <svg xmlns="http://www.w3.org/2000/svg" height="14" width="15.75" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/></svg>
+
+
+  <!--end of valodoka social Media-->
+
+  <p>The Owner's Social Media</p>
+
+  <!--youtube svg logo-->
+  <!--youtube svg logo-->
+<a href="//youtube.com/@nottylerrobloxofficial/" title="NothingButTyler's YouTube channel">  <svg xmlns="http://www.w3.org/2000/svg" height="14" width="15.75" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/></svg> </a>
+
+  <!--tiktok svg logo-->
+  <a href="//tiktok.com/@nottylerroblox/" title="NothingButTyler's TikTok account">
+<svg xmlns="http://www.w3.org/2000/svg" height="14" width="12.25" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/></svg>
+</a>
+
+  <!--more social media-->
+
+ <p><a href="//valodokagames.github.io/socialmedia.html" title="More Social Media (Discord, YouTube, Instagram and More)">More Social Media from NothingButTyler</a></p>
+
+<hr></hr>
+  <p>Copyright &copy; 2024 by <a href="//github.com/NothingButTyler/">NothingButTyler</a>. All rights reserved.</p>
+
+<hr></hr>
+</footer>
+</div>
+</body>
+</html>
