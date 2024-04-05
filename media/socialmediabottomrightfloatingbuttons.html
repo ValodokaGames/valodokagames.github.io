@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head><title>Social Media Bottom Right Floating Buttons | Valodoka Media</title>
+</head>
+<body onload="myFunction()" style="margin:0;">
+
+<!--font awesome-->
+<script src="https://kit.fontawesome.com/eeb01edac2.js" crossorigin="anonymous"></script>
+<!--end of font awesome-->
+
+
+<div class="floating-button-div">
+  <a href="//bit.ly/NothingButTylerTT"><button class="fb"><i class="fa-brands fa-tiktok" style="color: #000000;"></i></button></a>
+  <a href="//bit.ly/NothingButTylerYT"><button class="fb"><i class="fa-brands fa-youtube" style="color: #000000;"></i></button></a>
+  <a href="//www.instagram.com/@nothingbuttylerofficial"><button class="fb"><i class="fa-brands fa-instagram" style="color: #000000;"></i></button></a>
+  <a href=""><button class="fb"><i class="fa-brands fa-plus" style="color: #000000;"></i></button></a>
+  
+</div>
+<style>
+.floating-button-div {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+
+.fb {
+  background-color: #00ffff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+}
+</style><style>
+var floatingButtonContainer = document.querySelector('.floating-button-div');
+var scrollY = window.scrollY;
+
+
+window.addEventListener('scroll', function() {
+  scrollY = window.scrollY;
+  floatingButtonContainer.style.top = scrollY + window.innerHeight - 150 + 'px';
+});
+</style>
+
+<!--MAIN CONTAINER-->
+
+</html>
