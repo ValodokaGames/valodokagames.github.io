@@ -1,32 +1,142 @@
-<!doctype html>
-<head>
-<title>Play Birds v.s. Robots For Free | Valodoka</title>
-  <link rel="shortcut icon" href="data:image/jpeg;base64,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" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arial">
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/159365921" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<title>Play Birds v.s. Robots for Free | Valodoka</title>
+				<meta name="description" content="Valodoka Games has all the games and educational games you can find. Don't worry schools, teachers, and gamers, we have all the games and educational games we need! Enjoy playing Valodoka!">
+
+			<meta property="og:url" content="valodokagames.github.io" />
+      <meta property="og:image:width" content="200 px" />
+      <meta property="og:image:height" content="200 px" />
+      <meta property="og:title" content="Valodoka Games" />
+      <meta property="og:site_name" content="Valodoka Games" />
+      <meta property="og:description" content="Valodoka Games has all the games and educational games you can find. Don't worry schools, teachers, and gamers, we have all the games and educational games we need! Enjoy playing Valodoka!" />
+      <meta property="og:type" content="website" />
+      <meta property="og:image" content="https://avatars.githubusercontent.com/u/159365921 ">
+
+
+						<link rel="stylesheet" type="text/css" href="//gamesuperhot.github.io/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="//gamesuperhot.github.io/css/jquery-comments.css" />
+		<link rel="stylesheet" type="text/css" href="//gamesuperhot.github.io/css/user.css" />
+		<link rel="stylesheet" type="text/css" href="//gamesuperhot.github.io/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="//gamesuperhot.github.io/css/custom.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+		<!-- Font Awesome icons (free version)-->
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+		<!-- Google fonts-->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MBSZ8QWCDE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MBSZ8QWCDE');
+</script>
+
+
+<!--back to top btn-->
+<button onclick="topFunction()" id="myBtn" title="Go back to the top.">&uarr;</button>
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+<!-- end of back to top btn-->
+
 <style>
-body {
-  font-family: "Arial", sans-serif;
+#myBtn {
+  display: none; /* Hidden by default */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button at the bottom of the page */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color: red; /* Set a background color */
+  color: white; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 15px; /* Some padding */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 18px; /* Increase font size */
+}
+
+#myBtn:hover {
+  background-color: #555; /* Add a dark-grey background on hover */
 }
 </style>
+<script>
+// Get the button:
+let mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+</script>
+<!--end of back to top btn-->
+
+
+
+
+
+
 </head>
-<body style="background-color: black;">
-
-
-<!--sidenav-->
+	<body id="page-top" style="background: url('//valodokagames.github.io/media/images/background1.png'); background-size: cover;">
+		<!-- Navigation-->
+		<nav class="navbar navbar-expand-lg navbar-dark top-nav" id="mainNav">
+			<div class="container">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-menu" aria-controls="nav-menu" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon" onclick="openNav()"></span>
+				</button>
+                
+                
 <div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <a href="/">Home</a>
+  <a class="closebtn" onclick="closeNav()">&times;</a>
   <a href="/games">Games</a>
   <a href="/games/educational">Educational Games</a>
+  <a href="/previews">Previews</a>
   <a href="/contactus">Contact Us</a>
+  <a href="/menu">All Pages</a>
 </div>
-
-<!-- Use any element to open the sidenav -->
-<button style="background-color: black;"><a href="javascript:void(0);"><span onclick="openNav()"><font color="#ffffff">Options</span></button></a></font color>
 
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
 <div id="main">
-  ...
+  
 </div>
 <style>
 /* The side navigation menu */
@@ -65,6 +175,7 @@ body {
   right: 25px;
   font-size: 36px;
   margin-left: 50px;
+  cursor: pointer;
 }
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
@@ -90,93 +201,387 @@ function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
 }
 </script>
-<!--end of sidenav-->
 
-<!--container-->
+
+				<a class="navbar-brand js-scroll-trigger" href="/">
+          <img src="https://avatars.githubusercontent.com/u/159365921" title="Valodoka"></img>
+        </a>
+	
+
+				<div class="navbar-collapse collapse" id="nav-menu">
+
+		
+
+				</div>
+				<div class="d-none d-lg-block">
+			
+        <ul class="navbar-nav">
+						<li class="nav-item "><a class="nav-link " href="/games">Games</a></li>
+						<li class="nav-item "><a class="nav-link " href="/games/educational">Educational Games</a></li>
+						<li class="nav-item "><a class="nav-link " href="/previews">Previews</a></li>
+						<li class="nav-item "><a class="nav-link " href="/contactus">Contact Us</a></li>
+						<li class="nav-item "><a class="nav-link " href="/news">News</a></li>
+						<li class="nav-item "><a class="nav-link " href="/subscribetoournewsletter">Newsletter</a></li>
+            
+
+  
+
+        
+
+
+            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> &#10247;</a>
+              <ul role="menu" class="dropdown-menu">
+                <li><a class="dropdown-item" href="/newreleasedgames">New Released Games</a></li>
+      
+                <li><a class="dropdown-item" href="/populargames">Popular Games</a></li>
+                <li><a class="dropdown-item" href="/games/category/cargames">Car Games</a></li>
+                <li><a class="dropdown-item" href="/games/category/adventure">Adventure Games</a></li>
+                <li><a class="dropdown-item" href="/menu">All Pages</a></li>
+
+            </ul>
+            </li>
+
+          </ul>
+
+
+
+
+				</div>
+			</div>
+		</nav>		
+
+
+
+
+
+
+
+
 <div class="container">
 
-<img src="data:image/png;base64,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" title="The Impossible Quiz" alt="funny shooter 2 logo"><p><font color="#ffffff">Birds v.s. Robots</p><hr></hr></font color>
 
-<iframe id="iframe" src="https://mathsframe.co.uk/en/resources/getresource/573/2/game"></iframe>
+<div class="banner-ad-wrapper"><div class="banner-ad-content" style="padding: 20px 0; text-align: center;">
+<!-- ads_ngang -->
 
-<hr></hr>
 
 </div>
-<div class="h2 text">
-<font color="#ffffff">
-<h2>Birds v.s. Robots</h2>
-<h4>Powered by <a href="//mathsframe.co.uk">MathsFrame.co.uk</a>. You can also click the play button and the main lobby menu opens up. Click on the MathsFrame logo to go to the homepage.</h4>
-<p>Tags: <a href="/games/tags/edu/math">math</a>, <a href="/games/tags/edu/fighting">fighting</a>, <a href="/games/tags/edu/gamelevels">game levels</a>.</p>
-</div>
 
-<p>Rate the game!</p>
-<button style="background-color: transparent"><svg xmlns="http://www.w3.org/2000/svg" height="14" width="14" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M313.4 32.9c26 5.2 42.9 30.5 37.7 56.5l-2.3 11.4c-5.3 26.7-15.1 52.1-28.8 75.2H464c26.5 0 48 21.5 48 48c0 18.5-10.5 34.6-25.9 42.6C497 275.4 504 288.9 504 304c0 23.4-16.8 42.9-38.9 47.1c4.4 7.3 6.9 15.8 6.9 24.9c0 21.3-13.9 39.4-33.1 45.6c.7 3.3 1.1 6.8 1.1 10.4c0 26.5-21.5 48-48 48H294.5c-19 0-37.5-5.6-53.3-16.1l-38.5-25.7C176 420.4 160 390.4 160 358.3V320 272 247.1c0-29.2 13.3-56.7 36-75l7.4-5.9c26.5-21.2 44.6-51 51.2-84.2l2.3-11.4c5.2-26 30.5-42.9 56.5-37.7zM32 192H96c17.7 0 32 14.3 32 32V448c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32z"/></svg></button></a>
-<button style="background-color: transparent;"><svg xmlns="http://www.w3.org/2000/svg" height="14" width="14" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M313.4 479.1c26-5.2 42.9-30.5 37.7-56.5l-2.3-11.4c-5.3-26.7-15.1-52.1-28.8-75.2H464c26.5 0 48-21.5 48-48c0-18.5-10.5-34.6-25.9-42.6C497 236.6 504 223.1 504 208c0-23.4-16.8-42.9-38.9-47.1c4.4-7.3 6.9-15.8 6.9-24.9c0-21.3-13.9-39.4-33.1-45.6c.7-3.3 1.1-6.8 1.1-10.4c0-26.5-21.5-48-48-48H294.5c-19 0-37.5 5.6-53.3 16.1L202.7 73.8C176 91.6 160 121.6 160 153.7V192v48 24.9c0 29.2 13.3 56.7 36 75l7.4 5.9c26.5 21.2 44.6 51 51.2 84.2l2.3 11.4c5.2 26 30.5 42.9 56.5 37.7zM32 384H96c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H32C14.3 96 0 110.3 0 128V352c0 17.7 14.3 32 32 32z"/></svg></button></a>
 
-<p>Play in fullscreen!</p>
 
-<a href="javascript:void(0)"><button title="Play DEBUG PlugAway in fullscreen" style="background-color: transparent;" onclick="openFullscreen();"><font color="#ffffff"><svg xmlns="http://www.w3.org/2000/svg" height="14" width="12.25" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H64V352zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32H320zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32V352z"/></svg> Play fullscreen</button></a></font color>
+</div>	
 
-<!--button script/css-->
-<script>
-var elem = document.getElementById("iframe");
-function openFullscreen() {
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.webkitRequestFullscreen) { /* Safari */
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) { /* IE11 */
-    elem.msRequestFullscreen();
-  }
+<!--Scroller-->
+  <style>
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
 }
-</script>
 
-<hr></hr>
+/* Track */
+::-webkit-scrollbar-track {
+  background: #808080;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #0000FF;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #00ffff;
+}
+</style>
+<!--end of scroller-->
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container game-wrapper">
+<div style="padding-bottom: 20px">
+     <!-- ads_ngang-->
+  
 </div>
-<div class="suggested-games-text">
-<h2>Suggested Games</h2>
+
+
+
+
+
+  <div class="row">
+      <div class="col-md-9">
+          	<div class="game-container">
+          		<div class="game-content" data-id="169">
+          			<div id="allow_mobile_version"></div>			
+               <!-- 
+                <div id="mobile-play" style="display: none;">
+          				<div class="mobile-thumb-play">
+          					<img src="#">
+          				</div>
+          				<div id="mobile-play-btn">
+          					<i class="bi bi-play-circle-fill"></i>
+          				</div>
+          			</div> -->
+
+
+
+          			<div class="game-iframe-container" id="game-player">
+          				<div id="mobile-back-button" draggable="true">
+          					<i class="bi bi-x-circle-fill"></i>
+          				</div>
+          				<iframe class="game-iframe" id="game-area" src="https://mathsframe.co.uk/en/resources/getresource/573/2/game" width="480" height="800" scrolling="none" frameborder="0" allowfullscreen></iframe>
+          			</div>
+          		</div>
+
+
+          		<div class="game-info">
+          			<div class="header-left">
+          				<h1 class="single-title">Birds v.s. Robots</h1>
+                        <p><font color="#ffffff">Powered by <a href="//mathsframe.co.uk">mathsframe.co.uk</a>.</font></p>
+
+
+          			</div>
+          			<div class="header-right">
+
+
+          				<div class="b-action2">
+          		
+          					<a href="#fullscreenMode" onclick="open_fullscreen()" class="btn btn-capsule"><i class="bi bi-arrows-fullscreen b-icon"></i>Fullscreen</a>
+          				</div>
+          			</div>
+          		</div>
+          	</div>
+
+      </div><!-- end col-9 -->
+      
+
+      <div class="col-md-3">
+        <div style="">
+          <!-- ads_doc -->
+   
+
+        </div>
+      </div>
+
+
+  </div><!-- end row -->
+
+
+</div> <!-- end row container game-wrapper-->
+
+
+
+
+
+
+
+<div class="container">
+<div class="banner-ad-wrapper">
+  <div class="banner-ad-content" style="padding: 20px 0; text-align: center;">
+   <!-- ads_ngang -->       
+
+
+
+              </div>
+            </div>
+
+
+
+
+
+	<div class="content-wrapper">
+		<div class="row">
+			
+
+			<div class="col-md-5">
+				<div class="sidebar">
+	
+
+
+
+
+
+
+
+
+
+
+
+</div>			
+
+
+
+</div>
+</div>
 </div>
 
-<h2><center>Sorry, we don't have any other suggested games, but be back soon to check out some more games!</center></h2>
-<p>Play more educational games <a href="/games/educational">here</a>.</p>
-
-<hr></hr>
-
-<!--Footer-->
-<div class="footer">
-<footer style="background-color: darkred;">
 
 
-  <!--Valodoka social media-->
-  <!--social media text p-->
-  <p>Social Media</p>
-  <!--youtube svg logo-->
-  <a href="//youtube.com/@Valodoka/">
-  <svg xmlns="http://www.w3.org/2000/svg" height="14" width="15.75" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/></svg>
+
+	<div class="bottom-container">
+		<h2 class="item-title">You might also Like</h2>
+		<div class="row">
+
+<!-- 
+
+<div class="col-lg-2 col-md-4 col-6 grid-3">
+  <a href="/play/eugenes-life.html">
+  <div class="game-item">
+    <div class="list-game">
+      <div class="list-thumbnail"><img src="https://htmlxm.github.io/thumb/eugenes-life.png" data-src="https://htmlxm.github.io/thumb/eugenes-life.png" class="lazyload" alt="Eugenes Life"></div>
+      <div class="list-info">
+        <div class="list-title">Eugenes Life</div>
+      </div>
+    </div>
+  </div>
+  </a>
+</div>  
+
+ -->
 
 
-  <!--end of valodoka social Media-->
 
-  <p>The Owner's Social Media</p>
 
-  <!--youtube svg logo-->
-  <!--youtube svg logo-->
-<a href="//youtube.com/@nottylerrobloxofficial/" title="NothingButTyler's YouTube channel">  <svg xmlns="http://www.w3.org/2000/svg" height="14" width="15.75" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/></svg> </a>
 
-  <!--tiktok svg logo-->
-  <a href="//tiktok.com/@nottylerroblox/" title="NothingButTyler's TikTok account">
-<svg xmlns="http://www.w3.org/2000/svg" height="14" width="12.25" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/></svg>
-</a>
 
-  <!--more social media-->
-
- <p><a href="//valodokagames.github.io/socialmedia.html" title="More Social Media (Discord, YouTube, Instagram and More)">More Social Media from NothingButTyler</a></p>
-
-<hr></hr>
-  <p>Copyright &copy; 2024 by <a href="//github.com/NothingButTyler/">NothingButTyler</a>. All rights reserved.</p>
-
-<hr></hr>
-</footer>
+<div class="col-lg-2 col-md-4 col-6 grid-3">
+  <a href="/games/educational/numberguessinggame">
+  <div class="game-item">
+    <div class="list-game">
+      <div class="list-thumbnail"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnn0KkGHAnTLfrR6FkYSqA1QrQ1t64L7pdQipnx4ay_MUz9F7CypH-UpbrDubxTqNTtpI:https://t4.ftcdn.net/jpg/02/99/88/11/360_F_299881114_9J2B2ZDos8F7i5hxIjQ4WFkWVPsni8mh.jpg&usqp=CAU" data-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnn0KkGHAnTLfrR6FkYSqA1QrQ1t64L7pdQipnx4ay_MUz9F7CypH-UpbrDubxTqNTtpI:https://t4.ftcdn.net/jpg/02/99/88/11/360_F_299881114_9J2B2ZDos8F7i5hxIjQ4WFkWVPsni8mh.jpg&usqp=CAU" class="lazyload" alt="Number Guessing Game (educational ver.)"></div>
+    </div>
+  </div>
+  </a>
 </div>
-</body>
+
+
+<div class="col-lg-2 col-md-4 col-6 grid-3">
+  <a href="/games/educational/whalesadventure">
+  <div class="game-item">
+    <div class="list-game">
+      <div class="list-thumbnail"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGd1Vg20uuOhmj4POQCF3tqBAOYvjitYdsPuQqgFwKwb4z3TJbYhi-JBuo8gOlyWQH-kI:https://www.mathnook.com/img/addthis-math-games/whales-adventure-200x200.png&usqp=CAU" data-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGd1Vg20uuOhmj4POQCF3tqBAOYvjitYdsPuQqgFwKwb4z3TJbYhi-JBuo8gOlyWQH-kI:https://www.mathnook.com/img/addthis-math-games/whales-adventure-200x200.png&usqp=CAU" class="lazyload" alt="Whale's Adventure"></div>
+    </div>
+  </div>
+  </a>
+</div>
+
+
+  </div> <!-- end row You might also Like -->
+
+
+
+</div> <!-- end container -->
+
+
+  <div class="banner-ad-wrapper">
+    <div class="banner-ad-content" style="padding: 20px 0; text-align: center;">
+      
+      <!-- ads -->
+
+
+
+    </div>
+  </div>
+
+
+
+
+
+  <!-- Popular games section -->
+  <h3 class="section-title">Popular games</h3>
+  <div class="row grid-container">
+  
+
+
+
+
+  <div class="col-lg-4 col-md-6 grid-2">
+    <a href="/games/educational/numberguessinggame">
+    <div class="game-item">
+      <div class="list-game">
+        <div class="list-thumbnail"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnn0KkGHAnTLfrR6FkYSqA1QrQ1t64L7pdQipnx4ay_MUz9F7CypH-UpbrDubxTqNTtpI:https://t4.ftcdn.net/jpg/02/99/88/11/360_F_299881114_9J2B2ZDos8F7i5hxIjQ4WFkWVPsni8mh.jpg&usqp=CAU" data-src="https://htmlxm.github.io/thumb/slope.png" class="small-thumb img-rounded lazyload" alt="Number Guessing Game (educational ver.)"></div>
+        <div class="list-info">
+          <div class="list-title">Number Guessing Game (Educational Version)</div>
+          <div class="list-category">Guessing numbers</div>
+    
+
+        </div>
+      </div>
+    </div>
+    </a>
+  </div>  
+
+
+  <div class="col-lg-4 col-md-6 grid-2">
+    <a href="/play/stack.html">
+    <div class="game-item">
+      <div class="list-game">
+        <div class="list-thumbnail"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGd1Vg20uuOhmj4POQCF3tqBAOYvjitYdsPuQqgFwKwb4z3TJbYhi-JBuo8gOlyWQH-kI:https://www.mathnook.com/img/addthis-math-games/whales-adventure-200x200.png&usqp=CAU" data-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGd1Vg20uuOhmj4POQCF3tqBAOYvjitYdsPuQqgFwKwb4z3TJbYhi-JBuo8gOlyWQH-kI:https://www.mathnook.com/img/addthis-math-games/whales-adventure-200x200.png&usqp=CAU" class="small-thumb img-rounded lazyload" alt="Whale's Adventure"></div>
+        <div class="list-info">
+          <div class="list-title">Whale's Adventure</div>
+          <div class="list-category">math problems</div>
+    
+
+        </div>
+      </div>
+    </div>
+    </a>
+  </div>
+
+
+</div> <!-- end Popular -->
+
+
+
+
+
+
+<!--           <div class="post-item">
+              <div class="post-media">
+                <div class="post-thumb">
+                  <img title="Play Now" src="https://htmlxm.github.io/thumb/eugenes-life.png" alt="Eugenes Life ">
+                </div>
+                <div class="post-body">
+
+                  <div class="post-intro">
+
+
+
+                  </div>
+
+                   
+
+                </div>
+              </div>
+            </div> -->
+
+
+
+</div> <!-- end container -->
+
+
+
+
+
+
+	<div class="footer-copyright py-4">
+		<div class="container">
+		<p><img src="https://avatars.githubusercontent.com/u/159365921" title="Valodoka Games" alt="Valodoka Games logo"> 	Valodoka Games			</p><span class="dsb-panel">
+				<a href="/term.html">Term</a> - <a href="/dmca.html">DMCA</a> - <a href="/policy.html">Policy</a>			</span>
+		</div>
+	</div>
+	<script type="text/javascript" src="//gamesuperhot.github.io/js/jquery-3.6.2.min.js"></script>
+	<script type="text/javascript" src="//gamesuperhot.github.io/js/lazysizes.min.js"></script>
+	<script type="text/javascript" src="//gamesuperhot.github.io/js/popper.min.js"></script>
+	<script type="text/javascript" src="//gamesuperhot.github.io/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="//gamesuperhot.github.io/js/script.js"></script>
+	<script type="text/javascript" src="//gamesuperhot.github.io/js/custom.js"></script>
+	  </body>
 </html>
