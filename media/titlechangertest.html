@@ -1,0 +1,21 @@
+<!doctype html>
+<head>
+<title>Title Changer Test | Valodoka Media</title>
+</head>
+<body>
+<script>
+function changeTitle(pagetitle){
+document.title = pagetitle;
+}
+document.getElementById('tab1').onclick = function(){changeTitle("tab1")};
+document.getElementById('tab2').onclick = function(){changeTitle("tab2")};
+document.getElementById('tab3').onclick = function(){changeTitle("tab3")};
+document.getElementById('tab4').onclick = function(){changeTitle("tab4")};
+document.getElementById('tab5').onclick = function(){changeTitle("tab5")};
+</script>
+<h1>Click on any of the letters</h1>
+<div id="tab1">A | Title Changer Test | Valodoka Media</div>
+<div id="tab2">B | Title Changer Test | Valodoka Media</div>
+<div id="tab3">C | Title Changer Test | Valodoka Media</div>
+<div id="tab4">D | Title Changer Test | Valodoka Media</div>
+<div id="tab5">E | Title Changer Test | Valodoka Media</div>
