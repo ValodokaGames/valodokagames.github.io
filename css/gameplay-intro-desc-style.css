@@ -46,3 +46,6 @@
    bottom: 0;
    z-index: -1;
 }
+
+@media (min-aspect-ratio:16/9) {
+   .CONTINUE WHEN HOME
