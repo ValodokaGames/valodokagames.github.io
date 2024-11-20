@@ -9,4 +9,32 @@
    width: 100%;
    height: 100vh;
   background-color: #ccc;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.content{
+   text-align: center;
+}
+
+.content h1{
+   font-size: 95px;
+   color: #fff;
+   margin-bottom: 50px;
+}
+
+.content a{
+   font-size: 23px;
+   color: #fff;
+   text-decoration: none;
+   border: 2px solid #fff;
+   padding: 15px 25px;
+   border-radius: 50px;
+   transition: 0.3s;
+}
+
+.content a:hover{
+   background-color: #fff;
+   color: #000;
 }
