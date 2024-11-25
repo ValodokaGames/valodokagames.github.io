@@ -1,8 +1,7 @@
-<!DOCTYPE html><!--\GameFiles\BrandNewUpdate\GamesUpdate\GameTests\GameFileTests\-->
+<!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>_VGgamefiles_ - C:\users\username\ValodokaGames\sitefiles\media/NEW_UPDATES\GameFiles\BrandNewUpdate\GamesUpdate\GameTests\GameFileTests\test1\GameTrailerBackgroundandGameInfo.html</title>
 <style>
 * {
   box-sizing: border-box;
@@ -30,20 +29,50 @@ body {
   width: 100%;
   padding: 20px;
 }
+
+#myBtn {
+  width: 200px;
+  font-size: 18px;
+  padding: 10px;
+  border: none;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+}
+
+#myBtn:hover {
+  background: #ddd;
+  color: black;
+}
 </style>
 </head>
 <body>
 
-<video autoplay; encrypted-media muted loop id="myVideo">
-  <source src="https://valodokagames.github.io/media/NEW_UPDATES/GameFiles/BrandNewUpdate/GamesUpdate/GAMETRAILERS/trailers/1v1lol_champions_trailer.mp4" autoplay; encrypted-media type="video/mp4">
-  Sorry, your type of web browser can't show the trailer for this game.
+<video autoplay muted loop id="myVideo">
+  <source src="//valodokagames.github.io/media/NEW_UPDATES/GameFiles/BrandNewUpdate/GamesUpdate/GAMETRAILERS/trailers/1v1lol/Screen_Recording_20241124_155312_YouTube (1).mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
 </video>
-
 
 <div class="content">
   <h1>Game Name</h1>
   <p><b>Description:</b> This is where the description of the game will go. Depending on the game, the description may be short or long. For an extra long description, I'll type in random words here. Lorem ipsum dolor sit amet, an his etiam torquatos. Tollit soleat phaedrum te duo, eum cu recteque expetendis neglegentur. </p>
+  <button id="myBtn" onclick="myFunction()">Pause video</button>
 </div>
+
+<script>
+var video = document.getElementById("myVideo");
+var btn = document.getElementById("myBtn");
+
+function myFunction() {
+  if (video.paused) {
+    video.play();
+    btn.innerHTML = "Pause";
+  } else {
+    video.pause();
+    btn.innerHTML = "Play";
+  }
+}
+</script>
 
 </body>
 </html>
