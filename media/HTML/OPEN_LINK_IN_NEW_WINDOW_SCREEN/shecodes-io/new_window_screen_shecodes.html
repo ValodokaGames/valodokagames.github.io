@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open New Window (SheCodes.io)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        a {
+            font-size: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="#" id="openWindow">Open Google in New Window</a>
+
+    <script>
+        document.getElementById('openWindow').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            window.open('https://google.com', '_blank', 'width=800,height=600'); // Open a new window with specified dimensions
+        });
+    </script>
+
+</body>
+</html>
