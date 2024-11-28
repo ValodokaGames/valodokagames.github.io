@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Game Video Background iFrame - 1v1.lol | Valodoka</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Google fonts-->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Poppins;
+  font-size: 17px;
+}
+
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%; 
+  min-height: 100%;
+}
+
+.content {
+  position: fixed;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+}
+
+</style>
+</head>
+<body>
+
+<video autoplay muted loop id="myVideo">
+  <source src="//valodokagames.github.io/media/NEW_UPDATES/GameFiles/BrandNewUpdate/GamesUpdate/GAMETRAILERS/trailers/1v1lol/sizes/square/lv_0_20241126203820.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+
+<div class="content"><img src="https://1v1.lol/img/logo.png" width="110" height="50"></img>
+ <!-- <h1>1v1.lol</h1> -->
+  <p><b>Description:</b> Ever since their new Champions update, 1v1.lol has 80 million players online! 1v1.lol a Battle Royale sensation where you'll dive into heart-pounding 3rd person hero-shooting action! Engage in lightning-fast battles, celebrate the thrill of a multiplayer game. </p>
+  
+  <a id="openWindow"><button class="button-29">Play now!</button></a>
+  <button id="myBtn" onclick="myFunction()" class="button-29">Pause video</button>
+</div>
+
+<!--Pause/play script-->
+<script>
+var video = document.getElementById("myVideo");
+var btn = document.getElementById("myBtn");
+
+function myFunction() {
+  if (video.paused) {
+    video.play();
+    btn.innerHTML = "Pause video";
+  } else {
+    video.pause();
+    btn.innerHTML = "Play video";
+  }
+}
+</script>
+<!--end of Pause/play script-->
+<!--Open in new popup window script-->
+<script>
+        document.getElementById('openWindow').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            window.open('https://1v1.lol', '_blank', 'width=2050,height=800'); // Open a new window with specified dimensions
+        });
+    </script>
+    <!--end of Open in new popup window script-->
+
+<!--style for button-->
+<style>
+.button-29 {
+  align-items: center;
+  appearance: none;
+  background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+  border: 0;
+  border-radius: 6px;
+  box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "JetBrains Mono",monospace;
+  height: 48px;
+  justify-content: center;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 16px;
+  padding-right: 16px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  transition: box-shadow .15s,transform .15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow,transform;
+  font-size: 18px;
+}
+
+.button-29:focus {
+  box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+}
+
+.button-29:hover {
+  box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.button-29:active {
+  box-shadow: #3c4fe0 0 3px 7px inset;
+  transform: translateY(2px);
+}
+</style>
+<!--end of style for button-->
+<!--remove right click script and div-->
+  <div id="contextMenu" class="context-menu" style="display:none"
+    </div>
+
+    <script>
+        document.onclick = hideMenu;
+        document.oncontextmenu = rightClick;
+
+        function hideMenu() {
+            document.getElementById(
+                "contextMenu").style.display = "none"
+        }
+
+        function rightClick(e) {
+            e.preventDefault();
+
+            if (document.getElementById(
+                "contextMenu").style.display == "block")
+                hideMenu();
+            else {
+                let menu = document
+                    .getElementById("contextMenu")
+
+                menu.style.display = 'block';
+                menu.style.left = e.pageX + "px";
+                menu.style.top = e.pageY + "px";
+            }
+        }
+    </script>
+<!--end of remove right click script and div-->
+</body>
+</html>
