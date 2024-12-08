@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Button with Popup (and apps)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .share-button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .popup-menu {
+            display: none;
+            position: absolute;
+            background-color: darkred;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            z-index: 1000;
+            width: 300px;
+        }
+
+        .close-button {
+            float: right;
+            cursor: pointer;
+            color: white;
+        }
+
+        .copy-button {
+            background-color: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        h3 {
+           color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="share-button" onclick="togglePopup()"><i class="fa-light fa-share-from-square"></i> Share</button>
+
+    <div class="popup-menu" id="popupMenu">
+        <span class="close-button" onclick="togglePopup()" title="Close">✖</span>
+        <h3>Share this link with your friends to play <i>1v1.lol</i>!</h3>
+        <input type="text" id="link" value="https://valodokagames.github.io/games/1v1lol" readonly>
+        <button class="copy-button" onclick="copyToClipboard()">Copy to Clipboard</button>
+        <h3>Try these suggested links!</h3>
+        
+        <a href="mailto:" target="_blank"><button class="copy-button">Email</button></a>
+        
+    <button class="copy-button" id="openMessages">Open Messages App</button>
+    
+    <button class="copy-button" id="discordButton">Open Discord</button>
+    <script>
+        document.getElementById('discordButton').addEventListener('click', function() {
+            window.open('discord://', '_blank');
+        });
+    </script>
+
+    <!--Open Messages script--><script>
+        document.getElementById('openMessages').onclick = function() {
+            window.location.href = 'sms:';
+        };
+    </script><!--end of Open Messages script-->
+    </div>
+
+    <script>
+        function togglePopup() {
+            const popup = document.getElementById('popupMenu');
+            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function copyToClipboard() {
+            const linkInput = document.getElementById('link');
+            linkInput.select();
+            document.execCommand('copy');
+            alert('Link copied to clipboard!');
+        }
+    </script>
+
+</body>
+</html>
