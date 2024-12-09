@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Share Button with Popup (and apps)</title>
+<!doctype html><html><head><title>[Athena, shecodes.io] Share button with popup, text, and apps</title></head><body>
+
+<!--SHARE BUTTON, SCRIPTS, STYLES, AND HTML OF BUTTON-->
+
+
+<!--share button css-->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -45,37 +45,74 @@
         h3 {
            color: white;
         }
-    </style>
-</head>
-<body>
-
-    <button class="share-button" onclick="togglePopup()"><i class="fa-light fa-share-from-square"></i> Share</button>
-
-    <div class="popup-menu" id="popupMenu">
-        <span class="close-button" onclick="togglePopup()" title="Close">✖</span>
-        <h3>Share this link with your friends to play <i>1v1.lol</i>!</h3>
-        <input type="text" id="link" value="https://valodokagames.github.io/games/1v1lol" readonly>
-        <button class="copy-button" onclick="copyToClipboard()">Copy to Clipboard</button>
-        <h3>Try these suggested links!</h3>
         
+        p {
+          color: white;
+        }
+    </style><!--end of share button css-->
+<!--share button-->
+    <button class="share-button" onclick="togglePopup()"><i class="fa-light fa-share-from-square"></i> Share</button>
+<!--end of share button--><!--popup menu in share btn-->
+    <div class="popup-menu" id="popupMenu">
+  <!--Close btn-->      <span class="close-button" onclick="togglePopup()" title="Close">✖</span><!--end of Close btn-->
+ <!--share link-->       <h3>Share this link with your friends to play <i>1v1.lol</i>!</h3>
+        <input type="text" id="link" value="https://valodokagames.github.io/games/1v1lol" readonly>
+        <button class="copy-button" onclick="copyToClipboard()">Copy to Clipboard</button><!--end of share link-->
+<!--other apps-->        <h3>Try these suggested links!</h3>
+        <p>Copy the message below, then click on an app to send it to your friends!</p>
+        
+        <input type="text" id="link" value="Check out 1v1.lol on Valodoka Games! https://valodokagames.github.io/games/1v1lol" readonly>
+        <button class="copy-button" onclick="copyToClipboard()">Copy to Clipboard</button>
+        <br></br>
         <a href="mailto:" target="_blank"><button class="copy-button">Email</button></a>
         
-    <button class="copy-button" id="openMessages">Open Messages App</button>
+    <button class="copy-button" id="openMessages">Messages App</button>
     
-    <button class="copy-button" id="discordButton">Open Discord</button>
+    <button class="copy-button" id="discordButton">Discord</button>
+    
+      <button class="copy-button" onclick="openFacebookApp()">Facebook</button>
+      
+         <a href="instagram://user" target="_blank"><button class="copy-button">Instagram</button>
+</a>
+
+   <button class="copy-button" id="youtubeBtn">Open YouTube App</button><!--end of other apps--><!--end of popup menu in share btn-->
+
+<!--SCRIPTSSCRIPTSSCRIPTSSCRIPTSSCRIPTSSCRIPTSSCRIPTSSCRIPTSSCRIPTS-->
+    <!--open yt script-->
+    <script>
+        document.getElementById('youtubeBtn').onclick = function() {
+            window.location.href = 'vnd.youtube://';
+        };
+    </script>
+    <!--end of open yt script-->
+    
+<!--open insta script-->
+<script>
+function openInstagramApp() {
+    window.open('instagram://user', '_system'); // This opens the Instagram app if installed (I think).
+    }
+</script>
+  <!--Open facebook script-->  <script>
+        function openFacebookApp() {
+            window.open('fb://', '_system'); // This opens the Facebook app if installed
+        }
+    </script>
+    <!--end of open facebook script-->
+    
+    <!--open Dc script-->
     <script>
         document.getElementById('discordButton').addEventListener('click', function() {
             window.open('discord://', '_blank');
         });
     </script>
-
+<!--end of open Dc script-->
     <!--Open Messages script--><script>
         document.getElementById('openMessages').onclick = function() {
             window.location.href = 'sms:';
         };
     </script><!--end of Open Messages script-->
-    </div>
-
+    
+<!--copy clipboard script-->
     <script>
         function togglePopup() {
             const popup = document.getElementById('popupMenu');
@@ -89,6 +126,12 @@
             alert('Link copied to clipboard!');
         }
     </script>
+<!--end of copy clipboard script-->
 
-</body>
-</html>
+<!--end of SCRIPTSSCRIPTSSCRIPTSSCRIPTSSCRIPTSSCRIPTSSCRIPTSSCRIPTSSCRIPTS-->
+
+
+<!--end of SHARE BUTTON, SCRIPTS, STYLES, AND HTML OF BUTTON-->
+
+
+</body></html>
