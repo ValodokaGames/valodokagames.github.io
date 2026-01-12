@@ -1,0 +1,160 @@
+/* --- Core Theme Variables --- */
+:root {
+    --bg-color: #0d1117;
+    --brand-purple: #8e44ad;
+    --brand-red: #e74c3c;
+    --text-main: #ffffff;
+    --card-bg: #161b22;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+}
+
+h1, h2, h3, .logo span {
+    font-family: 'Fredoka One', cursive;
+}
+
+/* --- Navigation --- */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background: #161b22;
+    border-bottom: 4px solid var(--brand-purple);
+}
+
+.logo { display: flex; align-items: center; gap: 12px; }
+.logo img { width: 40px; height: 40px; }
+.logo span { font-size: 1.5rem; color: #fff; }
+
+.nav-item {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    margin-left: 20px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.nav-item i { margin-right: 8px; color: var(--brand-purple); transition: 0.3s; }
+
+/* Icon and Text both turn white on hover */
+.nav-item:hover { background: var(--brand-purple); color: white; }
+.nav-item:hover i { color: white; }
+
+/* --- Banner & CTA --- */
+.main-banner {
+    text-align: center;
+    padding: 100px 20px;
+    background: linear-gradient(135deg, #2c003e 0%, #0d1117 100%);
+}
+
+.main-banner h1 { font-size: 3.5rem; color: #fff; margin-bottom: 15px; }
+
+.play-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 15px 40px;
+    background: var(--brand-red);
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 4px 0px #c0392b;
+    transition: 0.2s;
+}
+
+.play-btn:hover { transform: translateY(2px); box-shadow: 0 2px 0px #c0392b; }
+
+/* --- Slider & Game Cards --- */
+.content-area { padding: 50px 5%; }
+.section-title { font-size: 2.2rem; margin-bottom: 30px; display: flex; align-items: center; gap: 15px; }
+.section-title i { color: var(--brand-purple); }
+
+.slider-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.game-slider {
+    display: flex;
+    gap: 20px;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    padding: 20px 5px;
+}
+
+.slider-arrow {
+    background: var(--brand-purple);
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    transition: 0.3s;
+    flex-shrink: 0;
+}
+
+.slider-arrow:disabled { background: #333; opacity: 0.5; cursor: not-allowed; }
+.slider-arrow:hover:not(:disabled) { background: var(--brand-red); transform: scale(1.1); }
+
+.game-card {
+    min-width: 220px;
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 15px;
+    border: 2px solid #30363d;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.game-card:hover { border-color: var(--brand-purple); transform: scale(1.02); }
+
+.game-thumb {
+    height: 140px;
+    background: #30363d;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.play-small {
+    background: var(--brand-purple);
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    font-family: 'Fredoka One';
+}
+
+/* --- Educational Section Styling --- */
+.edu-section .section-title i { color: var(--brand-red); }
+.edu-card:hover { border-color: var(--brand-red); }
+.edu-card .play-small { background: var(--brand-red); }
+
+/* --- Footer --- */
+footer { 
+    text-align: center; 
+    padding: 40px; 
+    border-top: 1px solid #333;
+    opacity: 0.8; 
+    font-size: 0.9rem; 
+}
