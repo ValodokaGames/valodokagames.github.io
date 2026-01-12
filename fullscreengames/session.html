@@ -9,10 +9,8 @@
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; }
         
-        /* THE HUD CLUSTER */
         .game-header {
-            position: absolute; top: 15px; left: 15px; 
-            display: flex; align-items: center; gap: 12px;
+            position: absolute; display: flex; align-items: center; gap: 12px;
             background: rgba(22, 27, 34, 0.9); padding: 8px 15px;
             border-radius: 30px; border: 2px solid var(--brand-purple);
             z-index: 2000; backdrop-filter: blur(10px);
@@ -27,14 +25,11 @@
         }
         .control-icon:hover { color: var(--brand-purple); transform: scale(1.2); }
 
-        /* THE OPTIONS MENU (Z-index 2100 ensures it's above the game but manageable) */
         #options-menu {
             display: none; position: absolute; background: #161b22;
             border: 2px solid var(--brand-purple); border-radius: 15px;
             padding: 15px; z-index: 2100; min-width: 220px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            /* Prevent menu from blocking mouse clicks on the game when hidden */
-            pointer-events: auto; 
         }
 
         .menu-item {
@@ -73,13 +68,13 @@
         <div class="divider"></div>
         <button class="control-icon" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i></button>
         <div class="divider"></div>
-        <button class="control-icon" id="menu-trigger" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+        <button class="control-icon" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
     </header>
 
     <div id="options-menu">
         <h4 style="margin:0; color:var(--brand-purple); font-family:'Fredoka One';">Session Settings</h4>
         <hr style="border:0; border-top:1px solid #30363d; margin:10px 0;">
-        <div class="menu-item" onclick="flipHUD()"><i class="fa-solid fa-arrows-rotate"></i> Flip View</div>
+        <div class="menu-item" onclick="saveFlip()"><i class="fa-solid fa-arrows-rotate"></i> Flip Orientation</div>
         <div class="pos-grid">
             <button class="pos-btn" onclick="saveHUD('top-left')">↖</button>
             <button class="pos-btn" onclick="saveHUD('top-center')">↑</button>
@@ -89,13 +84,14 @@
             <button class="pos-btn" onclick="saveHUD('bottom-right')">↘</button>
         </div>
         <hr style="border:0; border-top:1px solid #30363d; margin:10px 0;">
-        <div class="menu-item" onclick="shareGame()"><i class="fa-solid fa-paper-plane"></i> Send to Friends</div>
+        <div class="menu-item" onclick="nativeShare()"><i class="fa-solid fa-paper-plane"></i> Send to App</div>
+        <div class="menu-item" onclick="copyToClipboard()"><i class="fa-solid fa-copy"></i> Copy Link</div>
     </div>
 
     <div class="iframe-container">
         <div id="loading-overlay">
             <div class="spinner"></div>
-            <p id="load-text" style="font-family:'Fredoka One'; color:var(--brand-purple);">SYNCING SESSION...</p>
+            <p style="font-family:'Fredoka One'; color:var(--brand-purple);">SYNCING SESSION...</p>
         </div>
         <iframe id="game-iframe"></iframe>
     </div>
@@ -106,9 +102,8 @@
         const hud = document.getElementById('hud-cluster');
         const menu = document.getElementById('options-menu');
         const overlay = document.getElementById('loading-overlay');
-        let isFlipped = false;
-
-        // 1. LOADER & HIDDEN ERROR
+        
+        // 1. LOADER & 404
         if (gameName) {
             const path = `../gameiframes/${gameName}.html`;
             fetch(path, { method: 'HEAD' }).then(res => {
@@ -124,60 +119,63 @@
         } else { showError("No game selected."); }
 
         function showError(msg) {
-            overlay.innerHTML = `
-                <i class="fa-solid fa-circle-xmark" style="font-size:50px; color:#ff4757;"></i>
-                <h2 style="font-family:'Fredoka One'; color:white; margin:20px 0;">VALODOKA ERROR</h2>
-                <p style="color:gray;">${msg}</p>
-                <a href="../index.html" style="text-decoration:none; margin-top:20px; display:inline-block; background:#ff4757; color:white; padding:10px 25px; border-radius:20px; font-family:'Fredoka One';">RETURN HOME</a>`;
+            overlay.innerHTML = `<i class="fa-solid fa-circle-xmark" style="font-size:50px; color:#ff4757;"></i><h2 style="font-family:'Fredoka One'; color:white; margin:20px 0;">VALODOKA ERROR</h2><p style="color:gray;">${msg}</p><a href="../index.html" class="play-small" style="text-decoration:none; margin-top:20px; display:inline-block; background:#ff4757; color:white; padding:10px 25px; border-radius:20px; font-family:'Fredoka One';">RETURN HOME</a>`;
         }
 
-        // 2. HUD & MENU LOGIC
+        // 2. HUD & PERSISTENCE
         function saveHUD(pos) {
             localStorage.setItem('valodoka_hud_pos', pos);
             moveHUD(pos);
-            menu.style.display = "none"; // Auto-close menu when position is picked
+            menu.style.display = "none";
         }
 
-        function moveHUD(pos) {
-            hud.style.top = "auto"; hud.style.bottom = "auto"; hud.style.left = "auto"; hud.style.right = "auto"; hud.style.transform = "none";
-            menu.style.top = "auto"; menu.style.bottom = "auto"; menu.style.left = "auto"; menu.style.right = "auto"; menu.style.transform = "none";
-
-            // The Menu is offset by 75px to ensure it doesn't cover the buttons
-            if (pos === 'top-left') { hud.style.top="15px"; hud.style.left="15px"; menu.style.top="75px"; menu.style.left="15px"; }
-            if (pos === 'top-center') { hud.style.top="15px"; hud.style.left="50%"; hud.style.transform="translateX(-50%)"; menu.style.top="75px"; menu.style.left="50%"; menu.style.transform="translateX(-50%)"; }
-            if (pos === 'top-right') { hud.style.top="15px"; hud.style.right="15px"; menu.style.top="75px"; menu.style.right="15px"; }
-            if (pos === 'bottom-left') { hud.style.bottom="15px"; hud.style.left="15px"; menu.style.bottom="75px"; menu.style.left="15px"; }
-            if (pos === 'bottom-center') { hud.style.bottom="15px"; hud.style.left="50%"; hud.style.transform="translateX(-50%)"; menu.style.bottom="75px"; menu.style.left="50%"; menu.style.transform="translateX(-50%)"; }
-            if (pos === 'bottom-right') { hud.style.bottom="15px"; hud.style.right="15px"; menu.style.bottom="75px"; menu.style.right="15px"; }
+        function saveFlip() {
+            const currentFlip = localStorage.getItem('valodoka_flipped') === 'true';
+            localStorage.setItem('valodoka_flipped', !currentFlip);
+            applyFlip();
         }
 
-        // Load saved position
-        moveHUD(localStorage.getItem('valodoka_hud_pos') || 'top-left');
-
-        function toggleMenu() {
-            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-        }
-
-        // CLOSE ON OUTSIDE CLICK (Fixed the blocking problem!)
-        window.addEventListener('click', function(e) {
-            if (!hud.contains(e.target) && !menu.contains(e.target)) {
-                menu.style.display = "none";
-            }
-        });
-
-        function flipHUD() {
-            isFlipped = !isFlipped;
+        function applyFlip() {
+            const isFlipped = localStorage.getItem('valodoka_flipped') === 'true';
             hud.style.flexDirection = isFlipped ? "column" : "row";
             document.querySelectorAll('.divider').forEach(d => {
                 d.style.width = isFlipped ? "25px" : "1px";
                 d.style.height = isFlipped ? "1px" : "25px";
             });
+            // Re-call moveHUD to adjust menu offset based on new flip state
+            moveHUD(localStorage.getItem('valodoka_hud_pos') || 'top-left');
         }
 
-        // 3. TOOLS
-        async function shareGame() {
-            const shareData = { title: 'Valodoka Games', text: `Play ${gameName} on Valodoka!`, url: window.location.href };
-            try { await navigator.share(shareData); } catch (err) { navigator.clipboard.writeText(window.location.href); alert("Copied to clipboard!"); }
+        function moveHUD(pos) {
+            hud.style.top = "auto"; hud.style.bottom = "auto"; hud.style.left = "auto"; hud.style.right = "auto"; hud.style.transform = "none";
+            menu.style.top = "auto"; menu.style.bottom = "auto"; menu.style.left = "auto"; menu.style.right = "auto"; menu.style.transform = "none";
+            
+            const isFlipped = localStorage.getItem('valodoka_flipped') === 'true';
+            let offset = isFlipped ? "65px" : "75px"; // Adjust gap if HUD is vertical
+
+            if (pos === 'top-left') { hud.style.top="15px"; hud.style.left="15px"; menu.style.top=offset; menu.style.left=isFlipped ? "75px" : "15px"; }
+            if (pos === 'top-center') { hud.style.top="15px"; hud.style.left="50%"; hud.style.transform="translateX(-50%)"; menu.style.top=offset; menu.style.left="50%"; menu.style.transform="translateX(-50%)"; }
+            if (pos === 'top-right') { hud.style.top="15px"; hud.style.right="15px"; menu.style.top=offset; menu.style.right=isFlipped ? "75px" : "15px"; }
+            if (pos === 'bottom-left') { hud.style.bottom="15px"; hud.style.left="15px"; menu.style.bottom=offset; menu.style.left=isFlipped ? "75px" : "15px"; }
+            if (pos === 'bottom-center') { hud.style.bottom="15px"; hud.style.left="50%"; hud.style.transform="translateX(-50%)"; menu.style.bottom=offset; menu.style.left="50%"; menu.style.transform="translateX(-50%)"; }
+            if (pos === 'bottom-right') { hud.style.bottom="15px"; hud.style.right="15px"; menu.style.bottom=offset; menu.style.right=isFlipped ? "75px" : "15px"; }
+        }
+
+        // Initialize HUD
+        applyFlip();
+
+        function toggleMenu() { menu.style.display = (menu.style.display === 'block') ? 'none' : 'block'; }
+        window.addEventListener('click', (e) => { if (!hud.contains(e.target) && !menu.contains(e.target)) menu.style.display = "none"; });
+
+        // 3. SHARING
+        async function nativeShare() {
+            try { await navigator.share({ title: 'Valodoka', text: `Play ${gameName}!`, url: window.location.href }); } 
+            catch (err) { alert("Sharing not supported on this device."); }
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link copied to clipboard! 📋");
         }
 
         function toggleFullScreen() {
