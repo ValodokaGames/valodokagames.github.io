@@ -9,36 +9,32 @@
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; }
         
-        /* SMOOTH HUD CLUSTER */
+        /* THE HUD CLUSTER */
         .game-header {
             position: absolute;
-            /* We use top/left as the base for the smoothest animations */
-            top: 0; left: 0; 
+            top: 15px; left: 15px; 
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(22, 27, 34, 0.85);
+            background: rgba(22, 27, 34, 0.9);
             padding: 8px 15px;
             border-radius: 30px;
             border: 2px solid var(--brand-purple);
             z-index: 2000;
             backdrop-filter: blur(10px);
-            /* This transition handles the movement smoothly */
-            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), background 0.3s;
-            /* Default Starting Position */
-            transform: translate(15px, 15px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .divider { width: 1px; height: 20px; background: rgba(255,255,255,0.3); transition: 0.3s; }
+        .divider { width: 1px; height: 25px; background: rgba(255,255,255,0.3); transition: 0.3s; }
 
         .control-icon {
-            color: white; font-size: 1.1rem;
+            color: white; font-size: 1.2rem;
             cursor: pointer; background: none; border: none;
             display: flex; align-items: center; transition: 0.3s;
         }
         .control-icon:hover { color: var(--brand-purple); transform: scale(1.2); }
 
-        /* OPTIONS MENU (Now stays relative to the HUD) */
+        /* THE OPTIONS MENU */
         #options-menu {
             display: none;
             position: absolute;
@@ -48,25 +44,38 @@
             padding: 15px;
             z-index: 2100;
             min-width: 220px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
+        .menu-item {
+            padding: 10px; border-radius: 8px; cursor: pointer;
+            transition: 0.2s; font-size: 0.9rem; color: white;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .menu-item:hover { background: var(--brand-purple); }
+
+        /* POS BUTTONS */
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; }
         .pos-btn { 
             background: #30363d; border: 1px solid var(--brand-purple); 
-            color: white; border-radius: 5px; cursor: pointer; padding: 5px; transition: 0.2s;
+            color: white; border-radius: 5px; cursor: pointer; padding: 8px; font-size: 1rem;
         }
-        .pos-btn:hover { background: var(--brand-purple); }
 
-        .game-frame-container { width: 100vw; height: 100vh; position: relative; }
-        iframe { width: 100%; height: 100%; border: none; }
-
+        /* LOADING & ERROR */
         #loading-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-color); display: flex; flex-direction: column;
+            background: #0d1117; display: flex; flex-direction: column;
             justify-content: center; align-items: center; z-index: 3000;
         }
+        .spinner {
+            width: 50px; height: 50px; border: 5px solid rgba(142, 68, 173, 0.1);
+            border-top-color: var(--brand-purple); border-radius: 50%;
+            animation: spin 1s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .iframe-container { width: 100vw; height: 100vh; }
+        iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
@@ -82,9 +91,7 @@
     <div id="options-menu">
         <h4 style="margin:0; color:var(--brand-purple); font-family:'Fredoka One';">HUD Settings</h4>
         <hr style="border:0; border-top:1px solid #30363d; margin:10px 0;">
-        <div class="menu-item" onclick="flipHUD()" style="cursor:pointer; font-size: 0.9rem; margin-bottom: 10px;">
-            <i class="fa-solid fa-arrows-up-down"></i> Flip Orientation
-        </div>
+        <div class="menu-item" onclick="flipHUD()"><i class="fa-solid fa-arrows-rotate"></i> Flip Orientation</div>
         <div class="pos-grid">
             <button class="pos-btn" onclick="moveHUD('top-left')">↖</button>
             <button class="pos-btn" onclick="moveHUD('top-center')">↑</button>
@@ -94,15 +101,15 @@
             <button class="pos-btn" onclick="moveHUD('bottom-right')">↘</button>
         </div>
         <hr style="border:0; border-top:1px solid #30363d; margin:10px 0;">
-        <div onclick="copyShareLink()" style="cursor:pointer; font-size: 0.9rem;"><i class="fa-solid fa-share-nodes"></i> Share</div>
+        <div class="menu-item" onclick="copyShare()"><i class="fa-solid fa-share-nodes"></i> Share Game</div>
     </div>
 
-    <div class="game-frame-container">
+    <div class="iframe-container">
         <div id="loading-overlay">
             <div class="spinner"></div>
-            <p style="margin-top:20px; font-family: 'Fredoka One'; color: var(--brand-purple);">SYNCING...</p>
+            <p style="font-family:'Fredoka One'; color:var(--brand-purple); letter-spacing:2px;">SYNCING SESSION...</p>
         </div>
-        <iframe id="game-iframe" src=""></iframe>
+        <iframe id="game-iframe"></iframe>
     </div>
 
     <script>
@@ -113,41 +120,43 @@
         const overlay = document.getElementById('loading-overlay');
         let isFlipped = false;
 
-        // FIXED 404 ERROR & LOADER
+        // 1. LOADER & 404
         if (gameName) {
             const path = `../gameiframes/${gameName}.html`;
             fetch(path, { method: 'HEAD' }).then(res => {
-                if (res.ok) { document.getElementById('game-iframe').src = path; startTimer(); } 
-                else { showError(); }
+                if (res.ok) { 
+                    document.getElementById('game-iframe').src = path; 
+                    setTimeout(() => {
+                        overlay.style.transition = 'opacity 0.8s';
+                        overlay.style.opacity = '0';
+                        setTimeout(() => overlay.style.display = 'none', 800);
+                    }, 5000);
+                } else { showError(); }
             }).catch(() => showError());
         } else { showError(); }
 
         function showError() {
             overlay.innerHTML = `
-                <div style="text-align:center; color:white;">
-                    <i class="fa-solid fa-circle-exclamation" style="font-size: 50px; color: var(--brand-red);"></i>
-                    <h2 style="font-family:'Fredoka One'; margin: 20px 0;">GAME NOT FOUND</h2>
-                    <p>The file <b>"${gameName}.html"</b> is missing from <b>/gameiframes/</b></p>
-                    <a href="../index.html" style="color:var(--brand-purple); text-decoration:none; display:block; margin-top:20px;">← Back Home</a>
-                </div>`;
+                <i class="fa-solid fa-circle-xmark" style="font-size:50px; color:#ff4757;"></i>
+                <h2 style="font-family:'Fredoka One'; color:white; margin:20px 0;">GAME NOT FOUND</h2>
+                <p style="color:gray;">Missing: <b>/gameiframes/${gameName}.html</b></p>
+                <a href="../index.html" class="play-small" style="text-decoration:none; margin-top:20px; display:inline-block; background:#ff4757; color:white; padding:10px 25px; border-radius:20px; font-family:'Fredoka One';">RETURN HOME</a>`;
         }
 
-        function startTimer() {
-            setTimeout(() => { overlay.style.opacity = '0'; setTimeout(() => overlay.style.display = 'none', 800); }, 5000);
-        }
-
-        // SMOOTH HUD MOVEMENT
+        // 2. HUD MOVEMENT (Corrected logic)
         function moveHUD(pos) {
-            let x = "15px", y = "15px";
-            let menuX = "15px", menuY = "70px";
+            // Reset all
+            hud.style.top = "auto"; hud.style.bottom = "auto"; hud.style.left = "auto"; hud.style.right = "auto"; hud.style.transform = "none";
+            menu.style.top = "auto"; menu.style.bottom = "auto"; menu.style.left = "auto"; menu.style.right = "auto";
 
-            if(pos.includes('right')) { x = "calc(100vw - 100% - 15px)"; menuX = "calc(100vw - 235px)"; }
-            if(pos.includes('center')) { x = "calc(50vw - 50%)"; menuX = "calc(50vw - 110px)"; }
-            if(pos.includes('bottom')) { y = "calc(100vh - 100% - 15px)"; menuY = "calc(100vh - 280px)"; }
-
-            hud.style.transform = `translate(${x}, ${y})`;
-            menu.style.transform = `translate(${menuX}, ${menuY})`;
-            menu.style.display = "none"; // Close after move
+            if (pos === 'top-left') { hud.style.top="15px"; hud.style.left="15px"; menu.style.top="75px"; menu.style.left="15px"; }
+            if (pos === 'top-center') { hud.style.top="15px"; hud.style.left="50%"; hud.style.transform="translateX(-50%)"; menu.style.top="75px"; menu.style.left="50%"; menu.style.transform="translateX(-50%)"; }
+            if (pos === 'top-right') { hud.style.top="15px"; hud.style.right="15px"; menu.style.top="75px"; menu.style.right="15px"; }
+            if (pos === 'bottom-left') { hud.style.bottom="15px"; hud.style.left="15px"; menu.style.bottom="75px"; menu.style.left="15px"; }
+            if (pos === 'bottom-center') { hud.style.bottom="15px"; hud.style.left="50%"; hud.style.transform="translateX(-50%)"; menu.style.bottom="75px"; menu.style.left="50%"; menu.style.transform="translateX(-50%)"; }
+            if (pos === 'bottom-right') { hud.style.bottom="15px"; hud.style.right="15px"; menu.style.bottom="75px"; menu.style.right="15px"; }
+            
+            menu.style.display = "none"; 
         }
 
         function flipHUD() {
@@ -161,17 +170,17 @@
 
         function toggleMenu() {
             menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-            if(menu.style.display === 'block') {
-                // Ensure menu is positioned near HUD when opened
-                moveHUD(currentPos || 'top-left'); 
-            }
         }
-        let currentPos = 'top-left';
 
         function toggleFullScreen() {
             const f = document.getElementById('game-iframe');
             if (f.requestFullscreen) f.requestFullscreen();
             else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
+        }
+
+        function copyShare() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Share link copied! 🚀");
         }
     </script>
 </body>
