@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valodoka Game Session</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; }
+        
+        /* 1. THE FLOATING CORNER CLUSTER (10/10 Layout) */
+        .game-header {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(22, 27, 34, 0.85);
+            padding: 8px 15px;
+            border-radius: 30px;
+            border: 2px solid var(--brand-purple);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .divider { width: 1px; height: 20px; background: rgba(255,255,255,0.3); }
+
+        .control-icon {
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            transition: 0.3s;
+        }
+        .control-icon:hover { color: var(--brand-purple); transform: scale(1.1); }
+
+        /* 2. IFRAME SETUP (Zero Gap) */
+        .game-frame-container { width: 100vw; height: 100vh; position: relative; }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* 3. OPTIONS MENU (Floating Top-Left) */
+        #options-menu {
+            display: none;
+            position: absolute;
+            top: 65px;
+            left: 15px;
+            background: #161b22;
+            border: 2px solid var(--brand-purple);
+            border-radius: 15px;
+            padding: 15px;
+            z-index: 2100;
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        }
+
+        .menu-item {
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .menu-item:hover { background: var(--brand-purple); color: white; }
+
+        /* 4. LOADING OVERLAY (5-Second Buffer) */
+        #loading-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 5px solid rgba(142, 68, 173, 0.1);
+            border-top-color: var(--brand-purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <header class="game-header">
+        <a href="../index.html" class="control-icon"><i class="fa-solid fa-arrow-left"></i></a>
+        <div class="divider"></div>
+        <button class="control-icon" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i></button>
+        <div class="divider"></div>
+        <button class="control-icon" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+    </header>
+
+    <div id="options-menu">
+        <h4 style="margin:0; color:var(--brand-purple); font-family:'Fredoka One';">Valodoka Session</h4>
+        <hr style="border:0; border-top:1px solid #30363d; margin:10px 0;">
+        <div class="menu-item" onclick="copyShareLink()"><i class="fa-solid fa-share-nodes"></i> Share Game</div>
+        <div class="menu-item" onclick="location.reload()"><i class="fa-solid fa-rotate-right"></i> Restart Game</div>
+    </div>
+
+    <div class="game-frame-container">
+        <div id="loading-overlay">
+            <div class="spinner"></div>
+            <p style="margin-top:20px; font-family: 'Fredoka One'; color: var(--brand-purple);">PREPARING SESSION...</p>
+        </div>
+
+        <iframe id="game-iframe" src=""></iframe>
+    </div>
+
+    <script>
+
+// 1. SELECT ELEMENTS
+const urlParams = new URLSearchParams(window.location.search);
+const gameName = urlParams.get('game'); 
+const iframe = document.getElementById('game-iframe');
+const overlay = document.getElementById('loading-overlay');
+
+// 2. ERROR FUNCTION
+function showError() {
+    overlay.style.display = 'flex'; 
+    overlay.style.opacity = '1';
+    overlay.innerHTML = `
+        <div style="text-align:center; color:white;">
+            <i class="fa-solid fa-circle-exclamation" style="font-size: 50px; color: var(--brand-red);"></i>
+            <h2 style="font-family: 'Fredoka One'; margin-top: 20px;">GAME NOT FOUND</h2>
+            <p style="opacity:0.8;">"${gameName || 'Unknown'}" isn't in the folder "/gameiframes/" yet!</p>
+            <a href="../index.html" class="play-small" style="background:var(--brand-red); text-decoration:none; display:inline-block; margin-top:20px;">Return Home</a>
+        </div>
+    `;
+}
+
+// 3. THE SMART LOADER
+if (gameName) {
+    const gamePath = `../gameiframes/${gameName}.html`; 
+
+    // Check if file exists
+    fetch(gamePath, { method: 'HEAD' })
+        .then(response => {
+            if (response.ok) {
+                iframe.src = gamePath;
+                // Start the 5-second timer ONLY if the game exists
+                startLoadingTimer();
+            } else {
+                showError();
+            }
+        })
+        .catch(() => showError());
+} else {
+    showError();
+}
+
+// 4. THE 5-SECOND TIMER
+function startLoadingTimer() {
+    setTimeout(() => {
+        overlay.style.transition = 'opacity 0.8s ease';
+        overlay.style.opacity = '0';
+        setTimeout(() => { overlay.style.display = 'none'; }, 800);
+    }, 5000); // 5 Seconds
+}
+
+// 5. TOOLS (Menu, Fullscreen, Share)
+function toggleMenu() {
+    const menu = document.getElementById('options-menu');
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+}
+
+function toggleFullScreen() {
+    if (iframe.requestFullscreen) { iframe.requestFullscreen(); }
+    else if (iframe.webkitRequestFullscreen) { iframe.webkitRequestFullscreen(); }
+}
+
+function copyShareLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+        alert("Link copied! Send it to your friends! 🚀");
+    });
+}
+
+
+    </script>
+</body>
+  </html>
