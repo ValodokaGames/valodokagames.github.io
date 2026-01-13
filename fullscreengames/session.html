@@ -14,7 +14,7 @@
             background: rgba(22, 27, 34, 0.9); padding: 8px 15px;
             border-radius: 30px; border: 2px solid var(--brand-purple);
             z-index: 2000; backdrop-filter: blur(10px);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .divider { width: 1px; height: 25px; background: rgba(255,255,255,0.3); transition: 0.3s; }
@@ -49,6 +49,7 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: #0d1117; display: flex; flex-direction: column;
             justify-content: center; align-items: center; z-index: 3000;
+            transition: opacity 0.8s ease;
         }
         .spinner {
             width: 50px; height: 50px; border: 5px solid rgba(142, 68, 173, 0.1);
@@ -91,70 +92,136 @@
     <div class="iframe-container">
         <div id="loading-overlay">
             <div class="spinner"></div>
-            <p style="font-family:'Fredoka One'; color:var(--brand-purple);">SYNCING SESSION...</p>
+            <p id="loader-text" style="font-family:'Fredoka One'; color:var(--brand-purple);">SYNCING SESSION...</p>
         </div>
         <iframe id="game-iframe"></iframe>
     </div>
 
     <script>
-    // 1. GLOBAL FUNCTIONS (Defined immediately so buttons can see them)
-    function toggleMenu() {
-        const m = document.getElementById('options-menu');
-        if(m) m.style.display = (m.style.display === 'block') ? 'none' : 'block';
-    }
-
-    function toggleFullScreen() {
-        const f = document.getElementById('game-iframe');
-        if(!f) return;
-        if (f.requestFullscreen) f.requestFullscreen();
-        else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
-    }
-
-    function copyToClipboard() {
-        navigator.clipboard.writeText(window.location.href);
-        alert("Link copied! 📋");
-    }
-
-    // 2. LOADING LOGIC
-    window.addEventListener('load', function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const game = urlParams.get('game');
-        const overlay = document.getElementById('loading-overlay');
-        const iframe = document.getElementById('game-iframe');
-
-        // Load the game
-        if (game && iframe) {
-            iframe.src = "../gameiframes/" + game + ".html";
+        // 1. GLOBAL UI CONTROLS
+        function toggleMenu() {
+            const m = document.getElementById('options-menu');
+            if(m) m.style.display = (m.style.display === 'block') ? 'none' : 'block';
         }
 
-        // Force hide loading screen after 5 seconds
-        setTimeout(function() {
-            if (overlay) {
-                overlay.style.opacity = '0';
-                setTimeout(function() { overlay.style.display = 'none'; }, 800);
+        function toggleFullScreen() {
+            const f = document.getElementById('game-iframe');
+            if (f && f.requestFullscreen) f.requestFullscreen();
+            else if (f && f.webkitRequestFullscreen) f.webkitRequestFullscreen();
+        }
+
+        async function nativeShare() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const game = urlParams.get('game') || 'Valodoka';
+            try {
+                await navigator.share({ 
+                    title: 'Valodoka', 
+                    text: 'Join me on Valodoka to play ' + game + '!', 
+                    url: window.location.href 
+                });
+            } catch (err) { alert("Sharing not supported on this browser."); }
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link copied! 📋");
+        }
+
+        // 2. HUD POSITIONING LOGIC
+        function saveHUD(pos) {
+            localStorage.setItem('valodoka_hud_pos', pos);
+            if (pos.includes('center')) localStorage.setItem('valodoka_flipped', 'false');
+            applyFlip();
+            const m = document.getElementById('options-menu');
+            if(m) m.style.display = "none";
+        }
+
+        function saveFlip() {
+            const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
+            if (pos.includes('center')) {
+                alert("Center must stay horizontal! ↔️");
+                return;
             }
-        }, 5000);
-    });
-
-    // 3. HUD LOGIC
-    function saveHUD(pos) {
-        localStorage.setItem('valodoka_hud_pos', pos);
-        if (pos.includes('center')) localStorage.setItem('valodoka_flipped', 'false');
-        location.reload(); // Simplest way to apply changes on a tablet
-    }
-
-    function saveFlip() {
-        const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
-        if (pos.includes('center')) {
-            alert("Center must stay horizontal! ↔️");
-            return;
+            const flip = localStorage.getItem('valodoka_flipped') === 'true';
+            localStorage.setItem('valodoka_flipped', !flip);
+            applyFlip();
         }
-        const current = localStorage.getItem('valodoka_flipped') === 'true';
-        localStorage.setItem('valodoka_flipped', !current);
-        location.reload();
-    }
-</script>
 
+        function applyFlip() {
+            const hud = document.getElementById('hud-cluster');
+            const menu = document.getElementById('options-menu');
+            if (!hud || !menu) return;
 
+            const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
+            const flip = localStorage.getItem('valodoka_flipped') === 'true';
+            const reallyFlipped = pos.includes('center') ? false : flip;
+
+            // Update HUD Orientation
+            hud.style.flexDirection = reallyFlipped ? "column" : "row";
+            document.querySelectorAll('.divider').forEach(d => {
+                d.style.width = reallyFlipped ? "25px" : "1px";
+                d.style.height = reallyFlipped ? "1px" : "25px";
+            });
+
+            // Reset positions
+            hud.style.top = "auto"; hud.style.bottom = "auto"; hud.style.left = "auto"; hud.style.right = "auto"; hud.style.transform = "none";
+            menu.style.top = "auto"; menu.style.bottom = "auto"; menu.style.left = "auto"; menu.style.right = "auto"; menu.style.transform = "none";
+            
+            let vOffset = reallyFlipped ? "65px" : "75px"; 
+            if (pos.includes('top')) menu.style.top = vOffset;
+            else menu.style.bottom = vOffset;
+
+            if (pos.includes('center')) {
+                hud.style.left = "50%"; hud.style.transform = "translateX(-50%)";
+                menu.style.left = "50%"; menu.style.transform = "translateX(-50%)";
+                if(pos.includes('top')) hud.style.top = "15px"; else hud.style.bottom = "15px";
+            } else {
+                if(pos.includes('top')) hud.style.top = "15px"; else hud.style.bottom = "15px";
+                if(pos.includes('left')) { hud.style.left = "15px"; menu.style.left = reallyFlipped ? "75px" : "15px"; }
+                else { hud.style.right = "15px"; menu.style.right = reallyFlipped ? "75px" : "15px"; }
+            }
+        }
+
+        // 3. PAGE INITIALIZATION
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const game = urlParams.get('game');
+            const overlay = document.getElementById('loading-overlay');
+            const iframe = document.getElementById('game-iframe');
+            const loaderText = document.getElementById('loader-text');
+
+            // Fun Loading Messages
+            const msgs = ["SYNCING SESSION...", "CHARGING BATTERIES...", "FINDING PIXELS...", "VALODOKA IS LOADING...", "CLEANING CONTROLLER..."];
+            if (loaderText) loaderText.innerText = msgs[Math.floor(Math.random() * msgs.length)];
+
+            if (game && iframe) {
+                // Lowercase as requested
+                const path = "../gameiframes/" + game + ".html";
+                
+                // 404 Guard
+                fetch(path, { method: 'HEAD' }).then(res => {
+                    if (res.ok) {
+                        iframe.src = path;
+                        setTimeout(() => {
+                            if(overlay) {
+                                overlay.style.opacity = '0';
+                                setTimeout(() => overlay.style.display = 'none', 800);
+                            }
+                        }, 4000);
+                    } else { showError("Game '" + game + "' not found."); }
+                }).catch(() => showError("Connection error or file missing."));
+            } else {
+                showError("No game specified in URL.");
+            }
+
+            function showError(msg) {
+                if(overlay) {
+                    overlay.innerHTML = `<h2 style="color:white; font-family:sans-serif;">404 ERROR</h2><p style="color:gray; font-family:sans-serif;">${msg}</p><a href="../index.html" style="color:#8e44ad; font-family:sans-serif; text-decoration:none; font-weight:bold;">← GO HOME</a>`;
+                }
+            }
+
+            applyFlip(); // Load HUD saved position
+        });
+    </script>
 </body>
 </html>
