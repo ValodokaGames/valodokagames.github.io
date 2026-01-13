@@ -4,7 +4,7 @@ const hud = document.getElementById('hud-cluster');
 const menu = document.getElementById('options-menu');
 const overlay = document.getElementById('loading-overlay');
 
-// 1. DYNAMIC LOADER & ERROR HANDLING
+// 1. DYNAMIC LOADER
 if (gameName) {
     const path = `../gameiframes/${gameName}.html`;
     fetch(path, { method: 'HEAD' }).then(res => {
@@ -15,27 +15,23 @@ if (gameName) {
                 overlay.style.opacity = '0';
                 setTimeout(() => overlay.style.display = 'none', 800);
             }, 5000); 
-        } else { 
-            showError(`"${gameName}" not found.`); 
-        }
+        } else { showError(`"${gameName}" not found.`); }
     }).catch(() => showError("Connection Error."));
-} else { 
-    showError("No game selected."); 
-}
+} else { showError("No game selected."); }
 
 function showError(msg) {
     if (!overlay) return;
-    overlay.innerHTML = `
-        <i class="fa-solid fa-circle-xmark" style="font-size:50px; color:#ff4757;"></i>
-        <h2 style="font-family:'Fredoka One'; color:white; margin:20px 0;">VALODOKA ERROR</h2>
-        <p style="color:gray;">${msg}</p>
-        <a href="../index.html" style="text-decoration:none; margin-top:20px; display:inline-block; background:#ff4757; color:white; padding:10px 25px; border-radius:20px; font-family:'Fredoka One';">RETURN HOME</a>`;
+    overlay.innerHTML = `<i class="fa-solid fa-circle-xmark" style="font-size:50px; color:#ff4757;"></i><h2 style="font-family:'Fredoka One'; color:white; margin:20px 0;">VALODOKA ERROR</h2><p style="color:gray;">${msg}</p><a href="../index.html" style="text-decoration:none; margin-top:20px; display:inline-block; background:#ff4757; color:white; padding:10px 25px; border-radius:20px; font-family:'Fredoka One';">RETURN HOME</a>`;
 }
 
-// 2. HUD POSITION & FLIP PERSISTENCE
+// 2. HUD & FLIP LOGIC (THE FIX)
 function saveHUD(pos) {
-    localStorage.setItem('valodoka_hud_pos', pos); //
-    applyFlip(); //
+    localStorage.setItem('valodoka_hud_pos', pos);
+    // If user picks center, we force flip to OFF immediately
+    if (pos.includes('center')) {
+        localStorage.setItem('valodoka_flipped', 'false');
+    }
+    applyFlip();
     if (menu) menu.style.display = "none";
 }
 window.saveHUD = saveHUD;
@@ -43,25 +39,25 @@ window.saveHUD = saveHUD;
 function saveFlip() {
     const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
     
-    // STRICT BLOCK: If center is detected, show alert and STOP
+    // HARD BLOCK: Stop the flip if in center
     if (pos.includes('center')) {
-        alert("Center positions must stay horizontal for the best view! ↔️");
+        alert("Center positions must stay horizontal! ↔️");
         return; 
     }
 
     const currentFlip = localStorage.getItem('valodoka_flipped') === 'true';
-    localStorage.setItem('valodoka_flipped', !currentFlip); //
+    localStorage.setItem('valodoka_flipped', !currentFlip);
     applyFlip();
 }
 window.saveFlip = saveFlip;
 
 function applyFlip() {
     if (!hud) return;
-    const isFlipped = localStorage.getItem('valodoka_flipped') === 'true';
     const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
+    const isFlipped = localStorage.getItem('valodoka_flipped') === 'true';
     
-    // SMART-FLIP: Only allow vertical if NOT in a center position
-    const actuallyFlipped = isFlipped && !pos.includes('center');
+    // FINAL CHECK: If it's center, it's NEVER flipped
+    const actuallyFlipped = pos.includes('center') ? false : isFlipped;
     
     hud.style.flexDirection = actuallyFlipped ? "column" : "row";
     
@@ -88,7 +84,6 @@ function moveHUD(pos, actuallyFlipped) {
     if (pos === 'bottom-left') { hud.style.bottom="15px"; hud.style.left="15px"; menu.style.left=actuallyFlipped ? "75px" : "15px"; }
     if (pos === 'bottom-right') { hud.style.bottom="15px"; hud.style.right="15px"; menu.style.right=actuallyFlipped ? "75px" : "15px"; }
 
-    // CENTER LOGIC FIX
     if (pos.includes('center')) {
         hud.style.left = "50%";
         hud.style.transform = "translateX(-50%)";
@@ -99,23 +94,16 @@ function moveHUD(pos, actuallyFlipped) {
     }
 }
 
-applyFlip(); // Initialize on load
+applyFlip();
 
 // 3. UTILITIES
-function toggleMenu() { 
-    if (!menu) return;
-    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block'; 
-}
+function toggleMenu() { if (menu) menu.style.display = (menu.style.display === 'block') ? 'none' : 'block'; }
 window.toggleMenu = toggleMenu;
 
-window.addEventListener('click', (e) => { 
-    if (hud && menu && !hud.contains(e.target) && !menu.contains(e.target)) menu.style.display = "none"; 
-});
+window.addEventListener('click', (e) => { if (hud && menu && !hud.contains(e.target) && !menu.contains(e.target)) menu.style.display = "none"; });
 
 async function nativeShare() {
-    try { 
-        await navigator.share({ title: 'Valodoka', text: `Play ${gameName}!`, url: window.location.href }); 
-    } catch (err) { console.log("Share menu closed"); }
+    try { await navigator.share({ title: 'Valodoka', text: `Play ${gameName}!`, url: window.location.href }); } catch (err) { }
 }
 window.nativeShare = nativeShare;
 
@@ -127,8 +115,7 @@ window.copyToClipboard = copyToClipboard;
 
 function toggleFullScreen() {
     const f = document.getElementById('game-iframe');
-    if (!f) return;
-    if (f.requestFullscreen) f.requestFullscreen();
-    else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
+    if (f && f.requestFullscreen) f.requestFullscreen();
+    else if (f && f.webkitRequestFullscreen) f.webkitRequestFullscreen();
 }
 window.toggleFullScreen = toggleFullScreen;
