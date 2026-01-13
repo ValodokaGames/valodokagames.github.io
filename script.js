@@ -14,9 +14,9 @@ if (gameName) {
                 overlay.style.transition = 'opacity 0.8s';
                 overlay.style.opacity = '0';
                 setTimeout(() => overlay.style.display = 'none', 800);
-            }, 5000); // 5 second loading time
+            }, 5000); 
         } else { 
-            showError(`"${gameName}" not found.`); // Hides .html extension
+            showError(`"${gameName}" not found.`); 
         }
     }).catch(() => showError("Connection Error."));
 } else { 
@@ -34,8 +34,8 @@ function showError(msg) {
 
 // 2. HUD POSITION & FLIP PERSISTENCE
 function saveHUD(pos) {
-    localStorage.setItem('valodoka_hud_pos', pos); // Saves to memory
-    applyFlip(); // Re-checks flip logic when moving
+    localStorage.setItem('valodoka_hud_pos', pos); //
+    applyFlip(); //
     if (menu) menu.style.display = "none";
 }
 window.saveHUD = saveHUD;
@@ -43,14 +43,14 @@ window.saveHUD = saveHUD;
 function saveFlip() {
     const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
     
-    // NEW: Block flipping if in Center positions
+    // STRICT BLOCK: If center is detected, show alert and STOP
     if (pos.includes('center')) {
-        alert("Center positions must stay horizontal! ↔️");
+        alert("Center positions must stay horizontal for the best view! ↔️");
         return; 
     }
 
     const currentFlip = localStorage.getItem('valodoka_flipped') === 'true';
-    localStorage.setItem('valodoka_flipped', !currentFlip); // Toggles memory
+    localStorage.setItem('valodoka_flipped', !currentFlip); //
     applyFlip();
 }
 window.saveFlip = saveFlip;
@@ -60,38 +60,35 @@ function applyFlip() {
     const isFlipped = localStorage.getItem('valodoka_flipped') === 'true';
     const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
     
-    // SMART-FLIP: Force horizontal (row) if in a center position
-    const shouldFlip = isFlipped && !pos.includes('center');
+    // SMART-FLIP: Only allow vertical if NOT in a center position
+    const actuallyFlipped = isFlipped && !pos.includes('center');
     
-    hud.style.flexDirection = shouldFlip ? "column" : "row";
+    hud.style.flexDirection = actuallyFlipped ? "column" : "row";
     
     document.querySelectorAll('.divider').forEach(d => {
-        d.style.width = shouldFlip ? "25px" : "1px";
-        d.style.height = shouldFlip ? "1px" : "25px";
+        d.style.width = actuallyFlipped ? "25px" : "1px";
+        d.style.height = actuallyFlipped ? "1px" : "25px";
     });
     
-    moveHUD(pos, shouldFlip);
+    moveHUD(pos, actuallyFlipped);
 }
 
 function moveHUD(pos, actuallyFlipped) {
     if (!hud || !menu) return;
-    // Reset all positions
     hud.style.top = "auto"; hud.style.bottom = "auto"; hud.style.left = "auto"; hud.style.right = "auto"; hud.style.transform = "none";
     menu.style.top = "auto"; menu.style.bottom = "auto"; menu.style.left = "auto"; menu.style.right = "auto"; menu.style.transform = "none";
     
     let vOffset = actuallyFlipped ? "65px" : "75px"; 
 
-    // Apply Top/Bottom Menu Offsets
     if (pos.includes('top')) menu.style.top = vOffset;
     if (pos.includes('bottom')) menu.style.bottom = vOffset;
 
-    // Apply Corner Logic
     if (pos === 'top-left') { hud.style.top="15px"; hud.style.left="15px"; menu.style.left=actuallyFlipped ? "75px" : "15px"; }
     if (pos === 'top-right') { hud.style.top="15px"; hud.style.right="15px"; menu.style.right=actuallyFlipped ? "75px" : "15px"; }
     if (pos === 'bottom-left') { hud.style.bottom="15px"; hud.style.left="15px"; menu.style.left=actuallyFlipped ? "75px" : "15px"; }
     if (pos === 'bottom-right') { hud.style.bottom="15px"; hud.style.right="15px"; menu.style.right=actuallyFlipped ? "75px" : "15px"; }
 
-    // APPLY CENTER LOGIC
+    // CENTER LOGIC FIX
     if (pos.includes('center')) {
         hud.style.left = "50%";
         hud.style.transform = "translateX(-50%)";
@@ -102,8 +99,7 @@ function moveHUD(pos, actuallyFlipped) {
     }
 }
 
-// INITIALIZE ON LOAD
-applyFlip();
+applyFlip(); // Initialize on load
 
 // 3. UTILITIES
 function toggleMenu() { 
@@ -119,9 +115,7 @@ window.addEventListener('click', (e) => {
 async function nativeShare() {
     try { 
         await navigator.share({ title: 'Valodoka', text: `Play ${gameName}!`, url: window.location.href }); 
-    } catch (err) { 
-        console.log("Share menu closed"); // Silent fail
-    }
+    } catch (err) { console.log("Share menu closed"); }
 }
 window.nativeShare = nativeShare;
 
