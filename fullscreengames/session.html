@@ -96,15 +96,65 @@
         <iframe id="game-iframe"></iframe>
     </div>
 
-<script>
-  // Tiny test to see if the server can handle a basic script
-  console.log("Valodoka is alive!");
-  window.onload = function() {
-    setTimeout(() => {
-      document.getElementById('loading-overlay').style.display = 'none';
-    }, 2000);
-  };
+    <script>
+    // 1. GLOBAL FUNCTIONS (Defined immediately so buttons can see them)
+    function toggleMenu() {
+        const m = document.getElementById('options-menu');
+        if(m) m.style.display = (m.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function toggleFullScreen() {
+        const f = document.getElementById('game-iframe');
+        if(!f) return;
+        if (f.requestFullscreen) f.requestFullscreen();
+        else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
+    }
+
+    function copyToClipboard() {
+        navigator.clipboard.writeText(window.location.href);
+        alert("Link copied! 📋");
+    }
+
+    // 2. LOADING LOGIC
+    window.addEventListener('load', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const game = urlParams.get('game');
+        const overlay = document.getElementById('loading-overlay');
+        const iframe = document.getElementById('game-iframe');
+
+        // Load the game
+        if (game && iframe) {
+            iframe.src = "../gameiframes/" + game + ".html";
+        }
+
+        // Force hide loading screen after 5 seconds
+        setTimeout(function() {
+            if (overlay) {
+                overlay.style.opacity = '0';
+                setTimeout(function() { overlay.style.display = 'none'; }, 800);
+            }
+        }, 5000);
+    });
+
+    // 3. HUD LOGIC
+    function saveHUD(pos) {
+        localStorage.setItem('valodoka_hud_pos', pos);
+        if (pos.includes('center')) localStorage.setItem('valodoka_flipped', 'false');
+        location.reload(); // Simplest way to apply changes on a tablet
+    }
+
+    function saveFlip() {
+        const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
+        if (pos.includes('center')) {
+            alert("Center must stay horizontal! ↔️");
+            return;
+        }
+        const current = localStorage.getItem('valodoka_flipped') === 'true';
+        localStorage.setItem('valodoka_flipped', !current);
+        location.reload();
+    }
 </script>
+
 
 </body>
 </html>
