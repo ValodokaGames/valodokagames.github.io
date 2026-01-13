@@ -96,7 +96,15 @@
         <iframe id="game-iframe"></iframe>
     </div>
 
-<script src="script.js" onerror="alert('CANNOT FIND SCRIPT.JS! Check your folders!')" onload="alert('Script found! 🚀')"></script>
+<script>
+  // Tiny test to see if the server can handle a basic script
+  console.log("Valodoka is alive!");
+  window.onload = function() {
+    setTimeout(() => {
+      document.getElementById('loading-overlay').style.display = 'none';
+    }, 2000);
+  };
+</script>
 
 </body>
 </html>
