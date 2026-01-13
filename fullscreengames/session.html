@@ -9,11 +9,13 @@
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; }
         
+        /* Glass Pill HUD */
         .game-header {
             position: absolute; display: flex; align-items: center; gap: 12px;
-            background: rgba(22, 27, 34, 0.9); padding: 8px 15px;
-            border-radius: 30px; border: 2px solid var(--brand-purple);
+            background: rgba(15, 15, 20, 0.85); padding: 8px 15px;
+            border-radius: 30px; border: 1.5px solid rgba(142, 68, 173, 0.5);
             z-index: 2000; backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
@@ -25,11 +27,18 @@
         }
         .control-icon:hover { color: var(--brand-purple); transform: scale(1.2); }
 
+        /* Console Style Menu */
         #options-menu {
-            display: none; position: absolute; background: #161b22;
-            border: 2px solid var(--brand-purple); border-radius: 15px;
+            display: none; position: absolute; background: #0d1117;
+            border: 1px solid #30363d; border-radius: 15px;
             padding: 15px; z-index: 2100; min-width: 220px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.9);
+            animation: menuSlide 0.3s ease-out;
+        }
+
+        @keyframes menuSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .menu-item {
@@ -39,11 +48,21 @@
         }
         .menu-item:hover { background: var(--brand-purple); }
 
+        /* Highlight Flip Button */
+        .menu-item:first-of-type {
+            background: rgba(142, 68, 173, 0.1);
+            border: 1px solid var(--brand-purple);
+            margin-bottom: 10px;
+        }
+
+        /* D-Pad Style Position Buttons */
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; }
         .pos-btn { 
-            background: #30363d; border: 1px solid var(--brand-purple); 
-            color: white; border-radius: 5px; cursor: pointer; padding: 8px; font-size: 1rem;
+            background: #1c2128; border: 1px solid #30363d; 
+            color: white; border-radius: 12px; cursor: pointer; padding: 12px; font-size: 1.1rem;
+            transition: all 0.2s;
         }
+        .pos-btn:active { background: var(--brand-purple); transform: scale(0.9); }
 
         #loading-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -60,49 +79,6 @@
 
         .iframe-container { width: 100vw; height: 100vh; }
         iframe { width: 100%; height: 100%; border: none; }
-
-        /* 1. Make the HUD look like a floating glass pill */
-.game-header {
-    background: rgba(15, 15, 20, 0.85); /* Darker, stealthier black */
-    border: 1.5px solid rgba(142, 68, 173, 0.5); /* Glowing purple border */
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); /* Deep shadow */
-}
-
-/* 2. Style the Menu to look like a console sidebar */
-#options-menu {
-    background: #0d1117;
-    border: 1px solid #30363d;
-    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.9);
-    animation: menuSlide 0.3s ease-out; /* Smooth entrance */
-}
-
-@keyframes menuSlide {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* 3. Make the Position Buttons look like a D-Pad */
-.pos-btn {
-    background: #1c2128;
-    border: 1px solid #30363d;
-    font-size: 1.2rem;
-    padding: 12px;
-    border-radius: 12px;
-    transition: all 0.2s;
-}
-
-.pos-btn:active {
-    background: var(--brand-purple);
-    transform: scale(0.9); /* Haptic-style feedback for tablets */
-}
-
-/* 4. Highlight the "Flip" button */
-.menu-item:first-of-type {
-    background: rgba(142, 68, 173, 0.1);
-    border: 1px solid var(--brand-purple);
-    margin-bottom: 10px;
-}
-
     </style>
 </head>
 <body>
@@ -141,7 +117,6 @@
     </div>
 
     <script>
-        // 1. GLOBAL UI CONTROLS (Attached to window for HTML buttons)
         window.toggleMenu = function() {
             const m = document.getElementById('options-menu');
             if(m) m.style.display = (m.style.display === 'block') ? 'none' : 'block';
@@ -157,11 +132,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const game = urlParams.get('game') || 'Valodoka';
             try {
-                await navigator.share({ 
-                    title: 'Valodoka', 
-                    text: 'Join me on Valodoka to play ' + game + '!', 
-                    url: window.location.href 
-                });
+                await navigator.share({ title: 'Valodoka', text: 'Join me on Valodoka to play ' + game + '!', url: window.location.href });
             } catch (err) { alert("Sharing not supported or canceled."); }
         };
 
@@ -170,7 +141,6 @@
             alert("Link copied! 📋");
         };
 
-        // 2. HUD POSITIONING LOGIC
         window.saveHUD = function(pos) {
             localStorage.setItem('valodoka_hud_pos', pos);
             if (pos.includes('center')) localStorage.setItem('valodoka_flipped', 'false');
@@ -181,10 +151,7 @@
 
         window.saveFlip = function() {
             const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
-            if (pos.includes('center')) {
-                alert("Center must stay horizontal! ↔️");
-                return;
-            }
+            if (pos.includes('center')) { alert("Center must stay horizontal! ↔️"); return; }
             const flip = localStorage.getItem('valodoka_flipped') === 'true';
             localStorage.setItem('valodoka_flipped', !flip);
             applyFlip();
@@ -205,13 +172,11 @@
                 d.style.height = reallyFlipped ? "1px" : "25px";
             });
 
-            // Position HUD and Menu
             hud.style.top = "auto"; hud.style.bottom = "auto"; hud.style.left = "auto"; hud.style.right = "auto"; hud.style.transform = "none";
             menu.style.top = "auto"; menu.style.bottom = "auto"; menu.style.left = "auto"; menu.style.right = "auto"; menu.style.transform = "none";
             
             let vOffset = reallyFlipped ? "65px" : "75px"; 
-            if (pos.includes('top')) menu.style.top = vOffset;
-            else menu.style.bottom = vOffset;
+            if (pos.includes('top')) menu.style.top = vOffset; else menu.style.bottom = vOffset;
 
             if (pos.includes('center')) {
                 hud.style.left = "50%"; hud.style.transform = "translateX(-50%)";
@@ -224,41 +189,43 @@
             }
         }
 
-        // 3. PAGE INITIALIZATION (Wait for Load)
         window.addEventListener('load', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const game = urlParams.get('game');
             const overlay = document.getElementById('loading-overlay');
             const iframe = document.getElementById('game-iframe');
-            const loaderText = document.getElementById('loader-text');
 
-            // Set Random Message
-            const msgs = ["SYNCING SESSION...", "CHARGING BATTERIES...", "FINDING PIXELS...", "VALODOKA IS LOADING...", "CLEANING CONTROLLER..."];
-            if (loaderText) loaderText.innerText = msgs[Math.floor(Math.random() * msgs.length)];
-
-            // Load Game Iframe Directly
-            if (game && iframe) {
-                iframe.src = "../gameiframes/" + game + ".html";
+            function showError(msg) {
+                overlay.innerHTML = `<h2 style="color:white; font-family:sans-serif;">404 ERROR</h2><p style="color:gray; font-family:sans-serif;">${msg}</p><a href="../index.html" style="color:#8e44ad; font-family:sans-serif; text-decoration:none; font-weight:bold;">← GO HOME</a>`;
             }
 
-            // Always hide overlay after 4 seconds to prevent "Stuck" screen
-            setTimeout(() => {
-                if(overlay) {
-                    overlay.style.opacity = '0';
-                    setTimeout(() => overlay.style.display = 'none', 800);
+            if (!game) {
+                showError("No game selected.");
+                return;
+            }
+
+            // Direct Load for speed
+            const path = "../gameiframes/" + game + ".html";
+            iframe.src = path;
+
+            // Fast 404 Detection (Checks if file actually loads)
+            fetch(path, { method: 'HEAD' }).then(res => {
+                if (!res.ok) showError("Game '" + game + "' not found.");
+                else {
+                    setTimeout(() => {
+                        overlay.style.opacity = '0';
+                        setTimeout(() => overlay.style.display = 'none', 800);
+                    }, 3000);
                 }
-            }, 4000);
+            }).catch(() => showError("Connection error."));
 
             applyFlip(); 
         });
 
-        // Click outside to close menu
         window.addEventListener('click', (e) => {
             const hud = document.getElementById('hud-cluster');
             const menu = document.getElementById('options-menu');
-            if (hud && menu && !hud.contains(e.target) && !menu.contains(e.target)) {
-                menu.style.display = "none";
-            }
+            if (hud && menu && !hud.contains(e.target) && !menu.contains(e.target)) menu.style.display = "none";
         });
     </script>
 </body>
