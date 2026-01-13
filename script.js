@@ -38,15 +38,21 @@ function saveHUD(pos) {
     applyFlip(); // Re-checks flip logic when moving
     if (menu) menu.style.display = "none";
 }
-
-window.saveHUD = saveHUD; // Ensures HTML buttons can still "see" this function
+window.saveHUD = saveHUD;
 
 function saveFlip() {
+    const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
+    
+    // NEW: Block flipping if in Center positions
+    if (pos.includes('center')) {
+        alert("Center positions must stay horizontal! ↔️");
+        return; 
+    }
+
     const currentFlip = localStorage.getItem('valodoka_flipped') === 'true';
     localStorage.setItem('valodoka_flipped', !currentFlip); // Toggles memory
     applyFlip();
 }
-
 window.saveFlip = saveFlip;
 
 function applyFlip() {
@@ -69,7 +75,7 @@ function applyFlip() {
 
 function moveHUD(pos, actuallyFlipped) {
     if (!hud || !menu) return;
-    // Reset all positions first
+    // Reset all positions
     hud.style.top = "auto"; hud.style.bottom = "auto"; hud.style.left = "auto"; hud.style.right = "auto"; hud.style.transform = "none";
     menu.style.top = "auto"; menu.style.bottom = "auto"; menu.style.left = "auto"; menu.style.right = "auto"; menu.style.transform = "none";
     
@@ -85,7 +91,7 @@ function moveHUD(pos, actuallyFlipped) {
     if (pos === 'bottom-left') { hud.style.bottom="15px"; hud.style.left="15px"; menu.style.left=actuallyFlipped ? "75px" : "15px"; }
     if (pos === 'bottom-right') { hud.style.bottom="15px"; hud.style.right="15px"; menu.style.right=actuallyFlipped ? "75px" : "15px"; }
 
-    // APPLY CENTER LOGIC FIX
+    // APPLY CENTER LOGIC
     if (pos.includes('center')) {
         hud.style.left = "50%";
         hud.style.transform = "translateX(-50%)";
@@ -99,15 +105,13 @@ function moveHUD(pos, actuallyFlipped) {
 // INITIALIZE ON LOAD
 applyFlip();
 
-// 3. UTILITIES (MENU, FULLSCREEN, SHARE)
+// 3. UTILITIES
 function toggleMenu() { 
     if (!menu) return;
     menu.style.display = (menu.style.display === 'block') ? 'none' : 'block'; 
 }
-
 window.toggleMenu = toggleMenu;
 
-// Close menu when clicking the game/background
 window.addEventListener('click', (e) => { 
     if (hud && menu && !hud.contains(e.target) && !menu.contains(e.target)) menu.style.display = "none"; 
 });
@@ -116,17 +120,15 @@ async function nativeShare() {
     try { 
         await navigator.share({ title: 'Valodoka', text: `Play ${gameName}!`, url: window.location.href }); 
     } catch (err) { 
-        console.log("Share menu closed or not supported"); // Silent fail
+        console.log("Share menu closed"); // Silent fail
     }
 }
-
 window.nativeShare = nativeShare;
 
 function copyToClipboard() {
     navigator.clipboard.writeText(window.location.href);
-    alert("Link copied! 📋"); // Confirmed copy
+    alert("Link copied! 📋");
 }
-
 window.copyToClipboard = copyToClipboard;
 
 function toggleFullScreen() {
@@ -135,5 +137,4 @@ function toggleFullScreen() {
     if (f.requestFullscreen) f.requestFullscreen();
     else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
 }
-
 window.toggleFullScreen = toggleFullScreen;
