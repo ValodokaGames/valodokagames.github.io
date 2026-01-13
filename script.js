@@ -24,13 +24,15 @@ function showError(msg) {
     overlay.innerHTML = `<i class="fa-solid fa-circle-xmark" style="font-size:50px; color:#ff4757;"></i><h2 style="font-family:'Fredoka One'; color:white; margin:20px 0;">VALODOKA ERROR</h2><p style="color:gray;">${msg}</p><a href="../index.html" style="text-decoration:none; margin-top:20px; display:inline-block; background:#ff4757; color:white; padding:10px 25px; border-radius:20px; font-family:'Fredoka One';">RETURN HOME</a>`;
 }
 
-// 2. HUD & FLIP LOGIC (THE FIX)
+// 2. HUD & FLIP LOGIC - THE HARD OVERRIDE
 function saveHUD(pos) {
     localStorage.setItem('valodoka_hud_pos', pos);
-    // If user picks center, we force flip to OFF immediately
+    
+    // FORCE HORIZONTAL: If they click a center button, we kill the flip immediately
     if (pos.includes('center')) {
         localStorage.setItem('valodoka_flipped', 'false');
     }
+    
     applyFlip();
     if (menu) menu.style.display = "none";
 }
@@ -39,10 +41,10 @@ window.saveHUD = saveHUD;
 function saveFlip() {
     const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
     
-    // HARD BLOCK: Stop the flip if in center
+    // PHYSICAL BLOCK: Alert and exit if in center
     if (pos.includes('center')) {
         alert("Center positions must stay horizontal! ↔️");
-        return; 
+        return false;
     }
 
     const currentFlip = localStorage.getItem('valodoka_flipped') === 'true';
@@ -56,14 +58,17 @@ function applyFlip() {
     const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
     const isFlipped = localStorage.getItem('valodoka_flipped') === 'true';
     
-    // FINAL CHECK: If it's center, it's NEVER flipped
+    // THE ULTIMATE RULE: If it is center, actuallyFlipped is ALWAYS false
     const actuallyFlipped = pos.includes('center') ? false : isFlipped;
     
-    hud.style.flexDirection = actuallyFlipped ? "column" : "row";
+    // Set Flex Direction
+    hud.style.flexDirection = actuallyFlipped ? "column" : "row"; 
     
+    // Rotate Dividers
     document.querySelectorAll('.divider').forEach(d => {
         d.style.width = actuallyFlipped ? "25px" : "1px";
         d.style.height = actuallyFlipped ? "1px" : "25px";
+        d.style.margin = actuallyFlipped ? "5px 0" : "0 5px";
     });
     
     moveHUD(pos, actuallyFlipped);
@@ -94,6 +99,7 @@ function moveHUD(pos, actuallyFlipped) {
     }
 }
 
+// Initial Run
 applyFlip();
 
 // 3. UTILITIES
