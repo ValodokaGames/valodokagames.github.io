@@ -98,19 +98,19 @@
     </div>
 
     <script>
-        // 1. GLOBAL UI CONTROLS
-        function toggleMenu() {
+        // 1. GLOBAL UI CONTROLS (Attached to window for HTML buttons)
+        window.toggleMenu = function() {
             const m = document.getElementById('options-menu');
             if(m) m.style.display = (m.style.display === 'block') ? 'none' : 'block';
-        }
+        };
 
-        function toggleFullScreen() {
+        window.toggleFullScreen = function() {
             const f = document.getElementById('game-iframe');
             if (f && f.requestFullscreen) f.requestFullscreen();
             else if (f && f.webkitRequestFullscreen) f.webkitRequestFullscreen();
-        }
+        };
 
-        async function nativeShare() {
+        window.nativeShare = async function() {
             const urlParams = new URLSearchParams(window.location.search);
             const game = urlParams.get('game') || 'Valodoka';
             try {
@@ -119,24 +119,24 @@
                     text: 'Join me on Valodoka to play ' + game + '!', 
                     url: window.location.href 
                 });
-            } catch (err) { alert("Sharing not supported on this browser."); }
-        }
+            } catch (err) { alert("Sharing not supported or canceled."); }
+        };
 
-        function copyToClipboard() {
+        window.copyToClipboard = function() {
             navigator.clipboard.writeText(window.location.href);
             alert("Link copied! 📋");
-        }
+        };
 
         // 2. HUD POSITIONING LOGIC
-        function saveHUD(pos) {
+        window.saveHUD = function(pos) {
             localStorage.setItem('valodoka_hud_pos', pos);
             if (pos.includes('center')) localStorage.setItem('valodoka_flipped', 'false');
             applyFlip();
             const m = document.getElementById('options-menu');
             if(m) m.style.display = "none";
-        }
+        };
 
-        function saveFlip() {
+        window.saveFlip = function() {
             const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
             if (pos.includes('center')) {
                 alert("Center must stay horizontal! ↔️");
@@ -145,7 +145,7 @@
             const flip = localStorage.getItem('valodoka_flipped') === 'true';
             localStorage.setItem('valodoka_flipped', !flip);
             applyFlip();
-        }
+        };
 
         function applyFlip() {
             const hud = document.getElementById('hud-cluster');
@@ -156,14 +156,13 @@
             const flip = localStorage.getItem('valodoka_flipped') === 'true';
             const reallyFlipped = pos.includes('center') ? false : flip;
 
-            // Update HUD Orientation
             hud.style.flexDirection = reallyFlipped ? "column" : "row";
             document.querySelectorAll('.divider').forEach(d => {
                 d.style.width = reallyFlipped ? "25px" : "1px";
                 d.style.height = reallyFlipped ? "1px" : "25px";
             });
 
-            // Reset positions
+            // Position HUD and Menu
             hud.style.top = "auto"; hud.style.bottom = "auto"; hud.style.left = "auto"; hud.style.right = "auto"; hud.style.transform = "none";
             menu.style.top = "auto"; menu.style.bottom = "auto"; menu.style.left = "auto"; menu.style.right = "auto"; menu.style.transform = "none";
             
@@ -182,7 +181,7 @@
             }
         }
 
-        // 3. PAGE INITIALIZATION
+        // 3. PAGE INITIALIZATION (Wait for Load)
         window.addEventListener('load', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const game = urlParams.get('game');
@@ -190,37 +189,33 @@
             const iframe = document.getElementById('game-iframe');
             const loaderText = document.getElementById('loader-text');
 
-            // Fun Loading Messages
+            // Set Random Message
             const msgs = ["SYNCING SESSION...", "CHARGING BATTERIES...", "FINDING PIXELS...", "VALODOKA IS LOADING...", "CLEANING CONTROLLER..."];
             if (loaderText) loaderText.innerText = msgs[Math.floor(Math.random() * msgs.length)];
 
+            // Load Game Iframe Directly
             if (game && iframe) {
-                // Lowercase as requested
-                const path = "../gameiframes/" + game + ".html";
-                
-                // 404 Guard
-                fetch(path, { method: 'HEAD' }).then(res => {
-                    if (res.ok) {
-                        iframe.src = path;
-                        setTimeout(() => {
-                            if(overlay) {
-                                overlay.style.opacity = '0';
-                                setTimeout(() => overlay.style.display = 'none', 800);
-                            }
-                        }, 4000);
-                    } else { showError("Game '" + game + "' not found."); }
-                }).catch(() => showError("Connection error or file missing."));
-            } else {
-                showError("No game specified in URL.");
+                iframe.src = "../gameiframes/" + game + ".html";
             }
 
-            function showError(msg) {
+            // Always hide overlay after 4 seconds to prevent "Stuck" screen
+            setTimeout(() => {
                 if(overlay) {
-                    overlay.innerHTML = `<h2 style="color:white; font-family:sans-serif;">404 ERROR</h2><p style="color:gray; font-family:sans-serif;">${msg}</p><a href="../index.html" style="color:#8e44ad; font-family:sans-serif; text-decoration:none; font-weight:bold;">← GO HOME</a>`;
+                    overlay.style.opacity = '0';
+                    setTimeout(() => overlay.style.display = 'none', 800);
                 }
-            }
+            }, 4000);
 
-            applyFlip(); // Load HUD saved position
+            applyFlip(); 
+        });
+
+        // Click outside to close menu
+        window.addEventListener('click', (e) => {
+            const hud = document.getElementById('hud-cluster');
+            const menu = document.getElementById('options-menu');
+            if (hud && menu && !hud.contains(e.target) && !menu.contains(e.target)) {
+                menu.style.display = "none";
+            }
         });
     </script>
 </body>
