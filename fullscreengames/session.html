@@ -9,76 +9,71 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* HUD - THE PIXEL LOCK ENGINE (Fixes #2 & #6) */
+        /* HUD - HIDDEN BY DEFAULT (Fixes #9) */
         .game-header {
             position: fixed !important; 
-            display: flex !important;
+            display: none !important; /* Start hidden */
             flex-direction: row !important;
             align-items: center !important;
             justify-content: space-around !important;
-            width: 160px !important; /* FIXED WIDTH: Browser cannot squish this */
+            width: 160px !important; 
             height: 48px !important;
             background: rgba(15, 15, 20, 0.98); 
             padding: 0 10px !important;
             border-radius: 50px; 
             border: 2.5px solid var(--p);
             z-index: 99999; 
-            backdrop-filter: blur(20px); 
-            opacity: 0; 
-            pointer-events: none;
-            /* GPU ACCELERATION (Fixes #2 Ghosting) */
-            will-change: transform, top, left;
-            backface-visibility: hidden;
-            transition: opacity 0.3s ease;
+            backdrop-filter: blur(20px);
+            /* GPU FIX (Fixes #2) */
+            will-change: top, left, transform;
+            transform: translateZ(0); 
         }
         
-        /* ONLY flips if this class is added */
+        /* ONLY flips if class added */
         .game-header.is-flipped {
             flex-direction: column !important;
-            width: 54px !important; /* FIXED WIDTH FOR VERTICAL */
+            width: 54px !important;
             height: 160px !important;
             padding: 10px 0 !important;
         }
 
-        .hud-visible { opacity: 1 !important; pointer-events: auto !important; }
+        /* Show only after loading */
+        .hud-ready { display: flex !important; opacity: 1 !important; }
 
         .divider { width: 1.5px; height: 18px; background: rgba(255,255,255,0.3); }
         .is-flipped .divider { width: 18px; height: 1.5px; }
 
         .control-icon { color: white; font-size: 1.2rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; justify-content: center; }
 
-        /* SETTINGS MENU */
+        /* SETTINGS MENU - (Fixes #9) */
         #options-menu {
             display: none; position: fixed; background: #161b22; 
             border: 1px solid #30363d; border-radius: 12px; padding: 12px; 
             z-index: 100000; width: 190px; box-shadow: 0 10px 50px #000;
+            pointer-events: auto;
         }
-        .menu-btn { width: 100%; padding: 8px; margin-bottom: 6px; background: #0d1117; border: 1px solid #30363d; color: white; border-radius: 8px; cursor: pointer; font-family: 'Fredoka One', sans-serif; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; justify-content: center; }
-        .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
-        .pos-btn { background: #1c2128; border: 1px solid #30363d; color: white; padding: 10px; border-radius: 6px; cursor: pointer; }
 
         /* LOADING SCREEN */
         #loading-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--bg); display: flex; z-index: 9000; 
+            background: var(--bg); display: flex; z-index: 100001; /* Highest z-index */
             transition: opacity 0.8s ease; overflow: hidden;
         }
         .loader-left { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px solid rgba(142, 68, 173, 0.3); }
         .loading-text { color: var(--p); font-family: 'Fredoka One', sans-serif; font-size: 1rem; margin-top: 15px; text-shadow: 0 0 10px rgba(142, 68, 173, 0.5); }
         .loader-right { width: 60%; height: 100%; background: #000; display: flex; justify-content: center; gap: 20px; transform: rotate(-4deg) scale(1.1); }
         
-        /* LOGO CARDS - 3D POP EFFECT (Fixes #8) */
+        /* LOGO CARDS - (Fixes #8) */
         .scroll-card { 
             width: 110px; height: 110px; background: #1c2128; 
-            border-radius: 12px; border: 3px solid #30363d; 
+            border-radius: 15px; border: 2px solid var(--p); 
             overflow: hidden; position: relative;
-            box-shadow: 0 12px 0px var(--p), 0 15px 25px rgba(0,0,0,0.8); /* 3D Bottom Edge */
+            /* 3D "Sticker" Edge */
+            box-shadow: 0 8px 0px rgba(0,0,0,0.4), 0 12px 20px rgba(0,0,0,0.7);
         }
         .scroll-card img { 
             width: 100%; height: 100%; object-fit: cover; 
-            transform: scale(0.85); /* Shrink slightly to show border depth */
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            filter: brightness(1.1) contrast(1.1);
         }
 
         .scroll-col { display: flex; flex-direction: column; gap: 30px; animation: scrollUp 30s linear infinite; }
@@ -171,8 +166,8 @@
             const pos = localStorage.getItem('v_pos') || 'top-left';
             const flipped = localStorage.getItem('v_f') === 'true';
 
-            // SNAP RESET: Temporarily remove from render flow to kill ghosts
-            hud.style.opacity = '0';
+            // GHOST FIX (Fixes #2): Remove from sight during snap
+            hud.style.visibility = 'hidden';
 
             if (flipped) { hud.classList.add('is-flipped'); } 
             else { hud.classList.remove('is-flipped'); }
@@ -192,14 +187,14 @@
             }
 
             setTimeout(() => {
-                hud.style.opacity = '1';
+                hud.style.visibility = 'visible';
                 const r = hud.getBoundingClientRect();
                 menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
                 menu.style.bottom = pos.includes('bottom') ? (window.innerHeight - r.top + 8) + "px" : "auto";
                 menu.style.left = pos.includes('left') ? "15px" : (pos.includes('right') ? "auto" : "50%");
                 menu.style.right = pos.includes('right') ? "15px" : "auto";
                 if (pos.includes('center')) menu.style.transform = "translateX(-50%)";
-            }, 50);
+            }, 60);
         }
 
         window.addEventListener('load', () => {
@@ -212,7 +207,9 @@
                 ov.style.opacity = '0'; 
                 setTimeout(() => { 
                     ov.style.display='none'; 
-                    document.getElementById('hud-cluster').classList.add('hud-visible');
+                    // STEALTH FIX (Fixes #9): Only show HUD now
+                    const hc = document.getElementById('hud-cluster');
+                    hc.classList.add('hud-ready');
                     applyFlip();
                 }, 800);
             }, 5000);
