@@ -9,63 +9,67 @@
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; }
         
-        /* Glass Pill HUD */
+        /* Glass HUD Cluster */
         .game-header {
             position: absolute; display: flex; align-items: center; gap: 12px;
             background: rgba(15, 15, 20, 0.85); padding: 8px 15px;
             border-radius: 30px; border: 1.5px solid rgba(142, 68, 173, 0.5);
-            z-index: 2000; backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 4000; backdrop-filter: blur(10px);
+            transition: all 0.4s;
         }
-
-        .divider { width: 1px; height: 25px; background: rgba(255,255,255,0.3); }
-
-        .control-icon { color: white; font-size: 1.2rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; }
 
         /* SPLIT LOADING OVERLAY */
         #loading-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: #0d1117; display: flex; z-index: 3000; transition: opacity 0.8s ease;
+            overflow: hidden;
         }
 
-        /* Left Side: Loading Info */
+        /* Left Side (Stationary) */
         .loader-left {
-            width: 35%; height: 100%; display: flex; flex-direction: column;
+            width: 40%; height: 100%; display: flex; flex-direction: column;
             justify-content: center; align-items: center; background: #0d1117;
-            border-right: 1px solid rgba(142, 68, 173, 0.3);
+            border-right: 2px solid rgba(142, 68, 173, 0.3); z-index: 3100;
         }
 
-        /* Right Side: Game Grid */
+        /* Right Side (The Scrolling Viewport) */
         .loader-right {
-            width: 65%; height: 100%; padding: 20px; overflow: hidden;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 50px 50px; display: grid;
-            grid-template-columns: repeat(3, 1fr); gap: 15px; align-content: center;
+            width: 60%; height: 100%; position: relative;
+            background: #0a0a0a; display: flex; justify-content: center; gap: 20px;
+            transform: rotate(-5deg) scale(1.1); /* This creates the "sideways" tilt */
+            overflow: hidden;
         }
 
-        .shuffle-card {
-            aspect-ratio: 1/1; background: #1c2128; border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1); overflow: hidden;
+        /* The Scrolling Columns */
+        .scroll-col {
+            display: flex; flex-direction: column; gap: 20px;
+            animation: scrollUp 20s linear infinite;
         }
-        .shuffle-card img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Offset the second column for a random look */
+        .col-slow { animation-duration: 30s; }
+
+        @keyframes scrollUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); } /* Scrolls through half (the duplicate set) */
+        }
+
+        .scroll-card {
+            width: 150px; aspect-ratio: 1/1; background: #1c2128;
+            border-radius: 15px; border: 2px solid rgba(142, 68, 173, 0.2);
+            overflow: hidden; flex-shrink: 0;
+        }
+        .scroll-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
 
         /* SZ Spinner */
         .spinner-ring {
-            width: 60px; height: 60px; border: 5px solid rgba(142, 68, 173, 0.1);
-            border-top: 5px solid var(--brand-purple); border-radius: 50%;
+            width: 70px; height: 70px; border: 6px solid rgba(142, 68, 173, 0.1);
+            border-top: 6px solid var(--brand-purple); border-radius: 50%;
             animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite; margin-bottom: 20px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        #loader-text { font-family: 'Fredoka One', sans-serif; color: white; letter-spacing: 1px; font-size: 12px; text-align: center; }
-
-        #options-menu { display: none; position: absolute; background: #0d1117; border: 1px solid #30363d; border-radius: 15px; padding: 15px; z-index: 2100; min-width: 220px; box-shadow: 0 15px 45px rgba(0, 0, 0, 0.9); }
-        .menu-item { padding: 10px; border-radius: 8px; cursor: pointer; color: white; display: flex; align-items: center; gap: 10px; }
-        .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; }
-        .pos-btn { background: #1c2128; border: 1px solid #30363d; color: white; border-radius: 12px; padding: 12px; }
+        #loader-text { font-family: 'Fredoka One', sans-serif; color: white; letter-spacing: 2px; }
 
         .iframe-container { width: 100vw; height: 100vh; }
         iframe { width: 100%; height: 100%; border: none; }
@@ -73,36 +77,16 @@
 </head>
 <body>
 
-    <header class="game-header" id="hud-cluster">
-        <a href="../index.html" class="control-icon"><i class="fa-solid fa-arrow-left"></i></a>
-        <div class="divider"></div>
-        <button class="control-icon" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i></button>
-        <div class="divider"></div>
-        <button class="control-icon" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-    </header>
-
-    <div id="options-menu">
-        <h4 style="margin:0; color:var(--brand-purple); font-family:'Fredoka One';">Session Settings</h4>
-        <div class="menu-item" onclick="saveFlip()"><i class="fa-solid fa-arrows-rotate"></i> Flip Orientation</div>
-        <div class="pos-grid">
-            <button class="pos-btn" onclick="saveHUD('top-left')">↖</button>
-            <button class="pos-btn" onclick="saveHUD('top-center')">↑</button>
-            <button class="pos-btn" onclick="saveHUD('top-right')">↗</button>
-            <button class="pos-btn" onclick="saveHUD('bottom-left')">↙</button>
-            <button class="pos-btn" onclick="saveHUD('bottom-center')">↓</button>
-            <button class="pos-btn" onclick="saveHUD('bottom-right')">↘</button>
-        </div>
-        <div class="menu-item" onclick="nativeShare()"><i class="fa-solid fa-paper-plane"></i> Send to App</div>
-        <div class="menu-item" onclick="copyToClipboard()"><i class="fa-solid fa-copy"></i> Copy Link</div>
-    </div>
-
     <div id="loading-overlay">
         <div class="loader-left">
             <div class="spinner-ring"></div>
-            <p id="loader-text">YOUR GAME IS LOADING</p>
+            <p id="loader-text">VALODOKA IS LOADING...</p>
         </div>
-        <div class="loader-right" id="shuffle-grid">
-            </div>
+        
+        <div class="loader-right">
+            <div class="scroll-col" id="col1"></div>
+            <div class="scroll-col col-slow" id="col2"></div>
+        </div>
     </div>
 
     <div class="iframe-container">
@@ -110,44 +94,36 @@
     </div>
 
     <script>
-        // 1. SHUFFLE LOGIC
-        const allGames = [
-            { name: "Minecraft", img: "../assets/minecraft.png" },
-            { name: "BitLife", img: "../assets/bitlife.png" },
-            { name: "Plants vs Zombies", img: "../assets/pvz.png" },
-            { name: "Retro Bowl", img: "../assets/retro-bowl.png" },
-            { name: "Slope", img: "../assets/slope.png" },
-            { name: "FNAF", img: "../assets/fnaf.png" }
+        // List of your games (Use the same ones as your homepage)
+        const gameList = [
+            { img: "../assets/minecraft.png" },
+            { img: "../assets/bitlife.png" },
+            { img: "../assets/pvz.png" },
+            { img: "../assets/slope.png" },
+            { img: "../assets/retro-bowl.png" },
+            { img: "../assets/fnaf.png" }
         ];
 
-        function populateShuffle() {
-            const grid = document.getElementById('shuffle-grid');
-            if(!grid) return;
-            const shuffled = allGames.sort(() => 0.5 - Math.random()).slice(0, 6);
-            grid.innerHTML = shuffled.map(g => `
-                <div class="shuffle-card">
-                    <img src="${g.img}" alt="${g.name}">
+        function createScroll() {
+            const c1 = document.getElementById('col1');
+            const c2 = document.getElementById('col2');
+            
+            // We duplicate the list so the scroll is seamless
+            const fullList = [...gameList, ...gameList]; 
+            
+            const html = fullList.map(game => `
+                <div class="scroll-card">
+                    <img src="${game.img}">
                 </div>
             `).join('');
+
+            c1.innerHTML = html;
+            c2.innerHTML = html;
         }
 
-        // 2. HUD & NAVIGATION (Attaching to window for tablet reliability)
-        window.toggleMenu = () => { const m = document.getElementById('options-menu'); m.style.display = (m.style.display === 'block') ? 'none' : 'block'; };
-        window.toggleFullScreen = () => { const f = document.getElementById('game-iframe'); if (f.requestFullscreen) f.requestFullscreen(); };
-        window.saveHUD = (pos) => { localStorage.setItem('valodoka_hud_pos', pos); applyFlip(); document.getElementById('options-menu').style.display = "none"; };
-        window.saveFlip = () => { const flip = localStorage.getItem('valodoka_flipped') === 'true'; localStorage.setItem('valodoka_flipped', !flip); applyFlip(); };
-
-        function applyFlip() {
-            const hud = document.getElementById('hud-cluster');
-            const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
-            const flip = localStorage.getItem('valodoka_flipped') === 'true';
-            hud.style.flexDirection = flip ? "column" : "row";
-            // ... (Rest of your existing applyFlip positioning logic goes here)
-        }
-
-        // 3. INITIALIZATION
         window.addEventListener('load', function() {
-            populateShuffle(); // Shuffles on load!
+            createScroll();
+            
             const urlParams = new URLSearchParams(window.location.search);
             const game = urlParams.get('game');
             const iframe = document.getElementById('game-iframe');
@@ -155,18 +131,11 @@
 
             if (game) {
                 iframe.src = "../gameiframes/" + game + ".html";
-                fetch(iframe.src, { method: 'HEAD' }).then(res => {
-                    if (res.ok) {
-                        setTimeout(() => { 
-                            overlay.style.opacity = '0'; 
-                            setTimeout(() => overlay.style.display = 'none', 800);
-                        }, 4000);
-                    } else {
-                        overlay.innerHTML = `<h2 style="color:white;">404</h2><a href="../index.html" style="color:var(--brand-purple);">Go Home</a>`;
-                    }
-                });
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => overlay.style.display = 'none', 800);
+                }, 5000); // 5 seconds to show off the cool animation!
             }
-            applyFlip();
         });
     </script>
 </body>
