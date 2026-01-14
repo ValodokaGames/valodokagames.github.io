@@ -2,34 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Valodoka Game Session</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* 1. THE HUD PILL - Fixed to stay horizontal and on top */
+        /* 1. THE HUD PILL - Armor-plated to prevent squishing */
         .game-header {
-            position: fixed; display: flex !important; flex-direction: row; 
-            align-items: center; gap: 15px; background: rgba(15, 15, 20, 0.95); 
-            padding: 10px 20px; border-radius: 50px; border: 1.5px solid #8e44ad;
-            z-index: 9999; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            position: fixed; 
+            display: inline-flex !important; 
+            flex-direction: row; 
+            align-items: center; 
+            gap: 15px; 
+            background: rgba(15, 15, 20, 0.98); 
+            padding: 10px 20px; 
+            border-radius: 50px; 
+            border: 2px solid #8e44ad;
+            z-index: 9999; 
+            backdrop-filter: blur(15px); 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+            white-space: nowrap; 
         }
 
-        .divider { width: 1px; height: 25px; background: rgba(255,255,255,0.3); }
-        .control-icon { color: white; font-size: 1.2rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; }
+        .divider { width: 1px; height: 25px; background: rgba(255,255,255,0.3); flex-shrink: 0; }
+        .control-icon { color: white; font-size: 1.3rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; padding: 5px; }
 
-        /* 2. THE SETTINGS MENU - Positioned dynamically in JS */
+        /* 2. THE SETTINGS MENU */
         #options-menu {
             display: none; position: fixed; background: #161b22; 
-            border: 1px solid #30363d; border-radius: 15px; padding: 15px; 
-            z-index: 10000; min-width: 220px; box-shadow: 0 15px 45px rgba(0,0,0,0.9);
+            border: 1px solid #30363d; border-radius: 15px; padding: 18px; 
+            z-index: 10000; min-width: 220px; box-shadow: 0 15px 50px rgba(0,0,0,0.9);
         }
-        .menu-item { padding: 10px; color: white; display: flex; align-items: center; gap: 10px; cursor: pointer; border-radius: 8px; }
+        .menu-item { padding: 12px; color: white; display: flex; align-items: center; gap: 10px; cursor: pointer; border-radius: 8px; font-size: 0.9rem; }
         .menu-item:hover { background: #8e44ad; }
-        .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; }
-        .pos-btn { background: #0d1117; border: 1px solid #30363d; color: white; padding: 10px; border-radius: 8px; cursor: pointer; }
+        .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+        .pos-btn { background: #0d1117; border: 1px solid #30363d; color: white; padding: 12px; border-radius: 10px; cursor: pointer; font-size: 1rem; }
 
         /* 3. THE SZ SPLIT LOADING SCREEN */
         #loading-overlay {
@@ -40,19 +49,19 @@
         .loader-left {
             width: 40%; height: 100%; display: flex; flex-direction: column;
             justify-content: center; align-items: center; background: #0d1117;
-            border-right: 2px solid rgba(142, 68, 173, 0.3); z-index: 8100;
+            border-right: 2px solid rgba(142, 68, 173, 0.4); z-index: 8100;
         }
         .loader-right {
             width: 60%; height: 100%; position: relative; background: #0a0a0a; 
             display: flex; justify-content: center; gap: 20px;
-            transform: rotate(-5deg) scale(1.3); overflow: hidden;
+            transform: rotate(-6deg) scale(1.4); overflow: hidden;
         }
         .scroll-col { display: flex; flex-direction: column; gap: 20px; animation: scrollUp 25s linear infinite; }
         @keyframes scrollUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
-        .scroll-card { width: 140px; aspect-ratio: 1/1; background: #1c2128; border-radius: 15px; border: 1px solid rgba(142,68,173,0.3); overflow: hidden; flex-shrink: 0; }
-        .scroll-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
+        .scroll-card { width: 140px; aspect-ratio: 1/1; background: #1c2128; border-radius: 18px; border: 1px solid rgba(142,68,173,0.3); overflow: hidden; flex-shrink: 0; }
+        .scroll-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
 
-        .spinner-ring { width: 60px; height: 60px; border: 5px solid rgba(142,68,173,0.1); border-top: 5px solid #8e44ad; border-radius: 50%; animation: spin 1s infinite linear; margin-bottom: 20px; }
+        .spinner-ring { width: 65px; height: 65px; border: 6px solid rgba(142,68,173,0.1); border-top: 6px solid #8e44ad; border-radius: 50%; animation: spin 1s infinite linear; margin-bottom: 25px; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* 4. THE GAME IFRAME */
@@ -71,8 +80,8 @@
     </header>
 
     <div id="options-menu">
-        <h4 style="margin:0 0 10px 0; color:#8e44ad;">Settings</h4>
-        <div class="menu-item" onclick="saveFlip()"><i class="fa-solid fa-arrows-rotate"></i> Flip Shape</div>
+        <h4 style="margin:0 0 10px 0; color:#8e44ad; font-size: 1.1rem;">Layout Settings</h4>
+        <div class="menu-item" onclick="saveFlip()"><i class="fa-solid fa-arrows-rotate"></i> Change Orientation</div>
         <div class="pos-grid">
             <button class="pos-btn" onclick="saveHUD('top-left')">↖</button>
             <button class="pos-btn" onclick="saveHUD('top-center')">↑</button>
@@ -86,11 +95,11 @@
     <div id="loading-overlay">
         <div class="loader-left">
             <div class="spinner-ring"></div>
-            <p style="color:white; letter-spacing:2px;">VALODOKA IS LOADING...</p>
+            <p style="color:white; letter-spacing:3px; font-size: 0.9rem;">LOADING SESSION...</p>
         </div>
         <div class="loader-right">
             <div class="scroll-col" id="col1"></div>
-            <div class="scroll-col" id="col2" style="animation-duration: 40s;"></div>
+            <div class="scroll-col" id="col2" style="animation-duration: 45s;"></div>
         </div>
     </div>
 
@@ -99,10 +108,11 @@
     </div>
 
     <script>
+        // UPDATED LOGO LIST FROM YOUR NEW CODE
         const gameList = [
-            { img: "../assets/logos/monster-tracks.png" }, { img: "../assets/logos/bitlife.png" },
-            { img: "../assets/assets/logos/snow-rider-3d.png" }, { img: "../assets/logos/stunt-car-extreme.png" },
-            { img: "../assets/logos/crazy-cars.png" }, { img: "../assets/logos/drive-mad.png" }
+            { img: "../assets/minecraft.png" }, { img: "../assets/bitlife.png" },
+            { img: "../assets/pvz.png" }, { img: "../assets/slope.png" },
+            { img: "../assets/retro-bowl.png" }, { img: "../assets/fnaf.png" }
         ];
 
         function createScroll() {
@@ -113,8 +123,9 @@
 
         window.toggleMenu = () => {
             const m = document.getElementById('options-menu');
-            m.style.display = (m.style.display === 'block') ? 'none' : 'block';
-            applyFlip(); // Refresh position when opening
+            const isVisible = m.style.display === 'block';
+            m.style.display = isVisible ? 'none' : 'block';
+            if (!isVisible) applyFlip(); 
         };
 
         window.toggleFullScreen = () => {
@@ -141,26 +152,28 @@
             const pos = localStorage.getItem('valodoka_hud_pos') || 'top-left';
             const isFlipped = localStorage.getItem('valodoka_flipped') === 'true';
             
-            // 1. Set Shape (Horizontal or Vertical)
             hud.style.flexDirection = isFlipped ? "column" : "row";
-            
-            // 2. Set HUD Corner
-            hud.style.top = pos.includes('top') ? "20px" : "auto";
-            hud.style.bottom = pos.includes('bottom') ? "20px" : "auto";
-            hud.style.left = pos.includes('left') ? "20px" : "auto";
-            hud.style.right = pos.includes('right') ? "20px" : "auto";
+            hud.style.top = "auto"; hud.style.bottom = "auto";
+            hud.style.left = "auto"; hud.style.right = "auto";
+            hud.style.transform = "none";
+
+            if (pos.includes('top')) hud.style.top = "20px";
+            if (pos.includes('bottom')) hud.style.bottom = "20px";
+            if (pos.includes('left')) hud.style.left = "20px";
+            if (pos.includes('right')) hud.style.right = "20px";
 
             if (pos.includes('center')) {
                 hud.style.left = "50%";
                 hud.style.transform = "translateX(-50%)";
-            } else { hud.style.transform = "none"; }
+            }
 
-            // 3. Set Menu Position (Below HUD if top, Above if bottom)
+            // Laser-accurate menu positioning
+            const hudRect = hud.getBoundingClientRect();
             if (pos.includes('top')) {
-                menu.style.top = (hud.offsetTop + hud.offsetHeight + 10) + "px";
+                menu.style.top = (hudRect.bottom + 12) + "px";
                 menu.style.bottom = "auto";
             } else {
-                menu.style.bottom = (window.innerHeight - hud.offsetTop + 10) + "px";
+                menu.style.bottom = (window.innerHeight - hudRect.top + 12) + "px";
                 menu.style.top = "auto";
             }
 
@@ -185,6 +198,8 @@
             }
             applyFlip();
         });
+        
+        window.addEventListener('resize', applyFlip);
     </script>
 </body>
 </html>
