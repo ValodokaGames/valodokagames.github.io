@@ -9,16 +9,16 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* HUD - GRID LOCK ENGINE (Fixes #6) */
+        /* HUD - TABLE FORCE ENGINE (Fixes #6) */
         .game-header {
             position: fixed !important; 
-            display: inline-grid !important; 
-            grid-auto-flow: column !important; /* FORCES HORIZONTAL "—" */
-            align-items: center !important; 
-            justify-content: center !important;
-            gap: 15px !important; 
+            display: table !important; /* Table layout is impossible to squish */
+            border-collapse: separate;
+            border-spacing: 12px 0;
+            width: auto !important;
+            white-space: nowrap !important;
             background: rgba(15, 15, 20, 0.98); 
-            padding: 10px 22px; 
+            padding: 8px 15px; 
             border-radius: 60px; 
             border: 2px solid var(--p);
             z-index: 99999; 
@@ -26,19 +26,26 @@
             opacity: 0; 
             pointer-events: none;
             transition: opacity 0.3s ease;
-            white-space: nowrap !important;
         }
         
         /* ONLY flips to "|" if this class is added */
         .game-header.is-flipped {
-            grid-auto-flow: row !important; /* FORCES VERTICAL "|" */
-            padding: 22px 10px;
+            display: block !important;
+            border-spacing: 0 12px;
+            width: 55px !important;
+            padding: 15px 8px;
         }
 
         .hud-visible { opacity: 1 !important; pointer-events: auto !important; }
 
-        .divider { width: 1.5px; height: 20px; background: rgba(255,255,255,0.3); }
-        .control-icon { color: white; font-size: 1.3rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; }
+        .header-item { display: table-cell; vertical-align: middle; }
+        .is-flipped .header-item { display: block; margin-bottom: 12px; text-align: center; }
+
+        .divider-cell { display: table-cell; vertical-align: middle; width: 1px; }
+        .divider { width: 1.5px; height: 20px; background: rgba(255,255,255,0.3); margin: 0 auto; }
+        .is-flipped .divider-cell { display: block; height: 1px; width: 20px; margin: 10px auto; }
+
+        .control-icon { color: white; font-size: 1.3rem; cursor: pointer; background: none; border: none; display: block; line-height: 1; }
 
         /* SETTINGS MENU */
         #options-menu {
@@ -50,34 +57,30 @@
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
         .pos-btn { background: #1c2128; border: 1px solid #30363d; color: white; padding: 10px; border-radius: 6px; cursor: pointer; }
 
-        /* LOADING SCREEN (Fixes #9) */
+        /* LOADING SCREEN */
         #loading-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: var(--bg); display: flex; z-index: 9000; 
             transition: opacity 0.8s ease; overflow: hidden;
         }
         .loader-left { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px solid rgba(142, 68, 173, 0.3); }
-        
-        .loading-text { 
-            color: var(--p); 
-            font-family: 'Fredoka One', sans-serif; 
-            font-size: 1rem; 
-            letter-spacing: 2px; 
-            margin-top: 15px;
-            text-shadow: 0 0 10px rgba(142, 68, 173, 0.5);
-        }
-
+        .loading-text { color: var(--p); font-family: 'Fredoka One', sans-serif; font-size: 1rem; letter-spacing: 2px; margin-top: 15px; text-shadow: 0 0 10px rgba(142, 68, 173, 0.5); }
         .loader-right { width: 60%; height: 100%; background: #000; display: flex; justify-content: center; gap: 20px; transform: rotate(-4deg) scale(1.2); }
         
-        /* LOGO CARDS (Fixes #8) */
+        /* LOGO CARDS - GLOSS EFFECT (Fixes #8) */
         .scroll-card { 
             width: 120px; aspect-ratio: 1/1; background: #1c2128; 
-            border-radius: 15px; border: 1px solid var(--p); 
+            border-radius: 15px; border: 2.5px solid var(--p); 
             overflow: hidden; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.8);
-            filter: brightness(1.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.9), inset 0 0 15px rgba(142,68,173,0.3);
+            position: relative;
         }
-        .scroll-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: drop-shadow(0 5px 15px black); }
+        /* Glossy overlay to make logos pop */
+        .scroll-card::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent); pointer-events: none;
+        }
+        .scroll-card img { width: 100%; height: 100%; object-fit: cover; opacity: 1 !important; filter: drop-shadow(0 0 5px black) contrast(1.1); }
 
         .scroll-col { display: flex; flex-direction: column; gap: 20px; animation: scrollUp 30s linear infinite; }
         @keyframes scrollUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
@@ -91,11 +94,11 @@
 <body>
 
     <header class="game-header" id="hud-cluster">
-        <button class="control-icon" onclick="location.href='../index.html'"><i class="fa-solid fa-arrow-left"></i></button>
-        <div class="divider"></div>
-        <button class="control-icon" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i></button>
-        <div class="divider"></div>
-        <button class="control-icon" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+        <div class="header-item"><button class="control-icon" onclick="location.href='../index.html'"><i class="fa-solid fa-arrow-left"></i></button></div>
+        <div class="divider-cell"><div class="divider"></div></div>
+        <div class="header-item"><button class="control-icon" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i></button></div>
+        <div class="divider-cell"><div class="divider"></div></div>
+        <div class="header-item"><button class="control-icon" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button></div>
     </header>
 
     <div id="options-menu">
@@ -169,8 +172,8 @@
             const pos = localStorage.getItem('v_pos') || 'top-left';
             const flipped = localStorage.getItem('v_f') === 'true';
 
-            // FIX FOR #2 GHOSTING: Briefly hide HUD to reset its render box
-            hud.style.visibility = 'hidden';
+            // FIX FOR #2 GHOSTING: Use "display: none" trick to kill ghost frames
+            hud.style.display = 'none';
 
             if (flipped) { hud.classList.add('is-flipped'); } 
             else { hud.classList.remove('is-flipped'); }
@@ -189,16 +192,16 @@
                 hud.style.transform = "translateX(-50%)"; 
             }
 
-            // Force browser to redraw
+            // Restore HUD with Table or Block layout
             setTimeout(() => {
-                hud.style.visibility = 'visible';
+                hud.style.display = flipped ? 'block' : 'table';
                 const r = hud.getBoundingClientRect();
                 menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
                 menu.style.bottom = pos.includes('bottom') ? (window.innerHeight - r.top + 8) + "px" : "auto";
                 menu.style.left = pos.includes('left') ? "15px" : (pos.includes('right') ? "auto" : "50%");
                 menu.style.right = pos.includes('right') ? "15px" : "auto";
                 if (pos.includes('center')) menu.style.transform = "translateX(-50%)";
-            }, 10);
+            }, 0);
         }
 
         window.addEventListener('load', () => {
