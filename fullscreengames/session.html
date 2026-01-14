@@ -10,29 +10,45 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* HUD - Forced Pill Shape */
+        /* HUD - THE FIX FOR #6: Forced Horizontal Pill */
         .game-header {
-            position: fixed !important; display: flex !important; 
-            width: max-content !important; /* Forces it to stay tight */
-            flex-direction: row; align-items: center; gap: 12px; 
-            background: rgba(15, 15, 20, 0.95); padding: 8px 18px; 
-            border-radius: 50px; border: 1.5px solid var(--p);
-            z-index: 99999; backdrop-filter: blur(15px); opacity: 0; 
-            transition: opacity 0.5s; pointer-events: none;
+            position: fixed !important; 
+            display: flex !important; 
+            flex-direction: row !important; /* THE HAMMER: Forces "—" shape */
+            width: auto !important;
+            min-width: 120px;
+            align-items: center !important; 
+            gap: 12px !important; 
+            background: rgba(15, 15, 20, 0.95); 
+            padding: 8px 18px; 
+            border-radius: 50px; 
+            border: 1.5px solid var(--p);
+            z-index: 99999; 
+            backdrop-filter: blur(15px); 
+            opacity: 0; 
+            pointer-events: none;
+            /* FIX FOR #2: Removing transitions during movement to prevent ghosts */
+            transition: opacity 0.5s ease; 
         }
-        .hud-visible { opacity: 1; pointer-events: auto; }
+        
+        /* THE FIX FOR #6: When flipped, ONLY then it turns into "|" */
+        .game-header.is-flipped {
+            flex-direction: column !important;
+            width: 45px !important;
+        }
+
+        .hud-visible { opacity: 1 !important; pointer-events: auto !important; }
 
         .divider { width: 1px; height: 20px; background: rgba(255,255,255,0.2); flex-shrink: 0; }
         .control-icon { color: white; font-size: 1.2rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; }
 
-        /* SETTINGS MENU - Organized Order */
+        /* SETTINGS MENU */
         #options-menu {
             display: none; position: fixed; background: #161b22; 
             border: 1px solid #30363d; border-radius: 12px; padding: 12px; 
             z-index: 100000; width: 200px; box-shadow: 0 10px 40px #000;
         }
         .menu-btn { width: 100%; padding: 8px; margin-bottom: 5px; background: #0d1117; border: 1px solid #30363d; color: white; border-radius: 6px; cursor: pointer; font-size: 0.75rem; display: flex; align-items: center; gap: 8px; justify-content: center; }
-        
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin: 10px 0; }
         .pos-btn { background: #1c2128; border: 1px solid #30363d; color: white; padding: 8px; border-radius: 4px; cursor: pointer; }
 
@@ -65,9 +81,7 @@
 
     <div id="options-menu">
         <p style="margin:0 0 8px 0; color:var(--p); text-align:center; font-size:0.8rem;">SETTINGS</p>
-        
         <button class="menu-btn" onclick="saveFlip()"><i class="fa-solid fa-arrows-rotate"></i> Flip Orientation</button>
-        
         <div class="pos-grid">
             <button class="pos-btn" onclick="saveHUD('top-left')">↖</button>
             <button class="pos-btn" onclick="saveHUD('top-center')">↑</button>
@@ -76,7 +90,6 @@
             <button class="pos-btn" onclick="saveHUD('bottom-center')">↓</button>
             <button class="pos-btn" onclick="saveHUD('bottom-right')">↘</button>
         </div>
-
         <button class="menu-btn" onclick="shareGame()"><i class="fa-solid fa-share-nodes"></i> Share URL</button>
         <button class="menu-btn" onclick="copyLink()"><i class="fa-solid fa-copy"></i> Copy Link</button>
     </div>
@@ -116,6 +129,8 @@
 
         window.saveHUD = (p) => { 
             localStorage.setItem('v_pos', p); 
+            // Reset flipping if moving to center
+            if(p.includes('center')) localStorage.setItem('v_f', 'false');
             applyFlip(); 
         };
 
@@ -136,21 +151,26 @@
             const pos = localStorage.getItem('v_pos') || 'top-left';
             const flipped = localStorage.getItem('v_f') === 'true';
 
-            // FORCE ORIENTATION LOCK
-            hud.style.flexDirection = flipped ? "column" : "row";
+            // FIX FOR #6: CSS Class handles the shape swap
+            if (flipped) { hud.classList.add('is-flipped'); } 
+            else { hud.classList.remove('is-flipped'); }
             
-            hud.style.top = pos.includes('top') ? "15px" : "auto";
-            hud.style.bottom = pos.includes('bottom') ? "15px" : "auto";
-            hud.style.left = pos.includes('left') ? "15px" : "auto";
-            hud.style.right = pos.includes('right') ? "15px" : "auto";
+            // FIX FOR #2: Clear all old styles before applying new ones to prevent ghosting
+            hud.style.top = "auto"; hud.style.bottom = "auto";
+            hud.style.left = "auto"; hud.style.right = "auto";
+            hud.style.transform = "none";
+
+            if (pos.includes('top')) hud.style.top = "15px";
+            if (pos.includes('bottom')) hud.style.bottom = "15px";
+            if (pos.includes('left')) hud.style.left = "15px";
+            if (pos.includes('right')) hud.style.right = "15px";
 
             if (pos.includes('center')) { 
                 hud.style.left = "50%"; 
                 hud.style.transform = "translateX(-50%)"; 
-            } else { 
-                hud.style.transform = "none"; 
             }
 
+            // Align menu
             const r = hud.getBoundingClientRect();
             menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
             menu.style.bottom = pos.includes('bottom') ? (window.innerHeight - r.top + 8) + "px" : "auto";
@@ -170,6 +190,7 @@
                 setTimeout(() => { 
                     ov.style.display='none'; 
                     document.getElementById('hud-cluster').classList.add('hud-visible');
+                    applyFlip(); // Final check on load
                 }, 800);
             }, 5000);
             applyFlip();
