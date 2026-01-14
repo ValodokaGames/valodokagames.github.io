@@ -9,61 +9,81 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* HUD - FORCED HORIZONTAL LOCK */
+        /* HUD - GRID LOCK ENGINE (Fixes #6) */
         .game-header {
             position: fixed !important; 
-            display: flex !important; 
-            flex-direction: row !important; /* THE SHAPE HAMMER */
-            width: auto !important;
-            min-width: 140px;
+            display: inline-grid !important; 
+            grid-auto-flow: column !important; /* FORCES HORIZONTAL "—" */
             align-items: center !important; 
-            gap: 12px !important; 
+            justify-content: center !important;
+            gap: 15px !important; 
             background: rgba(15, 15, 20, 0.98); 
-            padding: 10px 20px; 
+            padding: 10px 22px; 
             border-radius: 60px; 
             border: 2px solid var(--p);
             z-index: 99999; 
             backdrop-filter: blur(20px); 
             opacity: 0; 
             pointer-events: none;
-            transition: opacity 0.5s ease; /* No movement transition to stop #2 Ghosting */
+            transition: opacity 0.3s ease;
+            white-space: nowrap !important;
         }
         
-        /* ONLY flips if this class is added */
+        /* ONLY flips to "|" if this class is added */
         .game-header.is-flipped {
-            flex-direction: column !important;
-            width: 50px !important;
-            min-width: 50px !important;
+            grid-auto-flow: row !important; /* FORCES VERTICAL "|" */
+            padding: 22px 10px;
         }
 
         .hud-visible { opacity: 1 !important; pointer-events: auto !important; }
 
-        .divider { width: 1px; height: 20px; background: rgba(255,255,255,0.2); flex-shrink: 0; }
+        .divider { width: 1.5px; height: 20px; background: rgba(255,255,255,0.3); }
         .control-icon { color: white; font-size: 1.3rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; }
 
-        /* SETTINGS MENU - SMALLER & ORGANIZED */
+        /* SETTINGS MENU */
         #options-menu {
             display: none; position: fixed; background: #161b22; 
             border: 1px solid #30363d; border-radius: 12px; padding: 12px; 
             z-index: 100000; width: 190px; box-shadow: 0 10px 50px #000;
         }
-        .menu-btn { width: 100%; padding: 8px; margin-bottom: 6px; background: #0d1117; border: 1px solid #30363d; color: white; border-radius: 8px; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; justify-content: center; }
+        .menu-btn { width: 100%; padding: 8px; margin-bottom: 6px; background: #0d1117; border: 1px solid #30363d; color: white; border-radius: 8px; cursor: pointer; font-family: 'Fredoka One', sans-serif; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; justify-content: center; }
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
-        .pos-btn { background: #1c2128; border: 1px solid #30363d; color: white; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .pos-btn { background: #1c2128; border: 1px solid #30363d; color: white; padding: 10px; border-radius: 6px; cursor: pointer; }
 
-        /* LOADING OVERLAY */
+        /* LOADING SCREEN (Fixes #9) */
         #loading-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: var(--bg); display: flex; z-index: 9000; 
             transition: opacity 0.8s ease; overflow: hidden;
         }
         .loader-left { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px solid rgba(142, 68, 173, 0.3); }
+        
+        .loading-text { 
+            color: var(--p); 
+            font-family: 'Fredoka One', sans-serif; 
+            font-size: 1rem; 
+            letter-spacing: 2px; 
+            margin-top: 15px;
+            text-shadow: 0 0 10px rgba(142, 68, 173, 0.5);
+        }
+
         .loader-right { width: 60%; height: 100%; background: #000; display: flex; justify-content: center; gap: 20px; transform: rotate(-4deg) scale(1.2); }
+        
+        /* LOGO CARDS (Fixes #8) */
+        .scroll-card { 
+            width: 120px; aspect-ratio: 1/1; background: #1c2128; 
+            border-radius: 15px; border: 1px solid var(--p); 
+            overflow: hidden; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.8);
+            filter: brightness(1.1);
+        }
+        .scroll-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: drop-shadow(0 5px 15px black); }
+
         .scroll-col { display: flex; flex-direction: column; gap: 20px; animation: scrollUp 30s linear infinite; }
         @keyframes scrollUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
-        .scroll-card { width: 120px; aspect-ratio: 1/1; background: #1c2128; border-radius: 15px; border: 1px solid rgba(142,68,173,0.4); overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .spinner { width: 50px; height: 50px; border: 4px solid rgba(142,68,173,0.1); border-top: 4px solid var(--p); border-radius: 50%; animation: spin 1s infinite linear; margin-bottom: 15px; }
+        .spinner { width: 50px; height: 50px; border: 4px solid rgba(142,68,173,0.1); border-top: 4px solid var(--p); border-radius: 50%; animation: spin 1s infinite linear; }
         @keyframes spin { to { transform: rotate(360deg); } }
+        
         .iframe-container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 100; }
         iframe { width: 100%; height: 100%; border: none; }
     </style>
@@ -80,9 +100,7 @@
 
     <div id="options-menu">
         <p style="margin:0 0 10px 0; color:var(--p); text-align:center; font-size:0.8rem; font-weight:bold;">SETTINGS</p>
-        
         <button class="menu-btn" onclick="saveFlip()"><i class="fa-solid fa-arrows-rotate"></i> Flip Orientation</button>
-        
         <div class="pos-grid">
             <button class="pos-btn" onclick="saveHUD('top-left')">↖</button>
             <button class="pos-btn" onclick="saveHUD('top-center')">↑</button>
@@ -91,13 +109,12 @@
             <button class="pos-btn" onclick="saveHUD('bottom-center')">↓</button>
             <button class="pos-btn" onclick="saveHUD('bottom-right')">↘</button>
         </div>
-
         <button class="menu-btn" onclick="shareGame()"><i class="fa-solid fa-share-nodes"></i> Share URL</button>
         <button class="menu-btn" onclick="copyLink()"><i class="fa-solid fa-copy"></i> Copy Link</button>
     </div>
 
     <div id="loading-overlay">
-        <div class="loader-left"><div class="spinner"></div><p style="color:white; font-size:0.8rem;">VALODOKA IS LOADING...</p></div>
+        <div class="loader-left"><div class="spinner"></div><p class="loading-text">VALODOKA IS LOADING...</p></div>
         <div class="loader-right"><div class="scroll-col" id="col1"></div><div class="scroll-col" id="col2" style="animation-duration:45s;"></div></div>
     </div>
 
@@ -111,7 +128,7 @@
         ];
         
         function createScroll() {
-            const h = [...gameList, ...gameList, ...gameList].map(g => `<div class="scroll-card"><img src="${g.img}" style="width:100%; height:100%; object-fit:cover; opacity:0.7;"></div>`).join('');
+            const h = [...gameList, ...gameList, ...gameList].map(g => `<div class="scroll-card"><img src="${g.img}"></div>`).join('');
             document.getElementById('col1').innerHTML = h; document.getElementById('col2').innerHTML = h;
         }
 
@@ -152,11 +169,12 @@
             const pos = localStorage.getItem('v_pos') || 'top-left';
             const flipped = localStorage.getItem('v_f') === 'true';
 
-            // CRUSHING #6: Horizontal vs Vertical
+            // FIX FOR #2 GHOSTING: Briefly hide HUD to reset its render box
+            hud.style.visibility = 'hidden';
+
             if (flipped) { hud.classList.add('is-flipped'); } 
             else { hud.classList.remove('is-flipped'); }
             
-            // CRUSHING #2: Clean reset of all position styles
             hud.style.top = "auto"; hud.style.bottom = "auto";
             hud.style.left = "auto"; hud.style.right = "auto";
             hud.style.transform = "none";
@@ -171,13 +189,16 @@
                 hud.style.transform = "translateX(-50%)"; 
             }
 
-            // Menu Alignment
-            const r = hud.getBoundingClientRect();
-            menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
-            menu.style.bottom = pos.includes('bottom') ? (window.innerHeight - r.top + 8) + "px" : "auto";
-            menu.style.left = pos.includes('left') ? "15px" : (pos.includes('right') ? "auto" : "50%");
-            menu.style.right = pos.includes('right') ? "15px" : "auto";
-            if (pos.includes('center')) menu.style.transform = "translateX(-50%)";
+            // Force browser to redraw
+            setTimeout(() => {
+                hud.style.visibility = 'visible';
+                const r = hud.getBoundingClientRect();
+                menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
+                menu.style.bottom = pos.includes('bottom') ? (window.innerHeight - r.top + 8) + "px" : "auto";
+                menu.style.left = pos.includes('left') ? "15px" : (pos.includes('right') ? "auto" : "50%");
+                menu.style.right = pos.includes('right') ? "15px" : "auto";
+                if (pos.includes('center')) menu.style.transform = "translateX(-50%)";
+            }, 10);
         }
 
         window.addEventListener('load', () => {
