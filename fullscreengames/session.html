@@ -7,16 +7,15 @@
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; }
-        
-        /* Glass Pill HUD - Fixed Z-Index to be ABOVE loader */
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: sans-serif; }
+
+        /* HUD - Locked to the very top layer */
         .game-header {
-            position: absolute; display: flex; align-items: center; gap: 12px;
-            background: rgba(15, 15, 20, 0.85); padding: 8px 15px;
+            position: fixed; display: flex; align-items: center; gap: 12px;
+            background: rgba(15, 15, 20, 0.9); padding: 8px 15px;
             border-radius: 30px; border: 1.5px solid rgba(142, 68, 173, 0.5);
-            z-index: 5000; backdrop-filter: blur(10px);
+            z-index: 9999; backdrop-filter: blur(10px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            top: 15px; left: 15px; /* Default position */
         }
 
         .divider { width: 1px; height: 25px; background: rgba(255,255,255,0.3); }
@@ -25,61 +24,60 @@
             color: white; font-size: 1.2rem; cursor: pointer; background: none; border: none;
             display: flex; align-items: center; transition: 0.3s;
         }
-        .control-icon:hover { color: var(--brand-purple); transform: scale(1.2); }
 
-        /* SPLIT LOADING OVERLAY */
+        /* LOADING OVERLAY - Fixed to cover everything without pushing */
         #loading-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0d1117; display: flex; z-index: 4000; transition: opacity 0.8s ease;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #0d1117; display: flex; z-index: 8000; 
+            transition: opacity 0.8s ease, visibility 0.8s;
             overflow: hidden;
         }
 
         .loader-left {
             width: 40%; height: 100%; display: flex; flex-direction: column;
             justify-content: center; align-items: center; background: #0d1117;
-            border-right: 2px solid rgba(142, 68, 173, 0.3); z-index: 4100;
+            border-right: 2px solid rgba(142, 68, 173, 0.3);
         }
 
         .loader-right {
             width: 60%; height: 100%; position: relative;
             background: #0a0a0a; display: flex; justify-content: center; gap: 20px;
-            transform: rotate(-5deg) scale(1.2);
-            overflow: hidden;
+            transform: rotate(-5deg) scale(1.3); overflow: hidden;
         }
 
-        .scroll-col { display: flex; flex-direction: column; gap: 20px; animation: scrollUp 20s linear infinite; }
-        .col-slow { animation-duration: 35s; }
-
+        .scroll-col { display: flex; flex-direction: column; gap: 20px; animation: scrollUp 25s linear infinite; }
+        .col-slow { animation-duration: 40s; }
         @keyframes scrollUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
 
         .scroll-card {
             width: 140px; aspect-ratio: 1/1; background: #1c2128;
-            border-radius: 15px; border: 1px solid rgba(142, 68, 173, 0.4);
+            border-radius: 15px; border: 1px solid rgba(142, 68, 173, 0.3);
             overflow: hidden; flex-shrink: 0;
         }
-        .scroll-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
+        .scroll-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
 
         .spinner-ring {
-            width: 70px; height: 70px; border: 6px solid rgba(142, 68, 173, 0.1);
-            border-top: 6px solid var(--brand-purple); border-radius: 50%;
+            width: 60px; height: 60px; border: 5px solid rgba(142, 68, 173, 0.1);
+            border-top: 5px solid var(--brand-purple); border-radius: 50%;
             animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite; margin-bottom: 20px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        #loader-text { font-family: 'Fredoka One', sans-serif; color: white; letter-spacing: 2px; }
 
-        /* Options Menu */
+        #loader-text { font-family: 'Fredoka One', sans-serif; color: white; letter-spacing: 2px; font-size: 14px; }
+
+        /* Menu Fixes */
         #options-menu {
-            display: none; position: absolute; background: #0d1117;
+            display: none; position: fixed; background: #161b22;
             border: 1px solid #30363d; border-radius: 15px;
-            padding: 15px; z-index: 5100; min-width: 220px;
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.9);
+            padding: 15px; z-index: 10000; min-width: 200px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.8);
         }
-        .menu-item { padding: 10px; border-radius: 8px; cursor: pointer; color: white; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
-        .menu-item:hover { background: var(--brand-purple); }
+        .menu-item { padding: 10px; color: white; display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; }
-        .pos-btn { background: #1c2128; border: 1px solid #30363d; color: white; border-radius: 10px; padding: 10px; cursor: pointer; }
+        .pos-btn { background: #0d1117; border: 1px solid #30363d; color: white; padding: 10px; border-radius: 8px; cursor: pointer; }
 
-        .iframe-container { width: 100vw; height: 100vh; }
+        /* Game Container */
+        .iframe-container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1000; }
         iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
@@ -122,7 +120,6 @@
     </div>
 
     <script>
-        // Game List for Scrolling
         const gameList = [
             { img: "../assets/minecraft.png" }, { img: "../assets/bitlife.png" },
             { img: "../assets/pvz.png" }, { img: "../assets/slope.png" },
@@ -130,16 +127,33 @@
         ];
 
         function createScroll() {
-            const html = [...gameList, ...gameList].map(g => `<div class="scroll-card"><img src="${g.img}"></div>`).join('');
+            const html = [...gameList, ...gameList, ...gameList].map(g => `<div class="scroll-card"><img src="${g.img}"></div>`).join('');
             document.getElementById('col1').innerHTML = html;
             document.getElementById('col2').innerHTML = html;
         }
 
-        // Functions
-        window.toggleMenu = () => { const m = document.getElementById('options-menu'); m.style.display = (m.style.display === 'block') ? 'none' : 'block'; };
-        window.toggleFullScreen = () => { const f = document.getElementById('game-iframe'); if (f.requestFullscreen) f.requestFullscreen(); else if(f.webkitRequestFullscreen) f.webkitRequestFullscreen(); };
-        window.saveHUD = (pos) => { localStorage.setItem('valodoka_hud_pos', pos); applyFlip(); document.getElementById('options-menu').style.display = "none"; };
-        window.saveFlip = () => { const f = localStorage.getItem('valodoka_flipped') === 'true'; localStorage.setItem('valodoka_flipped', !f); applyFlip(); };
+        window.toggleMenu = () => {
+            const m = document.getElementById('options-menu');
+            m.style.display = (m.style.display === 'block') ? 'none' : 'block';
+        };
+
+        window.toggleFullScreen = () => {
+            const f = document.getElementById('game-iframe');
+            if (f.requestFullscreen) f.requestFullscreen();
+            else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
+        };
+
+        window.saveHUD = (pos) => {
+            localStorage.setItem('valodoka_hud_pos', pos);
+            applyFlip();
+            document.getElementById('options-menu').style.display = "none";
+        };
+
+        window.saveFlip = () => {
+            const f = localStorage.getItem('valodoka_flipped') === 'true';
+            localStorage.setItem('valodoka_flipped', !f);
+            applyFlip();
+        };
 
         function applyFlip() {
             const hud = document.getElementById('hud-cluster');
@@ -153,8 +167,17 @@
             hud.style.left = pos.includes('left') ? "15px" : "auto";
             hud.style.right = pos.includes('right') ? "15px" : "auto";
 
-            if(pos.includes('center')) { hud.style.left = "50%"; hud.style.transform = "translateX(-50%)"; }
-            else { hud.style.transform = "none"; }
+            if(pos.includes('center')) {
+                hud.style.left = "50%";
+                hud.style.transform = "translateX(-50%)";
+            } else {
+                hud.style.transform = "none";
+            }
+
+            // Move menu relative to HUD
+            if(pos.includes('top')) menu.style.top = "70px"; else menu.style.bottom = "70px";
+            if(pos.includes('left')) menu.style.left = "15px"; else if(pos.includes('right')) menu.style.right = "15px";
+            else menu.style.left = "50%";
         }
 
         window.addEventListener('load', function() {
@@ -165,13 +188,15 @@
             const overlay = document.getElementById('loading-overlay');
 
             if (game) {
-                const path = "../gameiframes/" + game + ".html";
-                iframe.src = path;
-                fetch(path, { method: 'HEAD' }).then(res => {
+                iframe.src = "../gameiframes/" + game + ".html";
+                fetch(iframe.src, { method: 'HEAD' }).then(res => {
                     if (res.ok) {
-                        setTimeout(() => { overlay.style.opacity = '0'; setTimeout(() => overlay.style.display = 'none', 800); }, 5000);
+                        setTimeout(() => { 
+                            overlay.style.opacity = '0'; 
+                            setTimeout(() => overlay.style.visibility = 'hidden', 800); 
+                        }, 5000);
                     } else {
-                        overlay.innerHTML = `<h2 style="color:white;">Error 404</h2><p style="color:gray;">Game not found.</p><a href="../index.html" style="color:var(--brand-purple); text-decoration:none;">Go Home</a>`;
+                        overlay.innerHTML = `<div style="text-align:center;"><h2 style="color:white;">404</h2><a href="../index.html" style="color:var(--brand-purple);">Go Home</a></div>`;
                     }
                 });
             }
