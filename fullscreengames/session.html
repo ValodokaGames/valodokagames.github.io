@@ -1,4 +1,4 @@
-<!doctype html> 
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,7 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* HUD - PIXEL LOCKED (Keeps #6 ✅) */
+        /* HUD - (Fixes #2 Ghosting) */
         .game-header {
             position: fixed !important; 
             display: flex !important;
@@ -22,12 +22,13 @@
             background: rgba(15, 15, 20, 0.98); 
             padding: 0 10px !important;
             border-radius: 50px; 
-            border: 2.5px solid var(--p);
+            border: 2.5 solid var(--p);
             z-index: 99999; 
-            backdrop-filter: blur(20px);
-            /* NO TRANSITIONS - Prevents Smearing (Fixes #2) */
-            transition: none !important;
+            /* THE ISOLATION FIX */
+            isolation: isolate !important; 
+            transition: none !important; 
             transform: translateZ(0);
+            backdrop-filter: blur(20px);
         }
         
         .game-header.is-flipped {
@@ -52,47 +53,23 @@
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
         .pos-btn { background: #1c2128; padding: 12px 0; border-radius: 6px; text-align: center; }
 
-        /* LOGO CARDS - 3D RECESSED CARTRIDGE (Fixes #8) */
+        /* LOGO CARDS - (Keeps #8 ✅) */
         .scroll-card { 
-            width: 110px; height: 115px; 
-            background: #2a2e35; 
-            border-radius: 10px; 
-            position: relative;
-            /* Outer plastic shell shadow */
-            box-shadow: 
-                0 8px 0 #111, 
-                0 12px 20px rgba(0,0,0,0.6);
-            border: 2px solid #444;
-            display: flex; align-items: center; justify-content: center;
+            width: 110px; height: 115px; background: #2a2e35; 
+            border-radius: 10px; position: relative;
+            box-shadow: 0 8px 0 #111, 0 12px 20px rgba(0,0,0,0.6);
+            border: 2px solid #444; display: flex; align-items: center; justify-content: center;
         }
-        /* The "Sticker" Slot */
-        .scroll-card::after {
-            content: ''; position: absolute;
-            top: 8px; left: 8px; right: 8px; bottom: 12px;
-            background: #000; border-radius: 4px;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
-            z-index: 1;
-        }
-        .scroll-card img { 
-            width: 80%; height: 75%; 
-            object-fit: cover; z-index: 2; 
-            border-radius: 3px;
-            filter: contrast(1.1);
-        }
+        .scroll-card::after { content: ''; position: absolute; top: 8px; left: 8px; right: 8px; bottom: 12px; background: #000; border-radius: 4px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); z-index: 1; }
+        .scroll-card img { width: 80%; height: 75%; object-fit: cover; z-index: 2; border-radius: 3px; }
 
-        /* LOADING SCREEN (Keeps #9 ✅) */
-        #loading-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--bg); display: flex; z-index: 100001; 
-            transition: opacity 0.8s ease; overflow: hidden;
-        }
+        #loading-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg); display: flex; z-index: 100001; transition: opacity 0.8s ease; overflow: hidden; }
         .loader-left { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px solid rgba(142, 68, 173, 0.3); }
         .loading-text { color: var(--p); font-family: 'Fredoka One', sans-serif; font-size: 1rem; margin-top: 15px; }
         .loader-right { width: 60%; height: 100%; background: #000; display: flex; justify-content: center; gap: 20px; transform: rotate(-4deg) scale(1.1); }
         .scroll-col { display: flex; flex-direction: column; gap: 30px; animation: scrollUp 30s linear infinite; }
         @keyframes scrollUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
         .spinner { width: 50px; height: 50px; border: 4px solid rgba(142,68,173,0.1); border-top: 4px solid var(--p); border-radius: 50%; animation: spin 1s infinite linear; }
-        @keyframes spin { to { transform: rotate(360deg); } }
         
         .iframe-container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 100; }
         iframe { width: 100%; height: 100%; border: none; }
@@ -100,13 +77,7 @@
 </head>
 <body>
 
-    <header class="game-header" id="hud-cluster">
-        <button class="control-icon" onclick="location.href='../index.html'"><i class="fa-solid fa-arrow-left"></i></button>
-        <div class="divider"></div>
-        <button class="control-icon" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i></button>
-        <div class="divider"></div>
-        <button class="control-icon" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-    </header>
+    <div id="hud-anchor"></div>
 
     <div id="options-menu">
         <p style="margin:0 0 10px 0; color:var(--p); text-align:center; font-size:0.8rem; font-weight:bold;">SETTINGS</p>
@@ -125,17 +96,13 @@
 
     <div id="loading-overlay">
         <div class="loader-left"><div class="spinner"></div><p class="loading-text">VALODOKA IS LOADING...</p></div>
-        <div class="loader-right"><div class="scroll-col" id="col1"></div><div class="scroll-col" id="col2" style="animation-duration:45s;"></div></div>
+        <div class="loader-right"><div class="scroll-col" id="col1"></div><div class="scroll-col" id="col2"></div></div>
     </div>
 
     <div class="iframe-container"><iframe id="game-iframe"></iframe></div>
 
     <script>
-        const gameList = [
-            {img:"../assets/logos/monster-tracks.png"}, {img:"../assets/logos/snow-rider-3d.png"},
-            {img:"../assets/logos/stunt-car-extreme.png"}, {img:"../assets/logos/thisissand.png"},
-            {img:"../assets/logos/bitlife.png"}, {img:"../assets/logos/drive-mad.png"}
-        ];
+        const gameList = [{img:"../assets/logos/monster-tracks.png"}, {img:"../assets/logos/snow-rider-3d.png"}, {img:"../assets/logos/stunt-car-extreme.png"}, {img:"../assets/logos/thisissand.png"}, {img:"../assets/logos/bitlife.png"}, {img:"../assets/logos/drive-mad.png"}];
         
         function createScroll() {
             const h = [...gameList, ...gameList, ...gameList].map(g => `<div class="scroll-card"><img src="${g.img}"></div>`).join('');
@@ -153,7 +120,7 @@
             if (f.requestFullscreen) f.requestFullscreen(); else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
         };
 
-        window.shareGame = () => { if (navigator.share) { navigator.share({ title: 'Valodoka', url: window.location.href }); } };
+        window.shareGame = () => { if (navigator.share) navigator.share({ title: 'Valodoka', url: window.location.href }); };
         window.copyLink = () => { navigator.clipboard.writeText(window.location.href); alert("Link Copied!"); };
 
         window.saveHUD = (p) => { 
@@ -164,62 +131,62 @@
 
         window.saveFlip = () => { 
             const pos = localStorage.getItem('v_pos') || 'top-left';
-            if (pos.includes('center')) { alert("Flipping is not allowed for center positions!"); return; }
+            if (pos.includes('center')) return;
             const cur = localStorage.getItem('v_f') === 'true';
             localStorage.setItem('v_f', !cur); 
             applyFlip(); 
         };
 
         function applyFlip() {
-            let hud = document.getElementById('hud-cluster');
+            const anchor = document.getElementById('hud-anchor');
             const menu = document.getElementById('options-menu');
             const pos = localStorage.getItem('v_pos') || 'top-left';
             const flipped = localStorage.getItem('v_f') === 'true';
 
-            /* THE CLONER (Fixes #2): Remove element and replace to kill ghosts */
-            const newHud = hud.cloneNode(true);
-            hud.parentNode.replaceChild(newHud, hud);
-            hud = newHud; // Point to new element
+            // DOM-DESTROYER: Kill the old one immediately
+            anchor.innerHTML = ''; 
 
-            if (flipped) { hud.classList.add('is-flipped'); } 
-            else { hud.classList.remove('is-flipped'); }
-            
-            hud.style.top = "auto"; hud.style.bottom = "auto";
-            hud.style.left = "auto"; hud.style.right = "auto";
-            hud.style.transform = "none";
-
-            if (pos.includes('top')) hud.style.top = "15px";
-            if (pos.includes('bottom')) hud.style.bottom = "15px";
-            if (pos.includes('left')) hud.style.left = "15px";
-            if (pos.includes('right')) hud.style.right = "15px";
-
-            if (pos.includes('center')) { 
-                hud.style.left = "50%"; 
-                hud.style.transform = "translateX(-50%)"; 
-            }
-
-            // Reposition menu after cloning
+            // Wait 50ms for GPU to purge ghost memory
             setTimeout(() => {
+                const hud = document.createElement('header');
+                hud.className = `game-header ${flipped ? 'is-flipped' : ''}`;
+                hud.id = 'hud-cluster';
+                hud.innerHTML = `
+                    <button class="control-icon" onclick="location.href='../index.html'"><i class="fa-solid fa-arrow-left"></i></button>
+                    <div class="divider"></div>
+                    <button class="control-icon" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i></button>
+                    <div class="divider"></div>
+                    <button class="control-icon" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                `;
+
+                // Set positions
+                if (pos.includes('top')) hud.style.top = "15px";
+                if (pos.includes('bottom')) hud.style.bottom = "15px";
+                if (pos.includes('left')) hud.style.left = "15px";
+                if (pos.includes('right')) hud.style.right = "15px";
+                if (pos.includes('center')) { hud.style.left = "50%"; hud.style.transform = "translateX(-50%)"; }
+
+                anchor.appendChild(hud);
+
+                // Position Menu
                 const r = hud.getBoundingClientRect();
                 menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
                 menu.style.bottom = pos.includes('bottom') ? (window.innerHeight - r.top + 8) + "px" : "auto";
                 menu.style.left = pos.includes('left') ? "15px" : (pos.includes('right') ? "auto" : "50%");
                 menu.style.right = pos.includes('right') ? "15px" : "auto";
                 if (pos.includes('center')) menu.style.transform = "translateX(-50%)";
-            }, 5);
+            }, 50);
         }
 
         window.addEventListener('load', () => {
             createScroll();
             const g = new URLSearchParams(window.location.search).get('game');
-            if (g) { document.getElementById('game-iframe').src = "../gameiframes/" + g + ".html"; }
+            if (g) document.getElementById('game-iframe').src = "../gameiframes/" + g + ".html";
             
             setTimeout(() => { 
-                const ov = document.getElementById('loading-overlay');
-                ov.style.opacity = '0'; 
+                document.getElementById('loading-overlay').style.opacity = '0'; 
                 setTimeout(() => { 
-                    ov.style.display='none'; 
-                    document.getElementById('hud-cluster').style.display = 'flex';
+                    document.getElementById('loading-overlay').style.display='none'; 
                     applyFlip();
                 }, 800);
             }, 5000);
