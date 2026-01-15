@@ -10,7 +10,7 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* HUD - V20 RESTORED */
+        /* HUD - V21 FORCED REDRAW */
         .game-header {
             position: fixed !important; 
             display: flex !important;
@@ -24,7 +24,9 @@
             border-radius: 50px !important; 
             border: 2.5px solid var(--p) !important;
             z-index: 9999; 
-            transform: translateZ(0); /* GPU Layer */
+            /* Remove all GPU hints to see if CPU rendering prevents the ghost */
+            transform: none !important; 
+            will-change: auto !important;
         }
         
         .game-header.is-flipped {
@@ -38,20 +40,16 @@
         .is-flipped .divider { width: 18px; height: 1.5px; }
         .control-icon { color: white; font-size: 1.2rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; justify-content: center; }
 
-        /* SETTINGS MENU RESTORED */
         #options-menu {
             display: none; position: fixed; background: #161b22; 
             border: 1px solid #30363d; border-radius: 12px; padding: 12px; 
             z-index: 10000; width: 190px; box-shadow: 0 10px 50px #000;
         }
-        .menu-btn, .pos-btn { appearance: none; -webkit-appearance: none; color: white; border: 1px solid #30363d; cursor: pointer; font-family: 'Fredoka One', sans-serif; transition: 0.2s; }
+        .menu-btn, .pos-btn { appearance: none; -webkit-appearance: none; color: white; border: 1px solid #30363d; cursor: pointer; font-family: 'Fredoka One', sans-serif; }
         .menu-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #0d1117; border-radius: 8px; display: flex; align-items: center; gap: 10px; justify-content: center; }
-        .menu-btn:hover { background: var(--p); }
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
         .pos-btn { background: #1c2128; padding: 12px 0; border-radius: 6px; text-align: center; }
-        .pos-btn:hover { border-color: var(--p); }
 
-        /* LOADING SCREEN RESTORED */
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg); display: flex; z-index: 99999; transition: opacity 0.8s ease; overflow: hidden; }
         .loader-left { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px solid rgba(142, 68, 173, 0.3); }
         .loading-text { color: var(--p); font-family: 'Fredoka One', sans-serif; font-size: 1rem; margin-top: 15px; }
@@ -61,7 +59,6 @@
         .spinner { width: 50px; height: 50px; border: 4px solid rgba(142,68,173,0.1); border-top: 4px solid var(--p); border-radius: 50%; animation: spin 1s infinite linear; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
-        /* LOGO CARDS */
         .scroll-card { width: 110px; height: 115px; background: #2a2e35; border-radius: 10px; position: relative; box-shadow: 0 8px 0 #111, 0 12px 20px rgba(0,0,0,0.6); border: 2px solid #444; display: flex; flex-shrink: 0; align-items: center; justify-content: center; }
         .scroll-card img { width: 80%; height: 75%; object-fit: cover; z-index: 2; border-radius: 3px; }
 
@@ -96,11 +93,7 @@
     <div class="iframe-container"><iframe id="game-iframe"></iframe></div>
 
     <script>
-        const gameList = [
-            {img:"../assets/logos/monster-tracks.png"}, {img:"../assets/logos/snow-rider-3d.png"}, 
-            {img:"../assets/logos/stunt-car-extreme.png"}, {img:"../assets/logos/thisissand.png"}, 
-            {img:"../assets/logos/bitlife.png"}, {img:"../assets/logos/drive-mad.png"}
-        ];
+        const gameList = [{img:"../assets/logos/monster-tracks.png"}, {img:"../assets/logos/snow-rider-3d.png"}, {img:"../assets/logos/stunt-car-extreme.png"}, {img:"../assets/logos/thisissand.png"}, {img:"../assets/logos/bitlife.png"}, {img:"../assets/logos/drive-mad.png"}];
         
         function createScroll() {
             const shuffle = (arr) => arr.sort(() => Math.random() - 0.5);
@@ -112,6 +105,14 @@
             document.getElementById('col2').innerHTML = makeHTML(list2);
         }
 
+        // --- NEW REDRAW TRIGGER FOR #2 ---
+        function forceRedraw() {
+            const b = document.body;
+            b.style.display = 'none';
+            b.offsetHeight; // This line is "magic"—it forces the browser to calculate the layout
+            b.style.display = 'block';
+        }
+
         window.toggleMenu = () => {
             const m = document.getElementById('options-menu');
             m.style.display = (m.style.display === 'block') ? 'none' : 'block';
@@ -120,21 +121,7 @@
 
         window.toggleFullScreen = () => {
             const f = document.body;
-            if (f.requestFullscreen) f.requestFullscreen(); 
-            else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
-        };
-
-        window.shareGame = () => {
-            if (navigator.share) {
-                navigator.share({ title: 'Valodoka', url: window.location.href });
-            } else {
-                copyLink();
-            }
-        };
-
-        window.copyLink = () => {
-            navigator.clipboard.writeText(window.location.href);
-            alert("Link Copied!");
+            if (f.requestFullscreen) f.requestFullscreen(); else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
         };
 
         window.saveHUD = (p) => { localStorage.setItem('v_pos', p); if(p.includes('center')) localStorage.setItem('v_f', 'false'); applyFlip(); };
@@ -174,6 +161,9 @@
                 menu.style.left = pos.includes('left') ? "15px" : (pos.includes('right') ? "auto" : "50%");
                 menu.style.right = pos.includes('right') ? "15px" : "auto";
                 if (pos.includes('center')) menu.style.transform = "translateX(-50%)";
+
+                // THE SCRUB: Force the browser to wipe its eyes
+                forceRedraw();
             }, 10);
         }
 
