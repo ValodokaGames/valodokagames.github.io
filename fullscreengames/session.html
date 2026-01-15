@@ -10,7 +10,7 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* --- HUD (GHOST-FREE LOGIC) --- */
+        /* --- HUD ANIMATIONS --- */
         #hud-cluster {
             position: fixed !important; 
             display: flex !important;
@@ -23,9 +23,17 @@
             border-radius: 50px !important; 
             border: 2.5px solid var(--p) !important;
             z-index: 9999;
-            transition: none !important;
+            /* Animation for HUD appearance */
+            animation: fadeInHUD 0.5s ease-out;
+            transition: opacity 0.3s ease;
         }
 
+        @keyframes fadeInHUD {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* --- GHOST-FREE POSITIONING --- */
         .p-top-left { top: 15px; left: 15px; }
         .p-top-center { top: 15px; left: calc(50% - 80px); }
         .p-top-right { top: 15px; right: 15px; }
@@ -45,19 +53,49 @@
         .is-flipped .divider { width: 18px; height: 1.5px; }
         .control-icon { color: white; font-size: 1.2rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; justify-content: center; }
 
-        /* --- MENU --- */
+        /* --- MENU FADE ANIMATION --- */
         #options-menu {
-            display: none; position: fixed; background: #161b22; 
-            border: 1px solid #30363d; border-radius: 12px; padding: 12px; 
-            z-index: 10000; width: 190px; box-shadow: 0 10px 50px #000;
+            display: none; 
+            opacity: 0;
+            position: fixed; 
+            background: #161b22; 
+            border: 1px solid #30363d; 
+            border-radius: 12px; 
+            padding: 12px; 
+            z-index: 10000; 
+            width: 190px; 
+            box-shadow: 0 10px 50px #000;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(10px);
         }
+
+        #options-menu.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .menu-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #0d1117; color: white; border: 1px solid #30363d; border-radius: 8px; font-family: 'Fredoka One'; cursor: pointer; display: flex; align-items: center; gap: 10px; justify-content: center; }
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
         .pos-btn { background: #1c2128; color: white; border: 1px solid #30363d; padding: 12px 0; border-radius: 6px; cursor: pointer; }
 
-        /* --- LOADING SCREEN (RESTORED) --- */
+        /* --- LOADING SCREEN + LOGO --- */
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg); display: flex; z-index: 99999; transition: opacity 0.8s ease; overflow: hidden; }
+        
         .loader-left { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px solid rgba(142, 68, 173, 0.3); }
+        
+        /* The Valodoka Logo in Loading */
+        .loading-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            animation: pulseLogo 2s infinite ease-in-out;
+        }
+        @keyframes pulseLogo {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--p)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 15px var(--p)); }
+        }
+
         .loader-right { width: 60%; height: 100%; background: #000; display: flex; justify-content: center; gap: 20px; transform: rotate(-4deg) scale(1.1); }
         .scroll-col { display: flex; flex-direction: column; gap: 30px; animation: scrollUp 30s linear infinite; }
         @keyframes scrollUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
@@ -68,7 +106,6 @@
         .spinner { width: 50px; height: 50px; border: 4px solid rgba(142,68,173,0.1); border-top: 4px solid var(--p); border-radius: 50%; animation: spin 1s infinite linear; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
-        /* --- IFRAME --- */
         .iframe-container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 100; }
         iframe { width: 100%; height: 100%; border: none; }
     </style>
@@ -99,7 +136,11 @@
     </div>
 
     <div id="loading-overlay">
-        <div class="loader-left"><div class="spinner"></div><p style="color:var(--p); margin-top:15px;">VALODOKA IS LOADING...</p></div>
+        <div class="loader-left">
+            <img src="../assets/logo.png" class="loading-logo" alt="Valodoka Logo">
+            <div class="spinner"></div>
+            <p style="color:var(--p); margin-top:15px;">VALODOKA IS LOADING...</p>
+        </div>
         <div class="loader-right"><div class="scroll-col" id="col1"></div><div class="scroll-col" id="col2"></div></div>
     </div>
 
@@ -128,23 +169,40 @@
             const pos = localStorage.getItem('v_pos') || 'top-left';
             const flipped = localStorage.getItem('v_f') === 'true';
 
-            hud.className = ''; 
-            hud.classList.add('p-' + pos);
-            if (flipped && !pos.includes('center')) hud.classList.add('is-flipped');
+            // Brief fade out before moving to hide the "jump"
+            hud.style.opacity = '0';
+            menu.classList.remove('show');
 
             setTimeout(() => {
+                hud.className = ''; 
+                hud.classList.add('p-' + pos);
+                if (flipped && !pos.includes('center')) hud.classList.add('is-flipped');
+                
+                // Position menu behind the scenes
                 const r = hud.getBoundingClientRect();
-                menu.style.display = 'none';
                 menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
                 menu.style.bottom = pos.includes('bottom') ? (window.innerHeight - r.top + 8) + "px" : "auto";
                 menu.style.left = pos.includes('left') ? "15px" : (pos.includes('right') ? "auto" : "calc(50% - 95px)");
                 menu.style.right = pos.includes('right') ? "15px" : "auto";
-            }, 50);
+                
+                // Fade back in
+                hud.style.opacity = '1';
+            }, 150);
         }
+
+        window.toggleMenu = () => {
+            const m = document.getElementById('options-menu');
+            if (m.classList.contains('show')) {
+                m.classList.remove('show');
+                setTimeout(() => m.style.display = 'none', 300);
+            } else {
+                m.style.display = 'block';
+                setTimeout(() => m.classList.add('show'), 10);
+            }
+        };
 
         window.saveHUD = (p) => { localStorage.setItem('v_pos', p); applyHUD(); };
         window.saveFlip = () => { const cur = localStorage.getItem('v_f') === 'true'; localStorage.setItem('v_f', !cur); applyHUD(); };
-        window.toggleMenu = () => { const m = document.getElementById('options-menu'); m.style.display = (m.style.display === 'block') ? 'none' : 'block'; };
         
         window.toggleFullScreen = () => {
             if (!document.fullscreenElement) document.documentElement.requestFullscreen();
