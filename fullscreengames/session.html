@@ -10,7 +10,7 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* HUD - V22 CSS-DRIVEN POSITIONING */
+        /* --- HUD (GHOST-FREE LOGIC) --- */
         #hud-cluster {
             position: fixed !important; 
             display: flex !important;
@@ -23,47 +23,52 @@
             border-radius: 50px !important; 
             border: 2.5px solid var(--p) !important;
             z-index: 9999;
-            transition: none !important; /* Block all movement animations to stop ghosts */
+            transition: none !important;
         }
 
-        /* HARD-CODED POSITIONS (No Math) */
         .p-top-left { top: 15px; left: 15px; }
-        .p-top-center { top: 15px; left: calc(50% - 80px); } /* Manual math instead of transform */
+        .p-top-center { top: 15px; left: calc(50% - 80px); }
         .p-top-right { top: 15px; right: 15px; }
         .p-bottom-left { bottom: 15px; left: 15px; }
         .p-bottom-center { bottom: 15px; left: calc(50% - 80px); }
         .p-bottom-right { bottom: 15px; right: 15px; }
 
-        /* VERTICAL / FLIPPED MODE */
         #hud-cluster.is-flipped {
             flex-direction: column !important;
             width: 54px !important;
             height: 160px !important;
             padding: 10px 0 !important;
         }
-        /* Adjusted manual math for flipped center */
         .p-top-center.is-flipped, .p-bottom-center.is-flipped { left: calc(50% - 27px); }
 
         .divider { width: 1.5px; height: 18px; background: rgba(255,255,255,0.3); }
         .is-flipped .divider { width: 18px; height: 1.5px; }
         .control-icon { color: white; font-size: 1.2rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; justify-content: center; }
 
-        /* SETTINGS MENU */
+        /* --- MENU --- */
         #options-menu {
             display: none; position: fixed; background: #161b22; 
             border: 1px solid #30363d; border-radius: 12px; padding: 12px; 
             z-index: 10000; width: 190px; box-shadow: 0 10px 50px #000;
         }
-        .menu-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #0d1117; color: white; border: 1px solid #30363d; border-radius: 8px; font-family: 'Fredoka One'; cursor: pointer; }
+        .menu-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #0d1117; color: white; border: 1px solid #30363d; border-radius: 8px; font-family: 'Fredoka One'; cursor: pointer; display: flex; align-items: center; gap: 10px; justify-content: center; }
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
         .pos-btn { background: #1c2128; color: white; border: 1px solid #30363d; padding: 12px 0; border-radius: 6px; cursor: pointer; }
 
-        /* LOADING SCREEN */
-        #loading-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg); display: flex; z-index: 99999; transition: opacity 0.8s ease; }
+        /* --- LOADING SCREEN (RESTORED) --- */
+        #loading-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg); display: flex; z-index: 99999; transition: opacity 0.8s ease; overflow: hidden; }
         .loader-left { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px solid rgba(142, 68, 173, 0.3); }
+        .loader-right { width: 60%; height: 100%; background: #000; display: flex; justify-content: center; gap: 20px; transform: rotate(-4deg) scale(1.1); }
+        .scroll-col { display: flex; flex-direction: column; gap: 30px; animation: scrollUp 30s linear infinite; }
+        @keyframes scrollUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+        
+        .scroll-card { width: 110px; height: 115px; background: #2a2e35; border-radius: 10px; position: relative; box-shadow: 0 8px 0 #111, 0 12px 20px rgba(0,0,0,0.6); border: 2px solid #444; display: flex; flex-shrink: 0; align-items: center; justify-content: center; }
+        .scroll-card img { width: 80%; height: 75%; object-fit: cover; border-radius: 3px; }
+
         .spinner { width: 50px; height: 50px; border: 4px solid rgba(142,68,173,0.1); border-top: 4px solid var(--p); border-radius: 50%; animation: spin 1s infinite linear; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
+        /* --- IFRAME --- */
         .iframe-container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 100; }
         iframe { width: 100%; height: 100%; border: none; }
     </style>
@@ -89,30 +94,47 @@
             <button class="pos-btn" onclick="saveHUD('bottom-center')">↓</button>
             <button class="pos-btn" onclick="saveHUD('bottom-right')">↘</button>
         </div>
+        <button class="menu-btn" onclick="shareGame()"><i class="fa-solid fa-share-nodes"></i> Share URL</button>
+        <button class="menu-btn" onclick="copyLink()"><i class="fa-solid fa-copy"></i> Copy Link</button>
     </div>
 
     <div id="loading-overlay">
         <div class="loader-left"><div class="spinner"></div><p style="color:var(--p); margin-top:15px;">VALODOKA IS LOADING...</p></div>
+        <div class="loader-right"><div class="scroll-col" id="col1"></div><div class="scroll-col" id="col2"></div></div>
     </div>
 
     <div class="iframe-container"><iframe id="game-iframe"></iframe></div>
 
     <script>
+        const gameList = [
+            {img:"../assets/logos/monster-tracks.png"}, {img:"../assets/logos/snow-rider-3d.png"}, 
+            {img:"../assets/logos/stunt-car-extreme.png"}, {img:"../assets/logos/thisissand.png"}, 
+            {img:"../assets/logos/bitlife.png"}, {img:"../assets/logos/drive-mad.png"}
+        ];
+
+        function createScroll() {
+            const shuffle = (arr) => arr.sort(() => Math.random() - 0.5);
+            let base = shuffle([...gameList]);
+            const list1 = [...base, ...base];
+            const list2 = [...base.slice(3), ...base.slice(0,3), ...base.slice(3), ...base.slice(0,3)];
+            const makeHTML = (list) => list.map(g => `<div class="scroll-card"><img src="${g.img}"></div>`).join('');
+            document.getElementById('col1').innerHTML = makeHTML(list1);
+            document.getElementById('col2').innerHTML = makeHTML(list2);
+        }
+
         function applyHUD() {
             const hud = document.getElementById('hud-cluster');
             const menu = document.getElementById('options-menu');
             const pos = localStorage.getItem('v_pos') || 'top-left';
             const flipped = localStorage.getItem('v_f') === 'true';
 
-            // Reset classes
             hud.className = ''; 
             hud.classList.add('p-' + pos);
             if (flipped && !pos.includes('center')) hud.classList.add('is-flipped');
 
-            // Move Menu
             setTimeout(() => {
                 const r = hud.getBoundingClientRect();
-                menu.style.display = 'none'; // Close menu on move to prevent more ghosts
+                menu.style.display = 'none';
                 menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
                 menu.style.bottom = pos.includes('bottom') ? (window.innerHeight - r.top + 8) + "px" : "auto";
                 menu.style.left = pos.includes('left') ? "15px" : (pos.includes('right') ? "auto" : "calc(50% - 95px)");
@@ -121,25 +143,33 @@
         }
 
         window.saveHUD = (p) => { localStorage.setItem('v_pos', p); applyHUD(); };
-        window.saveFlip = () => { 
-            const cur = localStorage.getItem('v_f') === 'true'; 
-            localStorage.setItem('v_f', !cur); 
-            applyHUD(); 
-        };
-        window.toggleMenu = () => {
-            const m = document.getElementById('options-menu');
-            m.style.display = (m.style.display === 'block') ? 'none' : 'block';
-        };
+        window.saveFlip = () => { const cur = localStorage.getItem('v_f') === 'true'; localStorage.setItem('v_f', !cur); applyHUD(); };
+        window.toggleMenu = () => { const m = document.getElementById('options-menu'); m.style.display = (m.style.display === 'block') ? 'none' : 'block'; };
+        
         window.toggleFullScreen = () => {
             if (!document.fullscreenElement) document.documentElement.requestFullscreen();
             else document.exitFullscreen();
         };
 
+        window.shareGame = () => {
+            if (navigator.share) navigator.share({ title: 'Valodoka', url: window.location.href });
+            else copyLink();
+        };
+
+        window.copyLink = () => {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link Copied!");
+        };
+
         window.addEventListener('load', () => {
+            createScroll();
             const g = new URLSearchParams(window.location.search).get('game');
             if (g) document.getElementById('game-iframe').src = "../gameiframes/" + g + ".html";
             applyHUD();
-            setTimeout(() => { document.getElementById('loading-overlay').style.display='none'; }, 4000);
+            setTimeout(() => { 
+                document.getElementById('loading-overlay').style.opacity = '0'; 
+                setTimeout(() => { document.getElementById('loading-overlay').style.display='none'; }, 800);
+            }, 5000);
         });
     </script>
 </body>
