@@ -10,7 +10,7 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* HUD - V16 THE GHOST EXTERMINATOR */
+        /* HUD - V17 REDUCED RENDER LOAD */
         .game-header {
             position: fixed !important; 
             display: flex !important;
@@ -19,15 +19,13 @@
             justify-content: space-around !important;
             width: 160px !important; 
             height: 48px !important;
-            background: #161b22 !important; /* Solid color, no transparency */
-            backdrop-filter: none !important; /* NO BLUR ALLOWED */
-            -webkit-backdrop-filter: none !important;
+            background: #161b22 !important; 
             padding: 0 10px !important;
             border-radius: 50px !important; 
             border: 2.5px solid var(--p) !important;
-            z-index: 2147483647 !important; /* Maximum possible z-index */
-            transition: none !important; /* No movement animation to cause blur */
-            transform: translateZ(0) !important; /* GPU acceleration */
+            z-index: 9999; /* Lower than loading screen */
+            transform: translateZ(0);
+            visibility: visible;
         }
         
         .game-header.is-flipped {
@@ -45,12 +43,20 @@
         #options-menu {
             display: none; position: fixed; background: #161b22; 
             border: 1px solid #30363d; border-radius: 12px; padding: 12px; 
-            z-index: 2147483646; width: 190px; box-shadow: 0 10px 50px #000;
+            z-index: 10000; width: 190px; box-shadow: 0 10px 50px #000;
         }
         .menu-btn, .pos-btn { appearance: none; -webkit-appearance: none; color: white; border: 1px solid #30363d; cursor: pointer; font-family: 'Fredoka One', sans-serif; }
         .menu-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #0d1117; border-radius: 8px; display: flex; align-items: center; gap: 10px; justify-content: center; }
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
         .pos-btn { background: #1c2128; padding: 12px 0; border-radius: 6px; text-align: center; }
+
+        /* LOADING SCREEN - Z-INDEX FIX */
+        #loading-overlay { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background: var(--bg); display: flex; 
+            z-index: 999999 !important; /* Forces it above the HUD */
+            transition: opacity 0.8s ease; overflow: hidden; 
+        }
 
         /* LOGO CARDS */
         .scroll-card { 
@@ -61,20 +67,26 @@
         }
         .scroll-card img { width: 80%; height: 75%; object-fit: cover; z-index: 2; border-radius: 3px; }
 
-        /* LOADING SCREEN */
-        #loading-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg); display: flex; z-index: 100001; transition: opacity 0.8s ease; overflow: hidden; }
         .loader-left { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px solid rgba(142, 68, 173, 0.3); }
         .loading-text { color: var(--p); font-family: 'Fredoka One', sans-serif; font-size: 1rem; margin-top: 15px; }
         .loader-right { width: 60%; height: 100%; background: #000; display: flex; justify-content: center; gap: 20px; transform: rotate(-4deg) scale(1.1); }
         .scroll-col { display: flex; flex-direction: column; gap: 30px; animation: scrollUp 30s linear infinite; }
         @keyframes scrollUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
-        .spinner { width: 50px; height: 50px; border: 4px solid rgba(142,68,173,0.1); border-top: 4px solid var(--p); border-radius: 50%; animation: spin 1s infinite linear; }
+        
+        .spinner { 
+            width: 50px; height: 50px; border: 4px solid rgba(142,68,173,0.1); 
+            border-top: 4px solid var(--p); border-radius: 50%; 
+            animation: spin 1s infinite linear !important; /* Added !important to prevent freeze */
+        }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
         .iframe-container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 100; }
         iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
+
+    <div id="hud-anchor"></div>
 
     <div id="options-menu">
         <p style="margin:0 0 10px 0; color:var(--p); text-align:center; font-size:0.8rem; font-weight:bold;">SETTINGS</p>
@@ -141,16 +153,16 @@
         };
 
         function applyFlip() {
-            // Find and destroy any existing HUD directly on body
-            const oldHud = document.getElementById('hud-cluster');
-            if (oldHud) oldHud.remove();
-
+            const anchor = document.getElementById('hud-anchor');
             const menu = document.getElementById('options-menu');
             const pos = localStorage.getItem('v_pos') || 'top-left';
             const flipped = localStorage.getItem('v_f') === 'true';
 
-            // Use requestAnimationFrame to ensure the old one is GONE from memory
-            requestAnimationFrame(() => {
+            // #2 GHOST FIX: Hide it before moving it
+            anchor.style.visibility = 'hidden';
+            anchor.innerHTML = ''; 
+
+            setTimeout(() => {
                 const hud = document.createElement('header');
                 hud.className = `game-header ${flipped ? 'is-flipped' : ''}`;
                 hud.id = 'hud-cluster';
@@ -162,22 +174,28 @@
                     <button class="control-icon" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                 `;
 
-                // Positioning
                 if (pos.includes('top')) hud.style.top = "15px";
                 if (pos.includes('bottom')) hud.style.bottom = "15px";
                 if (pos.includes('left')) hud.style.left = "15px";
                 if (pos.includes('right')) hud.style.right = "15px";
-                if (pos.includes('center')) { hud.style.left = "50%"; hud.style.transform = "translateX(-50%) translateZ(0)"; }
+                if (pos.includes('center')) { 
+                    hud.style.left = "50%"; 
+                    hud.style.transform = "translateX(-50%)"; 
+                }
 
-                document.body.appendChild(hud);
-
+                anchor.appendChild(hud);
+                
+                // Position Menu
                 const r = hud.getBoundingClientRect();
                 menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
                 menu.style.bottom = pos.includes('bottom') ? (window.innerHeight - r.top + 8) + "px" : "auto";
                 menu.style.left = pos.includes('left') ? "15px" : (pos.includes('right') ? "auto" : "50%");
                 menu.style.right = pos.includes('right') ? "15px" : "auto";
                 if (pos.includes('center')) menu.style.transform = "translateX(-50%)";
-            });
+
+                // #2 GHOST FIX: Show it only AFTER it's in its new spot
+                anchor.style.visibility = 'visible';
+            }, 30);
         }
 
         window.addEventListener('load', () => {
