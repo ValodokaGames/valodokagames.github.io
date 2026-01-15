@@ -10,7 +10,7 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* HUD - V14 LAYER ISOLATION */
+        /* HUD - V15 NO BLUR (The Ghost Killer) */
         .game-header {
             position: fixed !important; 
             display: flex !important;
@@ -19,16 +19,19 @@
             justify-content: space-around !important;
             width: 160px !important; 
             height: 48px !important;
-            background: rgba(15, 15, 20, 0.98); 
+            
+            /* CHANGE: Solid Background, No Blur */
+            background: #161b22 !important; 
+            /* REMOVED: backdrop-filter: blur(20px); */
+            
             padding: 0 10px !important;
             border-radius: 50px; 
             border: 2.5px solid var(--p);
             z-index: 99999; 
-            isolation: isolate !important;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            transform: translateZ(0); /* Force GPU Layer */
-            backdrop-filter: blur(20px);
+            
+            /* Keep GPU hints just in case */
+            will-change: transform;
+            transform: translateZ(0);
         }
         
         .game-header.is-flipped {
@@ -53,13 +56,18 @@
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
         .pos-btn { background: #1c2128; padding: 12px 0; border-radius: 6px; text-align: center; }
 
-        /* LOGO CARDS */
+        /* LOGO CARDS (V13 Flex Fix Included) */
         .scroll-card { 
             width: 110px; height: 115px; background: #2a2e35; 
             border-radius: 10px; position: relative;
             box-shadow: 0 8px 0 #111, 0 12px 20px rgba(0,0,0,0.6);
-            border: 2px solid #444; display: flex; flex-shrink: 0; align-items: center; justify-content: center;
+            border: 2px solid #444; 
+            display: flex; 
+            flex-shrink: 0; /* Prevents "Under" Glitch */
+            align-items: center; 
+            justify-content: center;
         }
+        .scroll-card::after { content: ''; position: absolute; top: 8px; left: 8px; right: 8px; bottom: 12px; background: #000; border-radius: 4px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); z-index: 1; }
         .scroll-card img { width: 80%; height: 75%; object-fit: cover; z-index: 2; border-radius: 3px; }
 
         /* LOADING SCREEN */
@@ -108,13 +116,17 @@
             {img:"../assets/logos/bitlife.png"}, {img:"../assets/logos/drive-mad.png"}
         ];
         
-        // #11 FIXED: Offset Sync Method
+        // V13+V14 Logic: Fixes #11 (Twins & Under Glitch)
         function createScroll() {
             const shuffle = (arr) => arr.sort(() => Math.random() - 0.5);
             let base = shuffle([...gameList]);
+            
             const list1 = [...base, ...base];
+            // Offset logic: The 3-slot shift prevents twin logos
             const list2 = [...base.slice(3), ...base.slice(0,3), ...base.slice(3), ...base.slice(0,3)];
+
             const makeHTML = (list) => list.map(g => `<div class="scroll-card"><img src="${g.img}"></div>`).join('');
+            
             document.getElementById('col1').innerHTML = makeHTML(list1);
             document.getElementById('col2').innerHTML = makeHTML(list2);
         }
@@ -150,8 +162,6 @@
             const pos = localStorage.getItem('v_pos') || 'top-left';
             const flipped = localStorage.getItem('v_f') === 'true';
 
-            // #2 THE NUCLEAR FLUSH: Force browser to wipe the ghost
-            document.body.style.opacity = '0.99'; 
             anchor.innerHTML = ''; 
 
             setTimeout(() => {
@@ -173,16 +183,13 @@
                 if (pos.includes('center')) { hud.style.left = "50%"; hud.style.transform = "translateX(-50%)"; }
 
                 anchor.appendChild(hud);
-                
+
                 const r = hud.getBoundingClientRect();
                 menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
                 menu.style.bottom = pos.includes('bottom') ? (window.innerHeight - r.top + 8) + "px" : "auto";
                 menu.style.left = pos.includes('left') ? "15px" : (pos.includes('right') ? "auto" : "50%");
                 menu.style.right = pos.includes('right') ? "15px" : "auto";
                 if (pos.includes('center')) menu.style.transform = "translateX(-50%)";
-
-                // Restore opacity to complete the flush
-                document.body.style.opacity = '1';
             }, 50);
         }
 
