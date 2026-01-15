@@ -10,7 +10,7 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* HUD - V15 NO BLUR (The Ghost Killer) */
+        /* HUD - V16 THE GHOST EXTERMINATOR */
         .game-header {
             position: fixed !important; 
             display: flex !important;
@@ -19,19 +19,15 @@
             justify-content: space-around !important;
             width: 160px !important; 
             height: 48px !important;
-            
-            /* CHANGE: Solid Background, No Blur */
-            background: #161b22 !important; 
-            /* REMOVED: backdrop-filter: blur(20px); */
-            
+            background: #161b22 !important; /* Solid color, no transparency */
+            backdrop-filter: none !important; /* NO BLUR ALLOWED */
+            -webkit-backdrop-filter: none !important;
             padding: 0 10px !important;
-            border-radius: 50px; 
-            border: 2.5px solid var(--p);
-            z-index: 99999; 
-            
-            /* Keep GPU hints just in case */
-            will-change: transform;
-            transform: translateZ(0);
+            border-radius: 50px !important; 
+            border: 2.5px solid var(--p) !important;
+            z-index: 2147483647 !important; /* Maximum possible z-index */
+            transition: none !important; /* No movement animation to cause blur */
+            transform: translateZ(0) !important; /* GPU acceleration */
         }
         
         .game-header.is-flipped {
@@ -49,25 +45,20 @@
         #options-menu {
             display: none; position: fixed; background: #161b22; 
             border: 1px solid #30363d; border-radius: 12px; padding: 12px; 
-            z-index: 100000; width: 190px; box-shadow: 0 10px 50px #000;
+            z-index: 2147483646; width: 190px; box-shadow: 0 10px 50px #000;
         }
         .menu-btn, .pos-btn { appearance: none; -webkit-appearance: none; color: white; border: 1px solid #30363d; cursor: pointer; font-family: 'Fredoka One', sans-serif; }
         .menu-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #0d1117; border-radius: 8px; display: flex; align-items: center; gap: 10px; justify-content: center; }
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
         .pos-btn { background: #1c2128; padding: 12px 0; border-radius: 6px; text-align: center; }
 
-        /* LOGO CARDS (V13 Flex Fix Included) */
+        /* LOGO CARDS */
         .scroll-card { 
             width: 110px; height: 115px; background: #2a2e35; 
             border-radius: 10px; position: relative;
             box-shadow: 0 8px 0 #111, 0 12px 20px rgba(0,0,0,0.6);
-            border: 2px solid #444; 
-            display: flex; 
-            flex-shrink: 0; /* Prevents "Under" Glitch */
-            align-items: center; 
-            justify-content: center;
+            border: 2px solid #444; display: flex; flex-shrink: 0; align-items: center; justify-content: center;
         }
-        .scroll-card::after { content: ''; position: absolute; top: 8px; left: 8px; right: 8px; bottom: 12px; background: #000; border-radius: 4px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); z-index: 1; }
         .scroll-card img { width: 80%; height: 75%; object-fit: cover; z-index: 2; border-radius: 3px; }
 
         /* LOADING SCREEN */
@@ -84,8 +75,6 @@
     </style>
 </head>
 <body>
-
-    <div id="hud-anchor"></div>
 
     <div id="options-menu">
         <p style="margin:0 0 10px 0; color:var(--p); text-align:center; font-size:0.8rem; font-weight:bold;">SETTINGS</p>
@@ -116,17 +105,12 @@
             {img:"../assets/logos/bitlife.png"}, {img:"../assets/logos/drive-mad.png"}
         ];
         
-        // V13+V14 Logic: Fixes #11 (Twins & Under Glitch)
         function createScroll() {
             const shuffle = (arr) => arr.sort(() => Math.random() - 0.5);
             let base = shuffle([...gameList]);
-            
             const list1 = [...base, ...base];
-            // Offset logic: The 3-slot shift prevents twin logos
             const list2 = [...base.slice(3), ...base.slice(0,3), ...base.slice(3), ...base.slice(0,3)];
-
             const makeHTML = (list) => list.map(g => `<div class="scroll-card"><img src="${g.img}"></div>`).join('');
-            
             document.getElementById('col1').innerHTML = makeHTML(list1);
             document.getElementById('col2').innerHTML = makeHTML(list2);
         }
@@ -157,14 +141,16 @@
         };
 
         function applyFlip() {
-            const anchor = document.getElementById('hud-anchor');
+            // Find and destroy any existing HUD directly on body
+            const oldHud = document.getElementById('hud-cluster');
+            if (oldHud) oldHud.remove();
+
             const menu = document.getElementById('options-menu');
             const pos = localStorage.getItem('v_pos') || 'top-left';
             const flipped = localStorage.getItem('v_f') === 'true';
 
-            anchor.innerHTML = ''; 
-
-            setTimeout(() => {
+            // Use requestAnimationFrame to ensure the old one is GONE from memory
+            requestAnimationFrame(() => {
                 const hud = document.createElement('header');
                 hud.className = `game-header ${flipped ? 'is-flipped' : ''}`;
                 hud.id = 'hud-cluster';
@@ -176,13 +162,14 @@
                     <button class="control-icon" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                 `;
 
+                // Positioning
                 if (pos.includes('top')) hud.style.top = "15px";
                 if (pos.includes('bottom')) hud.style.bottom = "15px";
                 if (pos.includes('left')) hud.style.left = "15px";
                 if (pos.includes('right')) hud.style.right = "15px";
-                if (pos.includes('center')) { hud.style.left = "50%"; hud.style.transform = "translateX(-50%)"; }
+                if (pos.includes('center')) { hud.style.left = "50%"; hud.style.transform = "translateX(-50%) translateZ(0)"; }
 
-                anchor.appendChild(hud);
+                document.body.appendChild(hud);
 
                 const r = hud.getBoundingClientRect();
                 menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
@@ -190,7 +177,7 @@
                 menu.style.left = pos.includes('left') ? "15px" : (pos.includes('right') ? "auto" : "50%");
                 menu.style.right = pos.includes('right') ? "15px" : "auto";
                 if (pos.includes('center')) menu.style.transform = "translateX(-50%)";
-            }, 50);
+            });
         }
 
         window.addEventListener('load', () => {
