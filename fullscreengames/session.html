@@ -57,14 +57,14 @@
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
         .pos-btn { background: #1c2128; color: white; border: 1px solid #30363d; padding: 12px 0; border-radius: 6px; cursor: pointer; }
 
-        /* --- LOADING SCREEN (LOGO HIGHER) --- */
+        /* --- LOADING SCREEN (FINAL POSITIONING) --- */
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg); display: flex; z-index: 99999; transition: opacity 0.8s ease; overflow: hidden; }
         .loader-left { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px solid rgba(142, 68, 173, 0.3); position: relative; }
         
         .loading-logo { 
             position: absolute;
-            top: 25%; /* Pushed higher as requested */
-            width: 45px; 
+            top: 20%; /* Final nudge higher */
+            width: 50px; 
             filter: drop-shadow(0 0 10px var(--p)); 
             animation: pulse 2s infinite ease-in-out; 
         }
@@ -75,7 +75,7 @@
         @keyframes scrollUp { from { transform: translateY(0); } to { transform: translateY(-50%); } }
         .scroll-card { width: 110px; height: 115px; background: #2a2e35; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 0 #111; }
         .scroll-card img { width: 80%; border-radius: 3px; }
-        .spinner { width: 50px; height: 50px; border: 4px solid rgba(142,68,173,0.1); border-top: 4px solid var(--p); border-radius: 50%; animation: spin 1s infinite linear; margin-top: 80px; }
+        .spinner { width: 50px; height: 50px; border: 4px solid rgba(142,68,173,0.1); border-top: 4px solid var(--p); border-radius: 50%; animation: spin 1s infinite linear; margin-top: 100px; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
         .iframe-container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 100; }
@@ -104,8 +104,7 @@
 
     <div id="loading-overlay">
         <div class="loader-left">
-            <img src="../assets/logo.png" class="loading-logo">
-            <div class="spinner"></div>
+            <img src="../favicon.ico" class="loading-logo"> <div class="spinner"></div>
             <p style="color:var(--p); margin-top:15px;">VALODOKA IS LOADING...</p>
         </div>
         <div class="loader-right"><div class="scroll-col" id="col1"></div><div class="scroll-col" id="col2"></div></div>
@@ -170,7 +169,6 @@
         
         window.saveFlip = () => { 
             const pos = localStorage.getItem('v_pos') || 'top-left';
-            // Trigger alert if in a center position
             if (pos.includes('center')) {
                 alert("Orientation flip is disabled for center positions.");
                 return;
