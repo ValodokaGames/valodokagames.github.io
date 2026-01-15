@@ -10,8 +10,8 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* --- HUD (NOW TOUCH-SAFE) --- */
-        #hud-cluster {
+        /* --- HUD BASE STYLES --- */
+        .game-header {
             position: fixed !important; 
             display: flex !important;
             align-items: center !important;
@@ -23,16 +23,12 @@
             border-radius: 50px !important; 
             border: 2.5px solid var(--p) !important;
             z-index: 9999;
-            transition: opacity 0.3s ease;
-            pointer-events: auto; /* Default to clickable */
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        #hud-cluster.moving {
-            pointer-events: none !important; /* Disable clicks while ghosting/moving */
-            opacity: 0 !important;
-        }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
 
-        /* --- POSITIONING --- */
+        /* POSITION CLASSES */
         .p-top-left { top: 15px; left: 15px; }
         .p-top-center { top: 15px; left: calc(50% - 80px); }
         .p-top-right { top: 15px; right: 15px; }
@@ -40,46 +36,35 @@
         .p-bottom-center { bottom: 15px; left: calc(50% - 80px); }
         .p-bottom-right { bottom: 15px; right: 15px; }
 
-        #hud-cluster.is-flipped {
-            flex-direction: column !important;
-            width: 54px !important;
-            height: 160px !important;
-            padding: 10px 0 !important;
-        }
+        .game-header.is-flipped { flex-direction: column !important; width: 54px !important; height: 160px !important; padding: 10px 0 !important; }
         .p-top-center.is-flipped, .p-bottom-center.is-flipped { left: calc(50% - 27px); }
 
         .divider { width: 1.5px; height: 18px; background: rgba(255,255,255,0.3); }
         .is-flipped .divider { width: 18px; height: 1.5px; }
         .control-icon { color: white; font-size: 1.2rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; justify-content: center; }
 
-        /* --- MENU SLIDE/FADE --- */
+        /* --- SETTINGS MENU --- */
         #options-menu {
-            display: none; opacity: 0; position: fixed; background: #161b22; 
+            display: none; position: fixed; background: #161b22; 
             border: 1px solid #30363d; border-radius: 12px; padding: 12px; 
             z-index: 10000; width: 190px; box-shadow: 0 10px 50px #000;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            transform: translateY(10px);
+            opacity: 0; transform: translateY(10px); transition: 0.3s ease;
         }
         #options-menu.show { display: block; opacity: 1; transform: translateY(0); }
-
         .menu-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #0d1117; color: white; border: 1px solid #30363d; border-radius: 8px; font-family: 'Fredoka One'; cursor: pointer; display: flex; align-items: center; gap: 10px; justify-content: center; }
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
         .pos-btn { background: #1c2128; color: white; border: 1px solid #30363d; padding: 12px 0; border-radius: 6px; cursor: pointer; }
 
-        /* --- LOADING SCREEN (WITH LOGO) --- */
+        /* --- LOADING SCREEN --- */
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg); display: flex; z-index: 99999; transition: opacity 0.8s ease; overflow: hidden; }
         .loader-left { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px solid rgba(142, 68, 173, 0.3); }
         
-        .loading-logo {
-            width: 100px; height: 100px; margin-bottom: 25px;
-            filter: drop-shadow(0 0 10px var(--p));
-            animation: pulseLogo 2s infinite ease-in-out;
-        }
-        @keyframes pulseLogo { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
+        .loading-logo { width: 100px; margin-bottom: 20px; filter: drop-shadow(0 0 8px var(--p)); animation: pulse 2s infinite ease-in-out; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
 
         .loader-right { width: 60%; height: 100%; background: #000; display: flex; justify-content: center; gap: 20px; transform: rotate(-4deg) scale(1.1); }
         .scroll-col { display: flex; flex-direction: column; gap: 30px; animation: scrollUp 30s linear infinite; }
-        @keyframes scrollUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+        @keyframes scrollUp { from { transform: translateY(0); } to { transform: translateY(-50%); } }
         .scroll-card { width: 110px; height: 115px; background: #2a2e35; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 0 #111; }
         .scroll-card img { width: 80%; border-radius: 3px; }
         .spinner { width: 50px; height: 50px; border: 4px solid rgba(142,68,173,0.1); border-top: 4px solid var(--p); border-radius: 50%; animation: spin 1s infinite linear; }
@@ -91,13 +76,7 @@
 </head>
 <body>
 
-    <header id="hud-cluster">
-        <button class="control-icon" onclick="location.href='../index.html'"><i class="fa-solid fa-arrow-left"></i></button>
-        <div class="divider"></div>
-        <button class="control-icon" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i></button>
-        <div class="divider"></div>
-        <button class="control-icon" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-    </header>
+    <div id="hud-root"></div>
 
     <div id="options-menu">
         <p style="margin:0 0 10px 0; color:var(--p); text-align:center; font-size:0.8rem; font-weight:bold;">SETTINGS</p>
@@ -116,7 +95,7 @@
 
     <div id="loading-overlay">
         <div class="loader-left">
-            <img src="../assets/logo.png" class="loading-logo" alt="Logo">
+            <img src="../assets/logo.png" class="loading-logo">
             <div class="spinner"></div>
             <p style="color:var(--p); margin-top:15px;">VALODOKA IS LOADING...</p>
         </div>
@@ -136,30 +115,38 @@
             document.getElementById('col2').innerHTML = makeHTML([...base.slice(3), ...base.slice(0,3), ...base.slice(3)]);
         }
 
-        function applyHUD() {
-            const hud = document.getElementById('hud-cluster');
+        function rebuildHUD() {
+            const root = document.getElementById('hud-root');
             const menu = document.getElementById('options-menu');
             const pos = localStorage.getItem('v_pos') || 'top-left';
             const flipped = localStorage.getItem('v_f') === 'true';
 
-            // LOCK TOUCHES during the move
-            hud.classList.add('moving');
+            // 1. DELETE THE OLD HUD COMPLETELY
+            root.innerHTML = '';
             menu.classList.remove('show');
+            menu.style.display = 'none';
 
+            // 2. CREATE A FRESH NEW HUD
+            const newHud = document.createElement('header');
+            newHud.className = `game-header p-${pos} ${flipped && !pos.includes('center') ? 'is-flipped' : ''}`;
+            newHud.innerHTML = `
+                <button class="control-icon" onclick="location.href='../index.html'"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="divider"></div>
+                <button class="control-icon" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i></button>
+                <div class="divider"></div>
+                <button class="control-icon" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+            `;
+
+            root.appendChild(newHud);
+
+            // 3. RE-SNAP THE MENU
             setTimeout(() => {
-                hud.className = ''; 
-                hud.classList.add('p-' + pos);
-                if (flipped && !pos.includes('center')) hud.classList.add('is-flipped');
-                
-                const r = hud.getBoundingClientRect();
+                const r = newHud.getBoundingClientRect();
                 menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
                 menu.style.bottom = pos.includes('bottom') ? (window.innerHeight - r.top + 8) + "px" : "auto";
                 menu.style.left = pos.includes('left') ? "15px" : (pos.includes('right') ? "auto" : "calc(50% - 95px)");
                 menu.style.right = pos.includes('right') ? "15px" : "auto";
-                
-                // UNLOCK TOUCHES
-                hud.classList.remove('moving');
-            }, 300);
+            }, 100);
         }
 
         window.toggleMenu = () => {
@@ -173,8 +160,8 @@
             }
         };
 
-        window.saveHUD = (p) => { localStorage.setItem('v_pos', p); applyHUD(); };
-        window.saveFlip = () => { const cur = localStorage.getItem('v_f') === 'true'; localStorage.setItem('v_f', !cur); applyHUD(); };
+        window.saveHUD = (p) => { localStorage.setItem('v_pos', p); rebuildHUD(); };
+        window.saveFlip = () => { const cur = localStorage.getItem('v_f') === 'true'; localStorage.setItem('v_f', !cur); rebuildHUD(); };
         window.toggleFullScreen = () => { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); };
         window.shareGame = () => { if (navigator.share) navigator.share({ title: 'Valodoka', url: window.location.href }); else copyLink(); };
         window.copyLink = () => { navigator.clipboard.writeText(window.location.href); alert("Link Copied!"); };
@@ -183,7 +170,7 @@
             createScroll();
             const g = new URLSearchParams(window.location.search).get('game');
             if (g) document.getElementById('game-iframe').src = "../gameiframes/" + g + ".html";
-            applyHUD();
+            rebuildHUD();
             setTimeout(() => { 
                 document.getElementById('loading-overlay').style.opacity = '0'; 
                 setTimeout(() => { document.getElementById('loading-overlay').style.display='none'; }, 800);
