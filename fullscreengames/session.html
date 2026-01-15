@@ -10,7 +10,7 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* HUD - (Fixes #2 Ghosting) */
+        /* HUD - LAYER ISOLATION (Fixes #2 Ghosting Attempt) */
         .game-header {
             position: fixed !important; 
             display: flex !important;
@@ -22,9 +22,8 @@
             background: rgba(15, 15, 20, 0.98); 
             padding: 0 10px !important;
             border-radius: 50px; 
-            border: 2.5 solid var(--p);
+            border: 2.5px solid var(--p);
             z-index: 99999; 
-            /* THE ISOLATION FIX */
             isolation: isolate !important; 
             transition: none !important; 
             transform: translateZ(0);
@@ -42,7 +41,7 @@
         .is-flipped .divider { width: 18px; height: 1.5px; }
         .control-icon { color: white; font-size: 1.2rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; justify-content: center; }
 
-        /* SETTINGS MENU (Keeps #10 ✅) */
+        /* SETTINGS MENU (Keeps #10 Styled ✅) */
         #options-menu {
             display: none; position: fixed; background: #161b22; 
             border: 1px solid #30363d; border-radius: 12px; padding: 12px; 
@@ -53,7 +52,7 @@
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
         .pos-btn { background: #1c2128; padding: 12px 0; border-radius: 6px; text-align: center; }
 
-        /* LOGO CARDS - (Keeps #8 ✅) */
+        /* LOGO CARDS - 3D CARTRIDGE (Keeps #8 ✅) */
         .scroll-card { 
             width: 110px; height: 115px; background: #2a2e35; 
             border-radius: 10px; position: relative;
@@ -63,6 +62,7 @@
         .scroll-card::after { content: ''; position: absolute; top: 8px; left: 8px; right: 8px; bottom: 12px; background: #000; border-radius: 4px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); z-index: 1; }
         .scroll-card img { width: 80%; height: 75%; object-fit: cover; z-index: 2; border-radius: 3px; }
 
+        /* LOADING SCREEN (Keeps #9 ✅) */
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg); display: flex; z-index: 100001; transition: opacity 0.8s ease; overflow: hidden; }
         .loader-left { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px solid rgba(142, 68, 173, 0.3); }
         .loading-text { color: var(--p); font-family: 'Fredoka One', sans-serif; font-size: 1rem; margin-top: 15px; }
@@ -70,6 +70,7 @@
         .scroll-col { display: flex; flex-direction: column; gap: 30px; animation: scrollUp 30s linear infinite; }
         @keyframes scrollUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
         .spinner { width: 50px; height: 50px; border: 4px solid rgba(142,68,173,0.1); border-top: 4px solid var(--p); border-radius: 50%; animation: spin 1s infinite linear; }
+        @keyframes spin { to { transform: rotate(360deg); } }
         
         .iframe-container { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 100; }
         iframe { width: 100%; height: 100%; border: none; }
@@ -102,11 +103,20 @@
     <div class="iframe-container"><iframe id="game-iframe"></iframe></div>
 
     <script>
-        const gameList = [{img:"../assets/logos/monster-tracks.png"}, {img:"../assets/logos/snow-rider-3d.png"}, {img:"../assets/logos/stunt-car-extreme.png"}, {img:"../assets/logos/thisissand.png"}, {img:"../assets/logos/bitlife.png"}, {img:"../assets/logos/drive-mad.png"}];
+        const gameList = [
+            {img:"../assets/logos/monster-tracks.png"}, {img:"../assets/logos/snow-rider-3d.png"}, 
+            {img:"../assets/logos/stunt-car-extreme.png"}, {img:"../assets/logos/thisissand.png"}, 
+            {img:"../assets/logos/bitlife.png"}, {img:"../assets/logos/drive-mad.png"}
+        ];
         
+        // Fixes #11: Randomized Loading Wall
         function createScroll() {
-            const h = [...gameList, ...gameList, ...gameList].map(g => `<div class="scroll-card"><img src="${g.img}"></div>`).join('');
-            document.getElementById('col1').innerHTML = h; document.getElementById('col2').innerHTML = h;
+            const shuffle = (array) => array.sort(() => Math.random() - 0.5);
+            const list1 = shuffle([...gameList, ...gameList, ...gameList]);
+            const list2 = shuffle([...gameList, ...gameList, ...gameList]);
+
+            document.getElementById('col1').innerHTML = list1.map(g => `<div class="scroll-card"><img src="${g.img}"></div>`).join('');
+            document.getElementById('col2').innerHTML = list2.map(g => `<div class="scroll-card"><img src="${g.img}"></div>`).join('');
         }
 
         window.toggleMenu = () => {
@@ -143,10 +153,8 @@
             const pos = localStorage.getItem('v_pos') || 'top-left';
             const flipped = localStorage.getItem('v_f') === 'true';
 
-            // DOM-DESTROYER: Kill the old one immediately
-            anchor.innerHTML = ''; 
+            anchor.innerHTML = ''; // Kill the old HUD to prevent ghosts
 
-            // Wait 50ms for GPU to purge ghost memory
             setTimeout(() => {
                 const hud = document.createElement('header');
                 hud.className = `game-header ${flipped ? 'is-flipped' : ''}`;
@@ -159,7 +167,6 @@
                     <button class="control-icon" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                 `;
 
-                // Set positions
                 if (pos.includes('top')) hud.style.top = "15px";
                 if (pos.includes('bottom')) hud.style.bottom = "15px";
                 if (pos.includes('left')) hud.style.left = "15px";
@@ -168,7 +175,6 @@
 
                 anchor.appendChild(hud);
 
-                // Position Menu
                 const r = hud.getBoundingClientRect();
                 menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
                 menu.style.bottom = pos.includes('bottom') ? (window.innerHeight - r.top + 8) + "px" : "auto";
