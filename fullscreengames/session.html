@@ -37,7 +37,7 @@
         .is-flipped .divider { width: 18px; height: 1.5px; }
         .control-icon { color: white; font-size: 1.2rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; justify-content: center; }
 
-        /* --- SETTINGS MENU (V29 STYLE REINFORCEMENT) --- */
+        /* --- SETTINGS MENU --- */
         #options-menu {
             display: none; position: fixed; 
             background: #161b22 !important; 
@@ -57,14 +57,14 @@
         .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
         .pos-btn { background: #1c2128; color: white; border: 1px solid #30363d; padding: 12px 0; border-radius: 6px; cursor: pointer; }
 
-        /* --- LOADING SCREEN (V29 LOGO RE-ALIGNMENT) --- */
+        /* --- LOADING SCREEN (LOGO HIGHER) --- */
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg); display: flex; z-index: 99999; transition: opacity 0.8s ease; overflow: hidden; }
         .loader-left { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px solid rgba(142, 68, 173, 0.3); position: relative; }
         
         .loading-logo { 
             position: absolute;
-            top: 32%; /* Moves logo up into your target box */
-            width: 45px; /* Slightly smaller for precision */
+            top: 25%; /* Pushed higher as requested */
+            width: 45px; 
             filter: drop-shadow(0 0 10px var(--p)); 
             animation: pulse 2s infinite ease-in-out; 
         }
@@ -167,7 +167,19 @@
         };
 
         window.saveHUD = (p) => { localStorage.setItem('v_pos', p); rebuildHUD(); };
-        window.saveFlip = () => { const cur = localStorage.getItem('v_f') === 'true'; localStorage.setItem('v_f', !cur); rebuildHUD(); };
+        
+        window.saveFlip = () => { 
+            const pos = localStorage.getItem('v_pos') || 'top-left';
+            // Trigger alert if in a center position
+            if (pos.includes('center')) {
+                alert("Orientation flip is disabled for center positions.");
+                return;
+            }
+            const cur = localStorage.getItem('v_f') === 'true'; 
+            localStorage.setItem('v_f', !cur); 
+            rebuildHUD(); 
+        };
+
         window.toggleFullScreen = () => { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); };
         window.shareGame = () => { if (navigator.share) navigator.share({ title: 'Valodoka', url: window.location.href }); else copyLink(); };
         window.copyLink = () => { navigator.clipboard.writeText(window.location.href); alert("Link Copied!"); };
