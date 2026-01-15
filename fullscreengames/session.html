@@ -10,25 +10,24 @@
         :root { --p: #8e44ad; --bg: #0d1117; }
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Fredoka One', sans-serif; }
 
-        /* --- HUD BASE STYLES --- */
-        .game-header {
-            position: fixed !important; 
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-around !important;
-            width: 160px !important; 
-            height: 48px !important;
-            background: #161b22 !important; 
-            padding: 0 10px !important;
-            border-radius: 50px !important; 
-            border: 2.5px solid var(--p) !important;
-            z-index: 9999;
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* --- THE GHOST SHIELD --- */
+        #move-shield {
+            display: none; position: fixed; top: 0; left: 0; 
+            width: 100vw; height: 100vh; z-index: 10001; 
+            background: transparent; cursor: wait;
         }
 
+        /* --- HUD STYLES --- */
+        .game-header {
+            position: fixed !important; display: flex !important;
+            align-items: center !important; justify-content: space-around !important;
+            width: 160px !important; height: 48px !important;
+            background: #161b22 !important; padding: 0 10px !important;
+            border-radius: 50px !important; border: 2.5px solid var(--p) !important;
+            z-index: 9999; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
         @keyframes popIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
 
-        /* POSITION CLASSES */
         .p-top-left { top: 15px; left: 15px; }
         .p-top-center { top: 15px; left: calc(50% - 80px); }
         .p-top-right { top: 15px; right: 15px; }
@@ -43,7 +42,7 @@
         .is-flipped .divider { width: 18px; height: 1.5px; }
         .control-icon { color: white; font-size: 1.2rem; cursor: pointer; background: none; border: none; display: flex; align-items: center; justify-content: center; }
 
-        /* --- SETTINGS MENU --- */
+        /* --- MENU --- */
         #options-menu {
             display: none; position: fixed; background: #161b22; 
             border: 1px solid #30363d; border-radius: 12px; padding: 12px; 
@@ -51,16 +50,18 @@
             opacity: 0; transform: translateY(10px); transition: 0.3s ease;
         }
         #options-menu.show { display: block; opacity: 1; transform: translateY(0); }
-        .menu-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #0d1117; color: white; border: 1px solid #30363d; border-radius: 8px; font-family: 'Fredoka One'; cursor: pointer; display: flex; align-items: center; gap: 10px; justify-content: center; }
-        .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
-        .pos-btn { background: #1c2128; color: white; border: 1px solid #30363d; padding: 12px 0; border-radius: 6px; cursor: pointer; }
 
-        /* --- LOADING SCREEN --- */
+        /* --- LOADING SCREEN (LOGO UPDATED) --- */
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg); display: flex; z-index: 99999; transition: opacity 0.8s ease; overflow: hidden; }
         .loader-left { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px solid rgba(142, 68, 173, 0.3); }
         
-        .loading-logo { width: 100px; margin-bottom: 20px; filter: drop-shadow(0 0 8px var(--p)); animation: pulse 2s infinite ease-in-out; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        .loading-logo { 
+            width: 65px; /* Smaller as requested */
+            margin-bottom: 40px; /* Moved higher up */
+            filter: drop-shadow(0 0 10px var(--p)); 
+            animation: pulse 2s infinite ease-in-out; 
+        }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
         .loader-right { width: 60%; height: 100%; background: #000; display: flex; justify-content: center; gap: 20px; transform: rotate(-4deg) scale(1.1); }
         .scroll-col { display: flex; flex-direction: column; gap: 30px; animation: scrollUp 30s linear infinite; }
@@ -76,6 +77,7 @@
 </head>
 <body>
 
+    <div id="move-shield"></div>
     <div id="hud-root"></div>
 
     <div id="options-menu">
@@ -108,25 +110,24 @@
         const gameList = [{img:"../assets/logos/monster-tracks.png"}, {img:"../assets/logos/snow-rider-3d.png"}, {img:"../assets/logos/stunt-car-extreme.png"}, {img:"../assets/logos/thisissand.png"}, {img:"../assets/logos/bitlife.png"}, {img:"../assets/logos/drive-mad.png"}];
         
         function createScroll() {
-            const shuffle = (arr) => arr.sort(() => Math.random() - 0.5);
-            let base = shuffle([...gameList]);
             const makeHTML = (list) => list.map(g => `<div class="scroll-card"><img src="${g.img}"></div>`).join('');
-            document.getElementById('col1').innerHTML = makeHTML([...base, ...base]);
-            document.getElementById('col2').innerHTML = makeHTML([...base.slice(3), ...base.slice(0,3), ...base.slice(3)]);
+            document.getElementById('col1').innerHTML = makeHTML([...gameList, ...gameList]);
+            document.getElementById('col2').innerHTML = makeHTML([...gameList.slice(3), ...gameList.slice(0,3), ...gameList.slice(3)]);
         }
 
         function rebuildHUD() {
+            const shield = document.getElementById('move-shield');
             const root = document.getElementById('hud-root');
             const menu = document.getElementById('options-menu');
             const pos = localStorage.getItem('v_pos') || 'top-left';
             const flipped = localStorage.getItem('v_f') === 'true';
 
-            // 1. DELETE THE OLD HUD COMPLETELY
+            // ACTIVATE SHIELD
+            shield.style.display = 'block';
             root.innerHTML = '';
             menu.classList.remove('show');
             menu.style.display = 'none';
 
-            // 2. CREATE A FRESH NEW HUD
             const newHud = document.createElement('header');
             newHud.className = `game-header p-${pos} ${flipped && !pos.includes('center') ? 'is-flipped' : ''}`;
             newHud.innerHTML = `
@@ -136,16 +137,17 @@
                 <div class="divider"></div>
                 <button class="control-icon" onclick="toggleMenu()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
             `;
-
             root.appendChild(newHud);
 
-            // 3. RE-SNAP THE MENU
             setTimeout(() => {
                 const r = newHud.getBoundingClientRect();
                 menu.style.top = pos.includes('top') ? (r.bottom + 8) + "px" : "auto";
                 menu.style.bottom = pos.includes('bottom') ? (window.innerHeight - r.top + 8) + "px" : "auto";
                 menu.style.left = pos.includes('left') ? "15px" : (pos.includes('right') ? "auto" : "calc(50% - 95px)");
                 menu.style.right = pos.includes('right') ? "15px" : "auto";
+                
+                // DEACTIVATE SHIELD after browser settles
+                setTimeout(() => { shield.style.display = 'none'; }, 200);
             }, 100);
         }
 
