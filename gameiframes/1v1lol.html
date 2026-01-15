@@ -3,13 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1v1.lol</title>
+    <title>1v1.lol - Valodoka Unblocked</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #000; }
-        iframe { width: 100%; height: 100%; border: none; }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #0d1117; font-family: sans-serif; }
+        iframe { width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; }
+        
+        /* Small emergency button in case it blocks */
+        #fallback {
+            position: fixed; bottom: 10px; right: 10px; z-index: 999;
+            background: rgba(142, 68, 173, 0.8); color: white; border: none;
+            padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 10px;
+        }
     </style>
 </head>
 <body>
-    <iframe src="https://unblockedgamesfree.github.io/1v1-lol/" allowfullscreen></iframe>
+    <iframe id="game-frame" src="https://sites.google.com/view/classroom6x/1v1-lol" allowfullscreen></iframe>
+
+    <button id="fallback" onclick="switchSource()">Source Blocked?</button>
+
+    <script>
+        function switchSource() {
+            const frame = document.getElementById('game-frame');
+            // Fallback to a secondary unblocked mirror if the first one fails
+            frame.src = "https://1v1-lol.github.io/"; 
+            alert("Switching to backup mirror...");
+        }
+    </script>
 </body>
 </html>
