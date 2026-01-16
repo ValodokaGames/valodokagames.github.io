@@ -3,26 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>vdka/1v1.lol</title>
+    <title>1v1.lol</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #000; }
-        iframe { width: 100%; height: 100%; border: none; }
-        
-        /* Ensures the game fills the tablet screen perfectly */
-        #game-container { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            height: 100%; 
+            width: 100%;
+            overflow: hidden; 
+            background-color: #000; 
+        }
+        /* This ensures the game fills the tablet screen without weird borders */
+        iframe { 
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+        }
     </style>
 </head>
 <body>
-    <div id="game-container">
-        <iframe id="1v1-frame" src="https://1v1.lol" allow="autoplay; gamepad; fullscreen; keyboard" allowfullscreen></iframe>
-    </div>
-
-    <script>
-        // If the official site doesn't allow embedding, we swap to a verified mirror
-        const frame = document.getElementById('1v1-frame');
-        frame.onerror = function() {
-            frame.src = "https://geometry-dash.co/1v1-lol/"; // Reliable backup mirror
-        };
-    </script>
+    <iframe 
+        src="https://boxv2.com/1v1-lol/" 
+        allow="autoplay; gamepad; fullscreen; keyboard; focus-without-user-activation" 
+        allowfullscreen>
+    </iframe>
 </body>
 </html>
