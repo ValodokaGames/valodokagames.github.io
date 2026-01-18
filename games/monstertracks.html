@@ -7,98 +7,53 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #0d1117;
-            --brand-purple: #8e44ad;
-            --text-main: #ffffff;
-            --card-bg: #161b22;
-        }
-
-        body {
-            margin: 0; padding: 0;
-            font-family: 'Quicksand', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-        }
-
+        :root { --bg-color: #0d1117; --brand-purple: #8e44ad; --card-bg: #161b22; }
+        body { margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; background-color: var(--bg-color); color: white; overflow-x: hidden; }
         h1, h2, h3, .logo span { font-family: 'Fredoka One', cursive; }
 
-        .top-nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 5%; background: #161b22;
-            border-bottom: 4px solid var(--brand-purple);
-        }
-
+        /* HEADER FIX */
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: #161b22; border-bottom: 4px solid var(--brand-purple); position: sticky; top: 0; z-index: 100; }
         .logo { display: flex; align-items: center; gap: 12px; }
         .logo img { width: 40px; height: 40px; }
         .logo span { font-size: 1.5rem; color: #fff; }
-
-        .nav-item {
-            text-decoration: none; color: white; font-weight: bold;
-            margin-left: 20px; padding: 8px 15px; border-radius: 20px;
-            transition: 0.3s; display: inline-flex; align-items: center;
-        }
+        .nav-links { display: flex; gap: 15px; }
+        .nav-item { text-decoration: none; color: white; font-weight: bold; padding: 8px 15px; border-radius: 20px; transition: 0.3s; display: inline-flex; align-items: center; }
         .nav-item i { margin-right: 8px; color: var(--brand-purple); }
         .nav-item:hover { background: var(--brand-purple); }
 
-        .game-page-grid { display: grid; grid-template-columns: 1fr 340px; gap: 30px; padding: 40px 5%; max-width: 1600px; margin: auto; }
+        /* GRID FIX FOR SIDE-BY-SIDE LAYOUT */
+        .game-page-grid { display: grid; grid-template-columns: 1fr 360px; gap: 30px; padding: 40px 5%; max-width: 1600px; margin: auto; }
         
-        .game-stage { 
-            width: 100%; aspect-ratio: 16/9; background: #000; 
-            border-radius: 20px; border: 3px solid var(--brand-purple);
-            overflow: hidden; position: relative; box-shadow: 0 0 30px rgba(142, 68, 173, 0.3);
-        }
-        .play-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://monstertracks-online.github.io/monster-tracks.png') center/cover;
-            display: flex; justify-content: center; align-items: center; z-index: 10;
-        }
-        .big-play-btn {
-            width: 110px; height: 110px; background: var(--brand-purple); 
-            border: none; border-radius: 50%; color: white; font-size: 3.5rem;
-            cursor: pointer; animation: pulse-glow 2s infinite;
-        }
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 0 0 rgba(142, 68, 173, 0.7); transform: scale(0.95); }
-            70% { box-shadow: 0 0 0 25px rgba(142, 68, 173, 0); transform: scale(1); }
-            100% { box-shadow: 0 0 0 0 rgba(142, 68, 173, 0); transform: scale(0.95); }
-        }
+        .game-stage { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 20px; border: 3px solid var(--brand-purple); overflow: hidden; position: relative; }
+        .play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://monstertracks-online.github.io/monster-tracks.png') center/cover; display: flex; justify-content: center; align-items: center; z-index: 10; }
+        .big-play-btn { width: 100px; height: 100px; background: var(--brand-purple); border: none; border-radius: 50%; color: white; font-size: 3rem; cursor: pointer; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-        .mini-dashboard {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px; background: var(--card-bg); margin-top: 15px;
-            border-radius: 15px; border: 1px solid #30363d;
-        }
-        .btn-fullscreen {
-            background: var(--brand-purple); color: white; border: none;
-            padding: 12px 25px; border-radius: 10px; font-family: 'Fredoka One';
-            cursor: pointer; display: flex; align-items: center; gap: 10px;
-        }
+        .mini-dashboard { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--card-bg); margin-top: 15px; border-radius: 15px; border: 1px solid #30363d; }
+        .btn-fullscreen { background: var(--brand-purple); color: white; border: none; padding: 12px 25px; border-radius: 10px; font-family: 'Fredoka One'; cursor: pointer; display: flex; align-items: center; gap: 10px; }
 
+        .info-card { background: var(--card-bg); padding: 25px; border-radius: 15px; border: 1px solid #30363d; margin-bottom: 20px; }
+        .kb-key { background: #2d333b; padding: 4px 10px; border-radius: 6px; border-bottom: 3px solid #000; font-weight: bold; margin: 0 4px; }
+
+        /* SIDEBAR LIST */
         .sidebar-suggestions { display: flex; flex-direction: column; gap: 12px; }
-        .mini-suggestion {
-            display: grid; grid-template-columns: 90px 1fr; gap: 12px;
-            background: var(--card-bg); padding: 8px; border-radius: 12px;
-            border: 1px solid #30363d; text-decoration: none; color: white; transition: 0.3s;
-        }
-        .mini-suggestion:hover { border-color: var(--brand-purple); transform: translateX(5px); }
-        .mini-logo { width: 90px; height: 60px; border-radius: 8px; object-fit: cover; background: #333; }
-        .tag { font-size: 0.6rem; color: var(--brand-purple); font-weight: bold; text-transform: uppercase; margin-right: 5px; }
-
-        footer { text-align: center; padding: 40px; border-top: 1px solid #333; opacity: 0.8; font-size: 0.9rem; }
+        .mini-suggestion { display: grid; grid-template-columns: 90px 1fr; gap: 12px; background: var(--card-bg); padding: 8px; border-radius: 12px; text-decoration: none; color: white; transition: 0.3s; border: 1px solid transparent; }
+        .mini-suggestion:hover { border-color: var(--brand-purple); transform: translateX(5px); background: #1c2128; }
+        .mini-logo { width: 90px; height: 60px; border-radius: 8px; object-fit: cover; }
+        
+        footer { text-align: center; padding: 20px; border-top: 1px solid #333; margin-top: 40px; opacity: 0.8; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
     <nav class="top-nav"> 
-    <div class="logo"><img src="../favicon.ico" alt="Logo"><span>Valodoka Games</span></div>
-    <div class="nav-links">
-        <a href="../index.html" class="nav-item"><i class="fa-solid fa-house"></i> Home</a>
-        <a href="#" class="nav-item"><i class="fa-solid fa-gamepad"></i> Games</a>
-        <a href="../educational.html" class="nav-item"><i class="fa-solid fa-graduation-cap"></i> Educational</a>
-    </div>
-</nav>
-
+        <div class="logo"><img src="../favicon.ico" alt="Logo"><span>Valodoka Games</span></div>
+        <div class="nav-links">
+            <a href="../index.html" class="nav-item"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-gamepad"></i> Games</a>
+            <a href="../educational.html" class="nav-item"><i class="fa-solid fa-graduation-cap"></i> Educational Games</a>
+        </div>
+    </nav>
 
     <div class="game-page-grid">
         <main>
@@ -110,59 +65,55 @@
             </div>
 
             <div class="mini-dashboard">
-                <h1 style="margin:0; font-size: 1.5rem;">MONSTER TRACKS</h1>
-                <button class="btn-fullscreen" onclick="goToFullscreen()">
+                <h1 style="margin:0;">MONSTER TRACKS</h1>
+                <button class="btn-fullscreen" onclick="location.href='../fullscreengames/session.html?game=monstertracks'">
                     <i class="fa-solid fa-expand"></i> FULLSCREEN
                 </button>
             </div>
+
+            <div class="info-card" style="margin-top: 20px;">
+                <h3 style="color: var(--brand-purple); margin-top:0;">About the Game</h3>
+                <p style="line-height: 1.8; opacity: 0.9;">
+                    <strong>Monster Tracks</strong> is a thrilling physics-based driving game where you pilot a powerful monster truck over treacherous terrain. Reach the finish line without flipping over! With insane obstacles and crumbling bridges, every level is a test of balance and throttle control.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <h3 style="color: var(--brand-purple); margin-top:0;">Controls</h3>
+                <p>Drive Forward: <span class="kb-key">D</span> or <span class="kb-key">→</span></p>
+                <p>Drive Backward: <span class="kb-key">A</span> or <span class="kb-key">←</span></p>
+                <p>Restart Level: <span class="kb-key">R</span></p>
+                <br />
+            </div>
         </main>
 
-        <div class="info-card">
-    <h3 style="color: var(--brand-purple); margin-top:0;">About the Game</h3>
-    <p style="line-height: 1.8; opacity: 0.9;">
-        <strong>Monster Tracks</strong> is a thrilling physics-based driving game where you pilot a powerful monster truck over treacherous terrain. Your goal is simple: reach the finish line without flipping over! With insane obstacles, steep climbs, and bridges that crumble under your weight, every level is a test of balance and throttle control.
-    </p>
-</div>
-
-<div class="info-card">
-    <h3 style="color: var(--brand-purple); margin-top:0;">Controls</h3>
-    <p>Drive Forward: <span class="kb-key">D</span> or <span class="kb-key">→</span></p>
-    <p>Drive Backward: <span class="kb-key">A</span> or <span class="kb-key">←</span></p>
-    <p>Restart Level: <span class="kb-key">R</span></p>
-</div>
-
-
-        <aside class="sidebar-suggestions">
-            <h3 style="color: var(--brand-purple); margin-top:0;">MORE GAMES</h3>
-            <a href="1v1lol.html" class="mini-suggestion"><img src="https://play-1v1-lol.github.io/file/splash.jpg" class="mini-logo"><div><h4 style="margin:0; font-size:0.85rem;">1v1.LOL</h4><span class="tag">Action</span></div></a>
-            <a href="tunnelrush.html" class="mini-suggestion"><img src="../assets/logos/tunnel-rush.png" class="mini-logo"><div><h4 style="margin:0; font-size:0.85rem;">Tunnel Rush</h4><span class="tag">3D</span></div></a>
-            <a href="driftboss.html" class="mini-suggestion"><img src="../assets/logos/drift-boss.png" class="mini-logo"><div><h4 style="margin:0; font-size:0.85rem;">Drift Boss</h4><span class="tag">Car</span></div></a>
-            <a href="bitlife.html" class="mini-suggestion"><img src="../assets/logos/bitlife.png" class="mini-logo"><div><h4 style="margin:0; font-size:0.85rem;">Bitlife</h4><span class="tag">Sim</span></div></a>
-            <a href="slope.html" class="mini-suggestion"><img src="../assets/logos/slope.png" class="mini-logo"><div><h4 style="margin:0; font-size:0.85rem;">Slope</h4><span class="tag">Skill</span></div></a>
-            <a href="retrobowl.html" class="mini-suggestion"><img src="../assets/logos/retro-bowl.png" class="mini-logo"><div><h4 style="margin:0; font-size:0.85rem;">Retro Bowl</h4><span class="tag">Sports</span></div></a>
-            <a href="candyjump.html" class="mini-suggestion"><img src="../assets/logos/candy-jump.png" class="mini-logo"><div><h4 style="margin:0; font-size:0.85rem;">Candy Jump</h4><span class="tag">Arcade</span></div></a>
-            <a href="drivemad.html" class="mini-suggestion"><img src="../assets/logos/drive-mad.png" class="mini-logo"><div><h4 style="margin:0; font-size:0.85rem;">Drive Mad</h4><span class="tag">Driving</span></div></a>
-            <a href="happywheels.html" class="mini-suggestion"><img src="../assets/logos/happy-wheels.png" class="mini-logo"><div><h4 style="margin:0; font-size:0.85rem;">Happy Wheels</h4><span class="tag">Physics</span></div></a>
+        <aside>
+            <div class="sidebar-suggestions">
+                <h3 style="color: var(--brand-purple); margin:0; padding-bottom:10px; border-bottom: 2px solid #333;">MORE GAMES</h3>
+                <a href="1v1lol.html" class="mini-suggestion"><img src="https://play-1v1-lol.github.io/file/splash.jpg" class="mini-logo"><div><h4>1v1.LOL</h4></div></a>
+                <a href="tunnelrush2.html" class="mini-suggestion"><img src="https://poki.com/en/g/tunnel-rush-2/og-image" class="mini-logo"><div><h4>Tunnel Rush 2</h4></div></a>
+                <a href="driftboss.html" class="mini-suggestion"><img src="https://drift-boss.github.io/logo.png" class="mini-logo"><div><h4>Drift Boss</h4></div></a>
+                <a href="slope.html" class="mini-suggestion"><img src="../assets/logos/slope.png" class="mini-logo"><div><h4>Slope</h4></div></a>
+                <a href="drivemad.html" class="mini-suggestion"><img src="../assets/logos/drive-mad.png" class="mini-logo"><div><h4>Drive Mad</h4></div></a>
+                <a href="happywheels.html" class="mini-suggestion"><img src="../assets/logos/happy-wheels.png" class="mini-logo"><div><h4>Happy Wheels</h4></div></a>
+                <a href="subwaysurfers.html" class="mini-suggestion"><img src="../assets/logos/subway.png" class="mini-logo"><div><h4>Subway Surfers</h4></div></a>
+                <a href="geodash.html" class="mini-suggestion"><img src="../assets/logos/geo-dash.png" class="mini-logo"><div><h4>Geo Dash</h4></div></a>
+                <a href="candyjump.html" class="mini-suggestion"><img src="../assets/logos/candy-jump.png" class="mini-logo"><div><h4>Candy Jump</h4></div></a>
+                <a href="minecraft.html" class="mini-suggestion"><img src="../assets/logos/minecraft.png" class="mini-logo"><div><h4>Minecraft</h4></div></a>
+            </div>
         </aside>
     </div>
 
-    <footer> 
-        <p>&copy; 2026 Valodoka Games</p> 
-    </footer>
+
+
+    <footer><p>&copy; 2026 Valodoka Games | No Scams, Just Games.</p></footer>
 
     <script>
         function startGame() {
             const frame = document.getElementById('game-frame');
-            const overlay = document.getElementById('overlay');
-            
-            // This pulls directly from the most reliable Unblocked Games Mirror
-            frame.src = "https://monstertracks-online.github.io/file";
-            
+            frame.src = "https://monstertracks-online.github.io/file/"; 
             frame.style.display = "block";
-            overlay.style.display = "none";
-        }
-        function goToFullscreen() { 
-            window.location.href = "../game-session.html?game=monstertracks"; 
+            document.getElementById('overlay').style.display = "none";
         }
     </script>
 </body>
