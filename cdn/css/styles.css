@@ -1153,3 +1153,8 @@ h1,h2,h3{
 
 }
     
+.community-card{
+    text-decoration: none;
+    color: inherit;
+}
+
