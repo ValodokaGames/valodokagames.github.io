@@ -1,1 +1,1050 @@
-The Educational Games page is not available at the moment. Please try again later.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Educational Games | Valodoka</title>
+<link rel="icon" href="../favicon.ico">
+
+<link rel="stylesheet" href="https://valodokagames.github.io/cdn/css/styles.css?v=2" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    
+<style>
+    html{
+      scroll-behavior:smooth;
+    }
+</style>   
+</head>
+<body>
+    
+    <!-- LOGIN -->
+
+<div class="modal-overlay" id="loginOverlay">
+
+    <div class="login-modal">
+
+        <button class="modal-close" onclick="closeLogin()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <img
+        src="../favicon.ico"
+        class="login-logo"
+        style="border-radius: 13px;">
+
+        <h2>Welcome to Valodoka Games!</h2>
+
+        <p>
+            Join our community full of gamers
+            and educators, all 100% free. <i class="fa-solid fa-smile"></i>
+        </p>
+
+        <button class="login-btn nexora">
+            <i class="fa-solid fa-user"></i>
+            Login with Nexora ID
+        </button>
+
+        <button class="login-btn discord">
+            <i class="fa-brands fa-discord"></i>
+            Login with Discord
+        </button>
+
+        <button class="login-btn google">
+            <i class="fa-brands fa-google"></i>
+            Login with Google
+        </button>
+
+        <p class="legal-text">
+            Please make sure you agree to our
+            Privacy Policy and Terms of Use.
+        </p>
+
+    </div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar" id="sidebar">
+
+    <button class="sidebar-close" onclick="closeSidebar()">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="sidebar-content">
+
+        <a href="/games"><i class="fa-solid fa-gamepad"></i> Games</a>
+        <a href="/games/educational" class="active"><i class="fa-solid fa-graduation-cap"></i> Educational Games</a>
+        <a href="/community"><i class="fa-solid fa-envelope"></i> Community</a>
+        <a href="/support"><i class="fa-solid fa-users"></i> Contact</a>
+
+        <a href="#">
+            <i class="fa-brands fa-discord"></i>
+            Discord Server
+        </a>
+
+    </div>
+
+</div>
+    
+    <!-- LEAVING SITE - EXTERNAL LINK WARNING -->
+    
+    <div class="modal-overlay" id="externalOverlay">
+
+    <div class="login-modal">
+
+        <button class="modal-close" onclick="closeExternal()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <i
+        class="fa-solid fa-arrow-up-right-from-square"
+        style="
+        font-size:60px;
+        color:var(--purple);
+        ">
+        </i>
+
+        <h2>Leaving Valodoka Games</h2>
+
+        <p>
+            You are about to visit:
+        </p>
+
+        <p id="externalUrl"
+           style="
+           font-weight:bold;
+           word-break:break-word;
+           ">
+        </p>
+
+        <p>
+            This website is not operated by
+            Valodoka Games.
+        </p>
+
+        <div style="
+        display:flex;
+        gap:10px;
+        margin-top:20px;
+        ">
+
+            <button
+            class="login-btn"
+            style="
+            background:#30363d;
+            box-shadow:none;
+            "
+            onclick="closeExternal()">
+
+                Cancel
+
+            </button>
+
+            <button
+            class="login-btn nexora"
+            onclick="continueExternal()">
+
+                Continue
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+    
+    <!-- HEADER -->
+
+<header class="site-header">
+
+    <div class="header-left">
+
+        <button class="mobile-menu-btn" onclick="openSidebar()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <a href="/" class="logo-area">
+            <img src="../favicon.ico" style="border-radius: 10px;">
+            <span>Valodoka Games</span>
+        </a>
+
+    </div>
+
+    <nav class="desktop-nav">
+
+        <a href="/games"><i class="fa-solid fa-gamepad"></i> Games</a>
+        <a href="/games/educational" class="active"><i class="fa-solid fa-graduation-cap"></i> Educational</a>
+        <a href="/community"><i class="fa-solid fa-users"></i> Community</a>
+
+        <div class="dropdown">
+
+            <button class="dropdown-btn" onclick="toggleDropdown(event)">
+                More
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+
+            <div class="dropdown-content">
+
+                <a href="/support"><i class="fa-solid fa-envelope"></i> Contact</a>
+
+                <a href="#">
+                    <i class="fa-brands fa-discord"></i>
+                    Discord Server
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <div class="header-actions">
+
+        <button class="circle-icon-btn" onclick="openSearch()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <button class="circle-icon-btn" onclick="openLogin()">
+            <i class="fa-solid fa-user-plus"></i>
+        </button>
+
+    </div>
+
+</header>
+  
+  <div style="background-color: red; color: white;">
+    <br />
+    <center>
+    <b><i class="fa-solid fa-angle-down fa-bounce"></i> Check out the educational games page below <i class="fa-solid fa-angle-down fa-bounce"></i></b>
+    <br />
+    <h1 style="color: yellow;"><i class="fa-solid fa-triangle-exclamation"></i> Coming soon!</h1>
+      <b>
+This is the new official styling of Valodoka Games. It is a work in progress, and most pages will not show up yet. I am also currently cleaning up my repository as well since there are a lot of pages uploaded to the website repository. If you would like to get mentioned about announcements and updates, join the official Valodoka Games Discord server below!
+      </b>
+      <br />
+      <a href="#" class="play-btn"><i class="fa-brands fa-discord"></i> Join Server</a>
+      <br /><br />
+      <b><i class="fa-solid fa-angle-down fa-bounce"></i> Check out the educational games page below <i class="fa-solid fa-angle-down fa-bounce"></i></b><br /><b>&nbsp;</b>
+ </center>
+  </div>
+    
+    <!-- HERO SECTION -->
+
+<section class="hero">
+
+<h1>
+    <i class="fa-solid fa-graduation-cap"></i>
+    Educational Games
+</h1>
+
+<p>
+    Learn while having fun with
+    interactive educational games.
+</p>
+
+    <a href="#math-games" class="play-btn">
+    <i class="fa-solid fa-book"></i>
+    Start Learning
+</a>
+
+</section>
+  
+  <!-- =========================
+     BROWSE GAMES
+========================= -->
+    
+<section class="community-preview">
+
+    <h2>
+        <i class="fa-solid fa-book-open"></i>
+        Browse Subjects
+    </h2>
+
+    <p>
+        Choose a subject and start learning.
+    </p>
+
+    <div class="community-cards">
+
+        <a href="#math-games" class="community-card">
+            <i class="fa-solid fa-calculator"></i>
+            <h3>Math</h3>
+            <p>Practice numbers, equations, and problem solving.</p>
+        </a>
+
+        <a href="#science-games" class="community-card">
+            <i class="fa-solid fa-flask"></i>
+            <h3>Science</h3>
+            <p>Explore experiments and discoveries.</p>
+        </a>
+
+        <a href="#geography-games" class="community-card">
+            <i class="fa-solid fa-earth-americas"></i>
+            <h3>Geography</h3>
+            <p>Learn about countries, maps, and cultures.</p>
+        </a>
+
+        <a href="#reading-games" class="community-card">
+            <i class="fa-solid fa-book-open-reader"></i>
+            <h3>Reading</h3>
+            <p>Improve reading comprehension and vocabulary.</p>
+        </a>
+
+        <a href="#logic-games" class="community-card">
+            <i class="fa-solid fa-brain"></i>
+            <h3>Logic</h3>
+            <p>Challenge your mind with puzzles and strategy.</p>
+        </a>
+
+        <a href="#coding-games" class="community-card">
+            <i class="fa-solid fa-code"></i>
+            <h3>Coding</h3>
+            <p>Learn programming concepts through games.</p>
+        </a>
+
+    </div>
+
+</section>
+  
+  <!-- =========================
+     GAMES - SECTION 1 OF 8
+========================= -->
+  
+<section class="content-area" id="featured-learning">
+
+    <h2 class="section-title">
+        <i class="fa-solid fa-star"></i>
+        Featured Learning Games
+    </h2>
+  
+    <div class="slider-container">
+
+        <button class="slider-arrow left-arrow" id="gamer-left" disabled>
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="game-slider" id="gamer-slider">
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Slope</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Subway Surfers</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Minecraft Classic</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Drive Mad</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Run 3</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="slider-arrow right-arrow" id="gamer-right">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+    </div>
+
+</section>
+  
+    <!-- =========================
+     GAMES - SECTION 2 OF 8
+========================= -->
+  
+<section class="content-area" id="new-edu-games">
+
+    <h2 class="section-title">
+        <i class="fa-solid fa-rocket"></i>
+        Brand New Educational Games
+    </h2>
+  <p>(Brand new games release daily.)</p>
+
+    <div class="slider-container">
+
+        <button class="slider-arrow left-arrow" id="gamer-left" disabled>
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="game-slider" id="gamer-slider">
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Slope</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Subway Surfers</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Minecraft Classic</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Drive Mad</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Run 3</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="slider-arrow right-arrow" id="gamer-right">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+    </div>
+
+</section>
+  
+  <!-- =========================
+     GAMES - SECTION 3 OF 8
+========================= -->
+  
+  <section class="content-area" id="action-games">
+
+    <h2 class="section-title">
+        <i class="fa-solid fa-calculator"></i>
+        Math Games
+    </h2>
+
+    <div class="slider-container">
+
+        <button class="slider-arrow left-arrow" id="gamer-left" disabled>
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="game-slider" id="gamer-slider">
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Slope</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Subway Surfers</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Minecraft Classic</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Drive Mad</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Run 3</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="slider-arrow right-arrow" id="gamer-right">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+    </div>
+
+</section>
+  
+  <!-- =========================
+     GAMES - SECTION 4 OF 8
+========================= -->
+  
+  <section class="content-area" id="car-games">
+
+    <h2 class="section-title">
+        <i class="fa-solid fa-flask"></i>
+        Science Games
+    </h2>
+
+    <div class="slider-container">
+
+        <button class="slider-arrow left-arrow" id="gamer-left" disabled>
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="game-slider" id="gamer-slider">
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Slope</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Subway Surfers</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Minecraft Classic</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Drive Mad</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Run 3</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="slider-arrow right-arrow" id="gamer-right">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+    </div>
+
+</section>
+  
+    <!-- =========================
+     GAMES - SECTION 5 OF 8
+========================= -->
+  
+  <section class="content-area" id="puzzle-games">
+
+    <h2 class="section-title">
+        <i class="fa-solid fa-earth-americas"></i>
+        Geography Games
+    </h2>
+
+    <div class="slider-container">
+
+        <button class="slider-arrow left-arrow" id="gamer-left" disabled>
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="game-slider" id="gamer-slider">
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Slope</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Subway Surfers</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Minecraft Classic</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Drive Mad</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Run 3</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="slider-arrow right-arrow" id="gamer-right">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+    </div>
+
+</section>
+  
+    <!-- =========================
+     GAMES - SECTION 6 OF 8
+========================= -->
+  
+  <section class="content-area" id="sports-games">
+
+    <h2 class="section-title">
+        <i class="fa-solid fa-book-open-reader"></i>
+        Reading Games
+    </h2>
+
+    <div class="slider-container">
+
+        <button class="slider-arrow left-arrow" id="gamer-left" disabled>
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="game-slider" id="gamer-slider">
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Slope</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Subway Surfers</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Minecraft Classic</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Drive Mad</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Run 3</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="slider-arrow right-arrow" id="gamer-right">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+    </div>
+
+</section>
+  
+    <!-- =========================
+     GAMES - SECTION 7 OF 8
+========================= -->
+  
+  <section class="content-area" id="arcade-games">
+
+    <h2 class="section-title">
+        <i class="fa-solid fa-brain"></i>
+        Logic Games
+    </h2>
+
+    <div class="slider-container">
+
+        <button class="slider-arrow left-arrow" id="gamer-left" disabled>
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="game-slider" id="gamer-slider">
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Slope</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Subway Surfers</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Minecraft Classic</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Drive Mad</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Run 3</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="slider-arrow right-arrow" id="gamer-right">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+    </div>
+
+</section>
+  
+    <!-- =========================
+     GAMES - SECTION 8 OF 8
+========================= -->
+  
+  <section class="content-area" id="multiplayer-games">
+
+    <h2 class="section-title">
+       <i class="fa-solid fa-code"></i>
+        Coding Games
+    </h2>
+
+    <div class="slider-container">
+
+        <button class="slider-arrow left-arrow" id="gamer-left" disabled>
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="game-slider" id="gamer-slider">
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Slope</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Subway Surfers</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Minecraft Classic</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Drive Mad</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-thumb"></div>
+                <div class="game-desc">
+                    <h3>Run 3</h3>
+                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="slider-arrow right-arrow" id="gamer-right">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+    </div>
+
+</section>
+  
+  <!-- =========================
+     EDU GAMES INFO STRIP
+========================= -->
+  
+  <section class="info-strip">
+
+    <div class="info-box">
+
+        <i class="fa-solid fa-graduation-cap"></i>
+
+        <h3>Learn New Skills</h3>
+
+        <p>
+            Discover subjects through
+            interactive gameplay.
+        </p>
+
+    </div>
+
+    <div class="info-box">
+
+        <i class="fa-solid fa-brain"></i>
+
+        <h3>Critical Thinking</h3>
+
+        <p>
+            Strengthen problem solving
+            and reasoning skills.
+        </p>
+
+    </div>
+
+    <div class="info-box">
+
+        <i class="fa-solid fa-star"></i>
+
+        <h3>100% Free</h3>
+
+        <p>
+            Learn without subscriptions
+            or hidden fees.
+        </p>
+
+    </div>
+
+</section>
+  
+  <!-- =========================
+     DISCORD COMMUNITY
+========================= -->
+  
+  <section class="join-us">
+
+    <h2>
+        Can't find your favorite game?
+    </h2>
+
+    <p>
+        Suggest new games through our
+        Discord community.
+    </p>
+
+    <a href="#" class="play-btn">
+        <i class="fa-brands fa-discord"></i>
+        Suggest a Game
+    </a>
+
+</section>
+
+<!-- =========================
+     CALL TO ACTION (JOIN US)
+========================= -->
+    
+<section class="join-us">
+
+    <h2>
+    Learning can be fun.
+</h2>
+
+<p>
+    Explore educational games
+    designed for students of all ages.
+</p>
+
+    <a href="#featured-learning" class="play-btn">
+    <i class="fa-solid fa-graduation-cap"></i>
+    Browse Educational Games
+</a>
+
+</section>
+    
+    
+<!-- SEARCH -->
+
+<div class="search-overlay" id="searchOverlay">
+
+    <div class="search-container">
+
+        <button class="search-close" onclick="closeSearch()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="search-bar">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+            type="text"
+            placeholder="Search... (COMING SOON!)" disabled />
+        </div>
+        
+
+
+    </div>
+    
+    
+
+</div>
+    
+    <!-- FOOTER -->
+
+<footer class="site-footer">
+
+    <div class="footer-top">
+
+        <div>
+
+            <div class="footer-logo">
+
+                <img src="../favicon.ico" style="border-radius: 10px;">
+
+                <span>Valodoka Games</span>
+
+            </div>
+
+            <p>
+                <i class="fa-solid fa-rocket"></i> Built for Gamers & Students.
+            </p>
+
+        </div>
+
+        <div>
+
+            <h3><i class="fa-solid fa-compass"></i> Explore</h3>
+
+            <a href="/games"><i class="fa-solid fa-gamepad"></i> Games</a>
+            <a href="/games/educational"><i class="fa-solid fa-graduation-cap"></i> Educational Games</a>
+            <a href="/community"><i class="fa-solid fa-users"></i> Community</a>
+
+        </div>
+
+        <div>
+
+            <h3><i class="fa-solid fa-user-group"></i> Community</h3>
+
+            <a href="/support"><i class="fa-solid fa-envelope"></i> Contact</a>
+            <a href="#"><i class="fa-brands fa-discord"></i> Discord Server</a>
+
+        </div>
+
+        <div>
+
+            <h3><i class="fa-solid fa-scale-balanced"></i> Legal</h3>
+
+            <a href="/policy"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
+            <a href="/tos"><i class="fa-solid fa-file-contract"></i> Terms of Use</a>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+       Copyright © 2026 Valodoka Games. Made with <i class="fa-solid fa-heart"></i> by <a href="#"
+onclick="
+event.preventDefault();
+openExternal('https://nothingbuttyler.github.io/?redirectedByVdka=true&redirect_name=ValodokaGames&redirect_uri=https://valodokagames.github.io');
+">
+    NothingButTyler</a>.
+    </div>
+
+</footer>
+
+    <script src="https://valodokagames.github.io/cdn/js/script.js"></script>
+
+</body>
+  </html>
