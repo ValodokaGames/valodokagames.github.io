@@ -1,9 +1,10 @@
-# Welcome to Valodoka Games! #
-<p>This is where all the code is commited.</p>
-<h3>Looking for the website?</h3>
-<p>Click <a href="//valodokagames.github.io">here</a> to go to the website.</p>
-<hr></hr>
-<p>Hope this helps!</p>
-<hr></hr>
-<p>Copyright &copy; 2024 by NothingButTyler. Valodoka Games is a trademark of NothingButTyler. All rights reserved.</p>
-<code>Copyright date: Wednesday, November 20, 2024. README.md date: Wednesday, November 20, 2024. Updated date: Wednesday, November 20, 2024.</code>
+### PLEASE READ THE [LICENSE](https://github.com/ValodokaGames/Valodokagames.github.io/tree/main/LICENSE). YOU ARE NOT ALLOWED TO FORK THIS REPOSITORY.
+---
+# Welcome to Valodoka Games!
+Valodoka Games is a website where you can check out games and educational games!
+
+🌐 Visit: https://valodokagames.github.io
+
+😊 Discord Server: https://discord.gg/Fhkf77hnaw
+
+Copyright © 2026 Valodoka Games. All rights reserved. Made with love by NothingButTyler.
