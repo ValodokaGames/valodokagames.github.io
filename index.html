@@ -1,643 +1,154 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Welcome to Valodoka Games - Level Up Your Fun! | Valodoka</title>
-<link rel="icon" href="https://valodokagames.github.io/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="/cdn/css/styles.css?v=2" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
-    
+    <title>Coming Soon | Valodoka Games</title>
+    <meta name="description" content="Something exciting is coming to Valodoka Games.">
+
+    <meta name="theme-color" content="#0d1117">
+
+    <link rel="icon" href="https://valodokagames.github.io/favicon.ico">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    
-    <!-- LOGIN -->
 
-<div class="modal-overlay" id="loginOverlay">
+<body class="coming-soon-page">
 
-    <div class="login-modal">
-
-        <button class="modal-close" onclick="closeLogin()">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-
-        <img
-        src="https://valodokagames.github.io/favicon.ico"
-        class="login-logo"
-        style="border-radius: 13px;">
-
-        <h2>Welcome to Valodoka Games!</h2>
-
-        <p>
-            Join our community full of gamers
-            and educators, all 100% free. <i class="fa-solid fa-smile"></i>
-        </p>
-
-        <button class="login-btn nexora">
-            <i class="fa-solid fa-user"></i>
-            Login with Nexora ID
-        </button>
-
-        <button class="login-btn discord">
-            <i class="fa-brands fa-discord"></i>
-            Login with Discord
-        </button>
-
-        <button class="login-btn google">
-            <i class="fa-brands fa-google"></i>
-            Login with Google
-        </button>
-
-        <p class="legal-text">
-            Please make sure you agree to our
-            Privacy Policy and Terms of Use.
-        </p>
-
+    <div class="coming-background">
+        <div class="glow glow-one"></div>
+        <div class="glow glow-two"></div>
+        <div class="glow glow-three"></div>
     </div>
 
-</div>
-
-<!-- SIDEBAR -->
-
-<div class="sidebar" id="sidebar">
-
-    <button class="sidebar-close" onclick="closeSidebar()">
-        <i class="fa-solid fa-xmark"></i>
-    </button>
-
-    <div class="sidebar-content">
-
-        <a href="/games" class="active"><i class="fa-solid fa-gamepad"></i> Games</a>
-        <a href="/games/educational"><i class="fa-solid fa-graduation-cap"></i> Educational Games</a>
-        <a href="/community"><i class="fa-solid fa-envelope"></i> Community</a>
-        <a href="/support"><i class="fa-solid fa-users"></i> Contact</a>
-
-        <a href="#">
-            <i class="fa-brands fa-discord"></i>
-            Discord Server
-        </a>
-
-    </div>
-
-</div>
-    
-    <!-- LEAVING SITE - EXTERNAL LINK WARNING -->
-    
-    <div class="modal-overlay" id="externalOverlay">
-
-    <div class="login-modal">
-
-        <button class="modal-close" onclick="closeExternal()">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-
-        <i
-        class="fa-solid fa-arrow-up-right-from-square"
-        style="
-        font-size:60px;
-        color:var(--purple);
-        ">
-        </i>
-
-        <h2>Leaving Valodoka Games</h2>
-
-        <p>
-            You are about to visit:
-        </p>
-
-        <p id="externalUrl"
-           style="
-           font-weight:bold;
-           word-break:break-word;
-           ">
-        </p>
-
-        <p>
-            This website is not operated by
-            Valodoka Games.
-        </p>
-
-        <div style="
-        display:flex;
-        gap:10px;
-        margin-top:20px;
-        ">
-
-            <button
-            class="login-btn"
-            style="
-            background:#30363d;
-            box-shadow:none;
-            "
-            onclick="closeExternal()">
-
-                Cancel
-
-            </button>
-
-            <button
-            class="login-btn nexora"
-            onclick="continueExternal()">
-
-                Continue
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-    
-    <!-- HEADER -->
-
-<header class="site-header">
-
-    <div class="header-left">
-
-        <button class="mobile-menu-btn" onclick="openSidebar()">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-
-        <a href="/" class="logo-area">
-            <img src="https://valodokagames.github.io/favicon.ico" style="border-radius: 10px;">
+    <header class="coming-header">
+        <a href="/" class="coming-logo">
+            <img
+                src="https://valodokagames.github.io/favicon.ico"
+                alt="Valodoka Games"
+            >
             <span>Valodoka Games</span>
         </a>
 
-    </div>
-
-    <nav class="desktop-nav">
-
-        <a href="/games" class="active"><i class="fa-solid fa-gamepad"></i> Games</a>
-        <a href="/games/educational"><i class="fa-solid fa-graduation-cap"></i> Educational</a>
-        <a href="/community"><i class="fa-solid fa-users"></i> Community</a>
-
-        <div class="dropdown">
-
-            <button class="dropdown-btn" onclick="toggleDropdown(event)">
-                More
-                <i class="fa-solid fa-chevron-down"></i>
-            </button>
-
-            <div class="dropdown-content">
-
-                <a href="/support"><i class="fa-solid fa-envelope"></i> Contact</a>
-
-                <a href="#">
-                    <i class="fa-brands fa-discord"></i>
-                    Discord Server
-                </a>
-
-            </div>
-
+        <div class="coming-header-label">
+            <span class="status-dot"></span>
+            Something is in the works
         </div>
+    </header>
 
-    </nav>
+    <main class="coming-main">
 
-    <div class="header-actions">
+        <div class="coming-content">
 
-        <button class="circle-icon-btn" onclick="openSearch()">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-
-        <button class="circle-icon-btn" onclick="openLogin()">
-            <i class="fa-solid fa-user-plus"></i>
-        </button>
-
-    </div>
-
-</header>
-    
-        <!-- ANN -->
-    <div style="background-color: red; color: yellow;"><center>
-        <br />
-        <b style="color: white;"><i class="fa-solid fa-angle-down fa-bounce"></i> Check out the homepage below <i class="fa-solid fa-angle-down fa-bounce"></i></b>
-        <br />
-        <h1><i class="fa-solid fa-triangle-exclamation"></i> Coming soon!</h1>
-        <b style="color: white;">This is the new official styling of Valodoka Games. It is a <u>work in progress</u>, and most pages will not show up yet. I am also currently cleaning up my repository as well since there are a lot of pages uploaded to the website repository. If you would like to get mentioned about announcements and updates, join the official Valodoka Games Discord server below!</b>
-        <br />
-        <a href="#" class="play-btn"><i class="fa-brands fa-discord"></i> Join Server</a>
-        <br />
-        <br />
-        <b style="color: white;"><i class="fa-solid fa-angle-down fa-bounce"></i> Check out the homepage below <i class="fa-solid fa-angle-down fa-bounce"></i></b>
-        <br />
-        <b>&nbsp;</b>
-    </center></div>
-    
-    <!-- HERO SECTION -->
-
-<section class="hero">
-
-    <h1>Level Up Your Fun!</h1>
-
-    <p>
-        The site where gamers play and teachers approve.
-    </p>
-
-    <a href="/about" class="play-btn">
-        <i class="fa-solid fa-circle-info"></i> Learn More
-    </a>
-
-</section>
-    
-    <!-- =========================
-     TRENDING GAMES
-========================= -->
-
-<section class="content-area">
-
-    <h2 class="section-title">
-        <i class="fa-solid fa-fire"></i>
-        Trending Games
-    </h2>
-
-    <div class="slider-container">
-
-        <button class="slider-arrow left-arrow" id="gamer-left" disabled>
-            <i class="fa-solid fa-chevron-left"></i>
-        </button>
-
-        <div class="game-slider" id="gamer-slider">
-
-            <div class="game-card">
-                <div class="game-thumb"></div>
-                <div class="game-desc">
-                    <h3>Slope</h3>
-                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
-                </div>
+            <div class="coming-icon">
+                <img
+                    src="https://valodokagames.github.io/favicon.ico"
+                    alt=""
+                >
             </div>
 
-            <div class="game-card">
-                <div class="game-thumb"></div>
-                <div class="game-desc">
-                    <h3>Subway Surfers</h3>
-                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
-                </div>
+            <div class="coming-badge">
+                <i class="fa-solid fa-rocket"></i>
+                A NEW EXPERIENCE IS COMING
             </div>
 
-            <div class="game-card">
-                <div class="game-thumb"></div>
-                <div class="game-desc">
-                    <h3>Minecraft Classic</h3>
-                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <div class="game-thumb"></div>
-                <div class="game-desc">
-                    <h3>Drive Mad</h3>
-                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <div class="game-thumb"></div>
-                <div class="game-desc">
-                    <h3>Run 3</h3>
-                    <button class="play-small"><i class="fa-solid fa-play"></i> PLAY</button>
-                </div>
-            </div>
-
-        </div>
-
-        <button class="slider-arrow right-arrow" id="gamer-right">
-            <i class="fa-solid fa-chevron-right"></i>
-        </button>
-
-    </div>
-    
-    <!-- Add this BELOW the Trending Games slider-container -->
-
-<div class="carousel-footer">
-
-    <a href="/games" class="play-btn">
-
-        <i class="fa-solid fa-gamepad"></i>
-        View All Games
-
-    </a>
-
-</div>
-
-</section>
-
-<!-- =========================
-     STATS
-========================= -->
-
-<section class="stats-strip">
-
-    <div class="stat-box">
-        <h2>500+</h2>
-        <p>Games</p>
-    </div>
-
-    <div class="stat-box">
-        <h2>100+</h2>
-        <p>Educational Games</p>
-    </div>
-
-    <div class="stat-box">
-        <h2>100%</h2>
-        <p>Free</p>
-    </div>
-
-    <div class="stat-box">
-        <h2>24/7</h2>
-        <p>Available</p>
-    </div>
-
-</section>
-
-<!-- =========================
-     FEATURES
-========================= -->
-
-<section class="info-strip">
-
-    <div class="info-box">
-
-        <i class="fa-solid fa-bolt"></i>
-
-        <h3>Fast Loading</h3>
-
-        <p>
-            No downloads required.
-            Click and start playing instantly.
-        </p>
-
-    </div>
-
-    <div class="info-box">
-
-        <i class="fa-solid fa-shield-halved"></i>
-
-        <h3>Safe & Secure</h3>
-
-        <p>
-            Built for students,
-            classrooms, and gamers.
-        </p>
-
-    </div>
-
-    <div class="info-box">
-
-        <i class="fa-solid fa-star"></i>
-
-        <h3>Hand Picked</h3>
-
-        <p>
-            Only quality games
-            make it onto Valodoka.
-        </p>
-
-    </div>
-
-</section>
-
-<!-- =========================
-     EDUCATIONAL GAMES
-========================= -->
-
-<section class="content-area edu-section">
-
-    <h2 class="section-title">
-        <i class="fa-solid fa-graduation-cap"></i>
-        Educational Games
-    </h2>
-
-    <p style="margin-bottom:25px;opacity:.9;">
-        Learn while having fun.
-    </p>
-
-    <div class="slider-container">
-
-        <button class="slider-arrow left-arrow" id="edu-left" disabled>
-            <i class="fa-solid fa-chevron-left"></i>
-        </button>
-
-        <div class="game-slider" id="edu-slider">
-
-            <div class="game-card edu-card">
-                <div class="game-thumb"></div>
-                <div class="game-desc">
-                    <h3>Math Blaster</h3>
-                    <button class="play-small"><i class="fa-solid fa-brain"></i> LEARN</button>
-                </div>
-            </div>
-
-            <div class="game-card edu-card">
-                <div class="game-thumb"></div>
-                <div class="game-desc">
-                    <h3>Word Wizard</h3>
-                    <button class="play-small"><i class="fa-solid fa-brain"></i> LEARN</button>
-                </div>
-            </div>
-
-            <div class="game-card edu-card">
-                <div class="game-thumb"></div>
-                <div class="game-desc">
-                    <h3>GeoMaster</h3>
-                    <button class="play-small"><i class="fa-solid fa-brain"></i> LEARN</button>
-                </div>
-            </div>
-
-            <div class="game-card edu-card">
-                <div class="game-thumb"></div>
-                <div class="game-desc">
-                    <h3>Science Lab</h3>
-                    <button class="play-small"><i class="fa-solid fa-brain"></i> LEARN</button>
-                </div>
-            </div>
-
-            <div class="game-card edu-card">
-                <div class="game-thumb"></div>
-                <div class="game-desc">
-                    <h3>Typing Hero</h3>
-                    <button class="play-small"><i class="fa-solid fa-brain"></i> LEARN</button>
-                </div>
-            </div>
-
-        </div>
-
-        <button class="slider-arrow right-arrow" id="edu-right">
-            <i class="fa-solid fa-chevron-right"></i>
-        </button>
-
-    </div>
-    
-<!-- Add this BELOW the Educational Games slider-container -->
-
-<div class="carousel-footer">
-
-    <a href="/games/educational"
-       class="play-btn play-btn-purple">
-
-        <i class="fa-solid fa-graduation-cap"></i>
-        View All Educational Games
-
-    </a>
-
-</div>
-
-</section>
-
-<!-- =========================
-     COMMUNITY PREVIEW
-========================= -->
-
-<section class="community-preview">
-
-    <h2>
-        <i class="fa-solid fa-users"></i>
-        Community
-    </h2>
-
-    <p>
-        Coming soon to Valodoka Games.
-        Create a profile, make friends,
-        track achievements, and connect
-        with other players.
-    </p>
-
-    <div class="community-cards">
-
-        <div class="community-card">
-            <i class="fa-solid fa-user-group"></i>
-            <h3>Friends</h3>
-            <p>Add friends and grow your network.</p>
-        </div>
-
-        <div class="community-card">
-            <i class="fa-solid fa-trophy"></i>
-            <h3>Achievements</h3>
-            <p>Unlock rewards and milestones.</p>
-        </div>
-
-        <div class="community-card">
-            <i class="fa-solid fa-comments"></i>
-            <h3>Profiles</h3>
-            <p>Create your own gaming identity.</p>
-        </div>
-
-    </div>
-
-</section>
-
-<!-- =========================
-     JOIN US
-========================= -->
-
-<section class="join-us">
-
-    <h2>Ready to start your journey?</h2>
-
-    <p>
-        Join thousands of students
-        and gamers on Valodoka.
-    </p>
-
-    <a href="/signup" class="play-btn">
-        <i class="fa-solid fa-user-group"></i> Join the Community
-    </a>
-
-</section>
-
-<!-- SEARCH -->
-
-<div class="search-overlay" id="searchOverlay">
-
-    <div class="search-container">
-
-        <button class="search-close" onclick="closeSearch()">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-
-        <div class="search-bar">
-
-            <i class="fa-solid fa-magnifying-glass"></i>
-
-            <input
-            type="text"
-            placeholder="Search... (COMING SOON!)" disabled />
-        </div>
-        
-
-
-    </div>
-    
-    
-
-</div>
-    
-    <!-- FOOTER -->
-
-<footer class="site-footer">
-
-    <div class="footer-top">
-
-        <div>
-
-            <div class="footer-logo">
-
-                <img src="https://valodokagames.github.io/favicon.ico" style="border-radius: 10px;">
-
-                <span>Valodoka Games</span>
-
-            </div>
-
-            <p>
-                <i class="fa-solid fa-rocket"></i> Built for Gamers & Students.
+            <h1>
+                Something exciting
+                <span>is coming.</span>
+            </h1>
+
+            <p class="coming-description">
+                We're working behind the scenes to bring you
+                something new. Valodoka Games is getting ready
+                for its next chapter.
             </p>
 
-        </div>
+            <div class="coming-divider"></div>
 
-        <div>
+            <div class="coming-status">
+                <div class="status-icon">
+                    <i class="fa-solid fa-code"></i>
+                </div>
 
-            <h3><i class="fa-solid fa-compass"></i> Explore</h3>
+                <div class="status-text">
+                    <strong>Currently in development</strong>
+                    <span>We're building something worth waiting for.</span>
+                </div>
 
-            <a href="/games"><i class="fa-solid fa-gamepad"></i> Games</a>
-            <a href="/games/educational"><i class="fa-solid fa-graduation-cap"></i> Educational Games</a>
-            <a href="/community"><i class="fa-solid fa-users"></i> Community</a>
+                <div class="status-indicator">
+                    <span></span>
+                </div>
+            </div>
 
-        </div>
-
-        <div>
-
-            <h3><i class="fa-solid fa-user-group"></i> Community</h3>
-
-            <a href="/support"><i class="fa-solid fa-envelope"></i> Contact</a>
-            <a href="#"><i class="fa-brands fa-discord"></i> Discord Server</a>
-
-        </div>
-
-        <div>
-
-            <h3><i class="fa-solid fa-scale-balanced"></i> Legal</h3>
-
-            <a href="/policy"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
-            <a href="/tos"><i class="fa-solid fa-file-contract"></i> Terms of Use</a>
+            <a href="#about" class="coming-button">
+                Discover what's coming
+                <i class="fa-solid fa-arrow-down"></i>
+            </a>
 
         </div>
 
-    </div>
+        <div class="coming-scroll">
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
 
-    <div class="footer-bottom">
-       Copyright © 2026 Valodoka Games. Made with <i class="fa-solid fa-heart"></i> by <a href="#"
-onclick="
-event.preventDefault();
-openExternal('https://nothingbuttyler.github.io/?redirectedByVdka=true&redirect_name=ValodokaGames&redirect_uri=https://valodokagames.github.io');
-">
-    NothingButTyler</a>.
-    </div>
+    </main>
 
-</footer>
+    <section class="coming-about" id="about">
 
-    <script src="/cdn/js/script.js"></script>
+        <div class="about-icon">
+            <i class="fa-solid fa-gamepad"></i>
+        </div>
+
+        <h2>Built for Gamers & Students.</h2>
+
+        <p>
+            Valodoka Games is preparing for its next chapter.
+            More games, more experiences, and more ways to have fun.
+        </p>
+
+        <div class="about-features">
+
+            <div class="about-feature">
+                <i class="fa-solid fa-gamepad"></i>
+                <span>Gaming</span>
+            </div>
+
+            <div class="about-feature">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Learning</span>
+            </div>
+
+            <div class="about-feature">
+                <i class="fa-solid fa-users"></i>
+                <span>Community</span>
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer class="coming-footer">
+
+        <div class="footer-brand">
+            <img
+                src="https://valodokagames.github.io/favicon.ico"
+                alt=""
+            >
+            <span>Valodoka Games</span>
+        </div>
+
+        <p>
+            Copyright © 2026 Valodoka Games.
+            Made with <i class="fa-solid fa-heart"></i> by NothingButTyler.
+        </p>
+
+    </footer>
 
 </body>
 </html>
